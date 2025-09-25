@@ -1,0 +1,517 @@
+### YamlMime:ManagedReference
+items:
+- uid: MyPlanner.src.FileHandler
+  commentId: T:MyPlanner.src.FileHandler
+  id: FileHandler
+  parent: MyPlanner.src
+  children:
+  - MyPlanner.src.FileHandler.#ctor(System.String)
+  - MyPlanner.src.FileHandler.Read
+  - MyPlanner.src.FileHandler.Save(System.String[])
+  langs:
+  - csharp
+  - vb
+  name: FileHandler
+  nameWithType: FileHandler
+  fullName: MyPlanner.src.FileHandler
+  type: Class
+  source:
+    remote:
+      path: .solutions/kmom06/MyPlanner2/src/FileHandler.cs
+      branch: main
+      repo: git@github.com:epkmagr/oocsharp2.git
+    id: FileHandler
+    path: src/FileHandler.cs
+    startLine: 2
+  assemblies:
+  - MyPlanner2
+  namespace: MyPlanner.src
+  syntax:
+    content: 'public class FileHandler : IFileHandler'
+    content.vb: Public Class FileHandler Implements IFileHandler
+  inheritance:
+  - System.Object
+  implements:
+  - MyPlanner.src.IFileHandler
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+- uid: MyPlanner.src.FileHandler.#ctor(System.String)
+  commentId: M:MyPlanner.src.FileHandler.#ctor(System.String)
+  id: '#ctor(System.String)'
+  parent: MyPlanner.src.FileHandler
+  langs:
+  - csharp
+  - vb
+  name: FileHandler(string)
+  nameWithType: FileHandler.FileHandler(string)
+  fullName: MyPlanner.src.FileHandler.FileHandler(string)
+  type: Constructor
+  source:
+    remote:
+      path: .solutions/kmom06/MyPlanner2/src/FileHandler.cs
+      branch: main
+      repo: git@github.com:epkmagr/oocsharp2.git
+    id: .ctor
+    path: src/FileHandler.cs
+    startLine: 6
+  assemblies:
+  - MyPlanner2
+  namespace: MyPlanner.src
+  syntax:
+    content: public FileHandler(string filename)
+    parameters:
+    - id: filename
+      type: System.String
+    content.vb: Public Sub New(filename As String)
+  overload: MyPlanner.src.FileHandler.#ctor*
+  nameWithType.vb: FileHandler.New(String)
+  fullName.vb: MyPlanner.src.FileHandler.New(String)
+  name.vb: New(String)
+- uid: MyPlanner.src.FileHandler.Save(System.String[])
+  commentId: M:MyPlanner.src.FileHandler.Save(System.String[])
+  id: Save(System.String[])
+  parent: MyPlanner.src.FileHandler
+  langs:
+  - csharp
+  - vb
+  name: Save(string[])
+  nameWithType: FileHandler.Save(string[])
+  fullName: MyPlanner.src.FileHandler.Save(string[])
+  type: Method
+  source:
+    remote:
+      path: .solutions/kmom06/MyPlanner2/src/FileHandler.cs
+      branch: main
+      repo: git@github.com:epkmagr/oocsharp2.git
+    id: Save
+    path: src/FileHandler.cs
+    startLine: 11
+  assemblies:
+  - MyPlanner2
+  namespace: MyPlanner.src
+  example: []
+  syntax:
+    content: public void Save(string[] lines)
+    parameters:
+    - id: lines
+      type: System.String[]
+    content.vb: Public Sub Save(lines As String())
+  overload: MyPlanner.src.FileHandler.Save*
+  implements:
+  - MyPlanner.src.IFileHandler.Save(System.String[])
+  nameWithType.vb: FileHandler.Save(String())
+  fullName.vb: MyPlanner.src.FileHandler.Save(String())
+  name.vb: Save(String())
+- uid: MyPlanner.src.FileHandler.Read
+  commentId: M:MyPlanner.src.FileHandler.Read
+  id: Read
+  parent: MyPlanner.src.FileHandler
+  langs:
+  - csharp
+  - vb
+  name: Read()
+  nameWithType: FileHandler.Read()
+  fullName: MyPlanner.src.FileHandler.Read()
+  type: Method
+  source:
+    remote:
+      path: .solutions/kmom06/MyPlanner2/src/FileHandler.cs
+      branch: main
+      repo: git@github.com:epkmagr/oocsharp2.git
+    id: Read
+    path: src/FileHandler.cs
+    startLine: 31
+  assemblies:
+  - MyPlanner2
+  namespace: MyPlanner.src
+  example: []
+  syntax:
+    content: public string[] Read()
+    return:
+      type: System.String[]
+    content.vb: Public Function Read() As String()
+  overload: MyPlanner.src.FileHandler.Read*
+  implements:
+  - MyPlanner.src.IFileHandler.Read
+references:
+- uid: MyPlanner.src
+  commentId: N:MyPlanner.src
+  href: MyPlanner.html
+  name: MyPlanner.src
+  nameWithType: MyPlanner.src
+  fullName: MyPlanner.src
+  spec.csharp:
+  - uid: MyPlanner
+    name: MyPlanner
+    href: MyPlanner.html
+  - name: .
+  - uid: MyPlanner.src
+    name: src
+    href: MyPlanner.src.html
+  spec.vb:
+  - uid: MyPlanner
+    name: MyPlanner
+    href: MyPlanner.html
+  - name: .
+  - uid: MyPlanner.src
+    name: src
+    href: MyPlanner.src.html
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: MyPlanner.src.IFileHandler
+  commentId: T:MyPlanner.src.IFileHandler
+  parent: MyPlanner.src
+  href: MyPlanner.src.IFileHandler.html
+  name: IFileHandler
+  nameWithType: IFileHandler
+  fullName: MyPlanner.src.IFileHandler
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  name: Equals(object)
+  nameWithType: object.Equals(object)
+  fullName: object.Equals(object)
+  nameWithType.vb: Object.Equals(Object)
+  fullName.vb: Object.Equals(Object)
+  name.vb: Equals(Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  name: Equals(object, object)
+  nameWithType: object.Equals(object, object)
+  fullName: object.Equals(object, object)
+  nameWithType.vb: Object.Equals(Object, Object)
+  fullName.vb: Object.Equals(Object, Object)
+  name.vb: Equals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  name: GetHashCode()
+  nameWithType: object.GetHashCode()
+  fullName: object.GetHashCode()
+  nameWithType.vb: Object.GetHashCode()
+  fullName.vb: Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  name: GetType()
+  nameWithType: object.GetType()
+  fullName: object.GetType()
+  nameWithType.vb: Object.GetType()
+  fullName.vb: Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  name: MemberwiseClone()
+  nameWithType: object.MemberwiseClone()
+  fullName: object.MemberwiseClone()
+  nameWithType.vb: Object.MemberwiseClone()
+  fullName.vb: Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  name: ReferenceEquals(object, object)
+  nameWithType: object.ReferenceEquals(object, object)
+  fullName: object.ReferenceEquals(object, object)
+  nameWithType.vb: Object.ReferenceEquals(Object, Object)
+  fullName.vb: Object.ReferenceEquals(Object, Object)
+  name.vb: ReferenceEquals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  name: ToString()
+  nameWithType: object.ToString()
+  fullName: object.ToString()
+  nameWithType.vb: Object.ToString()
+  fullName.vb: Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: MyPlanner.src.FileHandler.#ctor*
+  commentId: Overload:MyPlanner.src.FileHandler.#ctor
+  href: MyPlanner.src.FileHandler.html#MyPlanner_src_FileHandler__ctor_System_String_
+  name: FileHandler
+  nameWithType: FileHandler.FileHandler
+  fullName: MyPlanner.src.FileHandler.FileHandler
+  nameWithType.vb: FileHandler.New
+  fullName.vb: MyPlanner.src.FileHandler.New
+  name.vb: New
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.string
+  name: string
+  nameWithType: string
+  fullName: string
+  nameWithType.vb: String
+  fullName.vb: String
+  name.vb: String
+- uid: MyPlanner.src.FileHandler.Save*
+  commentId: Overload:MyPlanner.src.FileHandler.Save
+  href: MyPlanner.src.FileHandler.html#MyPlanner_src_FileHandler_Save_System_String___
+  name: Save
+  nameWithType: FileHandler.Save
+  fullName: MyPlanner.src.FileHandler.Save
+- uid: MyPlanner.src.IFileHandler.Save(System.String[])
+  commentId: M:MyPlanner.src.IFileHandler.Save(System.String[])
+  parent: MyPlanner.src.IFileHandler
+  isExternal: true
+  href: MyPlanner.src.IFileHandler.html#MyPlanner_src_IFileHandler_Save_System_String___
+  name: Save(string[])
+  nameWithType: IFileHandler.Save(string[])
+  fullName: MyPlanner.src.IFileHandler.Save(string[])
+  nameWithType.vb: IFileHandler.Save(String())
+  fullName.vb: MyPlanner.src.IFileHandler.Save(String())
+  name.vb: Save(String())
+  spec.csharp:
+  - uid: MyPlanner.src.IFileHandler.Save(System.String[])
+    name: Save
+    href: MyPlanner.src.IFileHandler.html#MyPlanner_src_IFileHandler_Save_System_String___
+  - name: (
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: '['
+  - name: ']'
+  - name: )
+  spec.vb:
+  - uid: MyPlanner.src.IFileHandler.Save(System.String[])
+    name: Save
+    href: MyPlanner.src.IFileHandler.html#MyPlanner_src_IFileHandler_Save_System_String___
+  - name: (
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: (
+  - name: )
+  - name: )
+- uid: System.String[]
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.string
+  name: string[]
+  nameWithType: string[]
+  fullName: string[]
+  nameWithType.vb: String()
+  fullName.vb: String()
+  name.vb: String()
+  spec.csharp:
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: '['
+  - name: ']'
+  spec.vb:
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: (
+  - name: )
+- uid: MyPlanner.src.FileHandler.Read*
+  commentId: Overload:MyPlanner.src.FileHandler.Read
+  href: MyPlanner.src.FileHandler.html#MyPlanner_src_FileHandler_Read
+  name: Read
+  nameWithType: FileHandler.Read
+  fullName: MyPlanner.src.FileHandler.Read
+- uid: MyPlanner.src.IFileHandler.Read
+  commentId: M:MyPlanner.src.IFileHandler.Read
+  parent: MyPlanner.src.IFileHandler
+  href: MyPlanner.src.IFileHandler.html#MyPlanner_src_IFileHandler_Read
+  name: Read()
+  nameWithType: IFileHandler.Read()
+  fullName: MyPlanner.src.IFileHandler.Read()
+  spec.csharp:
+  - uid: MyPlanner.src.IFileHandler.Read
+    name: Read
+    href: MyPlanner.src.IFileHandler.html#MyPlanner_src_IFileHandler_Read
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: MyPlanner.src.IFileHandler.Read
+    name: Read
+    href: MyPlanner.src.IFileHandler.html#MyPlanner_src_IFileHandler_Read
+  - name: (
+  - name: )

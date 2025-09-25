@@ -1,0 +1,235 @@
+{
+  "source_base_path": "/Users/grm/repo_dbwebb/oocsharp2/.solutions/kmom06/MyPlanner2",
+  "xrefmap": "xrefmap.yml",
+  "files": [
+    {
+      "type": "Resource",
+      "output": {
+        "resource": {
+          "relative_path": "index.json"
+        }
+      }
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MyPlanner.Tests.MyTaskHandlerTest.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MyPlanner.Tests.MyTaskHandlerTest.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MyPlanner.Tests.MyTaskTest.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MyPlanner.Tests.MyTaskTest.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MyPlanner.Tests.PlannerTest.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MyPlanner.Tests.PlannerTest.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MyPlanner.Tests.PrivateTaskTest.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MyPlanner.Tests.PrivateTaskTest.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MyPlanner.Tests.WorkTaskTest.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MyPlanner.Tests.WorkTaskTest.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MyPlanner.Tests.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MyPlanner.Tests.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MyPlanner.src.FileHandler.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MyPlanner.src.FileHandler.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MyPlanner.src.Helpers.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MyPlanner.src.Helpers.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MyPlanner.src.IFileHandler.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MyPlanner.src.IFileHandler.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MyPlanner.src.IPlanner.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MyPlanner.src.IPlanner.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MyPlanner.src.MyTask.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MyPlanner.src.MyTask.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MyPlanner.src.MyTaskHandler.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MyPlanner.src.MyTaskHandler.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MyPlanner.src.Planner.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MyPlanner.src.Planner.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MyPlanner.src.PrivateTask.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MyPlanner.src.PrivateTask.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MyPlanner.src.WorkTask.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MyPlanner.src.WorkTask.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MyPlanner.src.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MyPlanner.src.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MyPlannerTests.PlannerTest.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MyPlannerTests.PlannerTest.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MyPlannerTests.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MyPlannerTests.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "api/toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/toc.html"
+        },
+        ".json": {
+          "relative_path": "api/toc.json"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "index.md",
+      "output": {
+        ".html": {
+          "relative_path": "index.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "toc.html"
+        },
+        ".json": {
+          "relative_path": "toc.json"
+        }
+      },
+      "version": ""
+    }
+  ],
+  "groups": [
+    {
+      "xrefmap": "xrefmap.yml"
+    }
+  ]
+}

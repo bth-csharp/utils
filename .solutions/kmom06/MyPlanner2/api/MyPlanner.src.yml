@@ -1,0 +1,103 @@
+### YamlMime:ManagedReference
+items:
+- uid: MyPlanner.src
+  commentId: N:MyPlanner.src
+  id: MyPlanner.src
+  children:
+  - MyPlanner.src.FileHandler
+  - MyPlanner.src.Helpers
+  - MyPlanner.src.IFileHandler
+  - MyPlanner.src.IPlanner
+  - MyPlanner.src.MyTask
+  - MyPlanner.src.MyTaskHandler
+  - MyPlanner.src.Planner
+  - MyPlanner.src.PrivateTask
+  - MyPlanner.src.WorkTask
+  langs:
+  - csharp
+  - vb
+  name: MyPlanner.src
+  nameWithType: MyPlanner.src
+  fullName: MyPlanner.src
+  type: Namespace
+  assemblies:
+  - MyPlanner2
+references:
+- uid: MyPlanner.src.FileHandler
+  commentId: T:MyPlanner.src.FileHandler
+  href: MyPlanner.src.FileHandler.html
+  name: FileHandler
+  nameWithType: FileHandler
+  fullName: MyPlanner.src.FileHandler
+- uid: MyPlanner.src.Helpers
+  commentId: T:MyPlanner.src.Helpers
+  href: MyPlanner.src.Helpers.html
+  name: Helpers
+  nameWithType: Helpers
+  fullName: MyPlanner.src.Helpers
+- uid: MyPlanner.src.IFileHandler
+  commentId: T:MyPlanner.src.IFileHandler
+  parent: MyPlanner.src
+  href: MyPlanner.src.IFileHandler.html
+  name: IFileHandler
+  nameWithType: IFileHandler
+  fullName: MyPlanner.src.IFileHandler
+- uid: MyPlanner.src.IPlanner
+  commentId: T:MyPlanner.src.IPlanner
+  href: MyPlanner.src.IPlanner.html
+  name: IPlanner
+  nameWithType: IPlanner
+  fullName: MyPlanner.src.IPlanner
+- uid: MyPlanner.src.MyTask
+  commentId: T:MyPlanner.src.MyTask
+  parent: MyPlanner.src
+  href: MyPlanner.src.MyTask.html
+  name: MyTask
+  nameWithType: MyTask
+  fullName: MyPlanner.src.MyTask
+- uid: MyPlanner.src.MyTaskHandler
+  commentId: T:MyPlanner.src.MyTaskHandler
+  href: MyPlanner.src.MyTaskHandler.html
+  name: MyTaskHandler
+  nameWithType: MyTaskHandler
+  fullName: MyPlanner.src.MyTaskHandler
+- uid: MyPlanner.src.Planner
+  commentId: T:MyPlanner.src.Planner
+  href: MyPlanner.src.Planner.html
+  name: Planner
+  nameWithType: Planner
+  fullName: MyPlanner.src.Planner
+- uid: MyPlanner.src.PrivateTask
+  commentId: T:MyPlanner.src.PrivateTask
+  href: MyPlanner.src.PrivateTask.html
+  name: PrivateTask
+  nameWithType: PrivateTask
+  fullName: MyPlanner.src.PrivateTask
+- uid: MyPlanner.src.WorkTask
+  commentId: T:MyPlanner.src.WorkTask
+  href: MyPlanner.src.WorkTask.html
+  name: WorkTask
+  nameWithType: WorkTask
+  fullName: MyPlanner.src.WorkTask
+- uid: MyPlanner.src
+  commentId: N:MyPlanner.src
+  href: MyPlanner.html
+  name: MyPlanner.src
+  nameWithType: MyPlanner.src
+  fullName: MyPlanner.src
+  spec.csharp:
+  - uid: MyPlanner
+    name: MyPlanner
+    href: MyPlanner.html
+  - name: .
+  - uid: MyPlanner.src
+    name: src
+    href: MyPlanner.src.html
+  spec.vb:
+  - uid: MyPlanner
+    name: MyPlanner
+    href: MyPlanner.html
+  - name: .
+  - uid: MyPlanner.src
+    name: src
+    href: MyPlanner.src.html

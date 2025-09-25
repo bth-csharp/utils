@@ -1,0 +1,6 @@
+4, Andreas, 102, 5
+4, Betty, 113, 19
+3, Marie, 104, 17
+3, Marie, 105, 18
+4, Marie, 102, 11
+5, Sara, 123, 13

@@ -1,0 +1,92 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>MyPlanner2</name>
+    </assembly>
+    <members>
+        <member name="T:MyPlanner.src.Helpers">
+            <summary>
+            A Helper class with useful methods for the terminal and parsing
+            from string to int.
+            </summary>
+        </member>
+        <member name="T:MyPlanner.src.IFileHandler">
+            <summary>
+            This interface describes a FileHandler that reads and writes to
+            a file.
+            </summary>
+        </member>
+        <member name="T:MyPlanner.src.IPlanner">
+            <summary>
+            This interface is used to help with testing.
+            </summary>
+        </member>
+        <member name="T:MyPlanner.src.MyTask">
+            <summary>
+            This class MyTask describes a task in the planning tool MyPlanner2.
+            </summary>
+        </member>
+        <member name="T:MyPlanner.src.MyTaskHandler">
+            <summary>
+            This class MyTaskHandler takes care of the tasks in a planning tool MyPlanner2.
+            </summary>
+        </member>
+        <member name="T:MyPlanner.src.Planner">
+            <summary>
+            This class is the terminalprogram used for the planning tool MyPlanner2.
+            </summary>
+        </member>
+        <member name="T:MyPlanner.src.PrivateTask">
+            <summary>
+            This class PrivateTask is an extension of MyTask used in the planning tool MyPlanner2.
+            It is a private task, such as clean, exercise, read
+            </summary>
+        </member>
+        <member name="F:MyPlanner.src.PrivateTask._location">
+            <summary>
+            The location where the task will take place.
+            </summary>
+        </member>
+        <member name="M:MyPlanner.src.PrivateTask.#ctor(System.String,System.String,System.String,System.DateTime)">
+            <summary>
+            The constructor creates an object of the <see cref="T:MyPlanner.src.PrivateTask"/> class with the following parameters.
+            </summary>
+            <param name="location"></param>
+            <param name="title">The location where the task will take place.</param>
+            <param name="description">The description of the task.</param>
+            <param name="dueDate">The date when the task should be ready. Can also contain the time.</param>
+            <returns>An object of the class PrivateTask.</returns>
+            
+        </member>
+        <member name="M:MyPlanner.src.PrivateTask.GetLocation">
+            <summary>
+            Gets information about where the task will take place.
+            </summary>
+            <returns>A string with the location.</returns>
+        </member>
+        <member name="M:MyPlanner.src.PrivateTask.SetLocation(System.String)">
+            <summary>
+            Sets information where the task will take place.
+            </summary>
+            <param name="location">The new location of where the task will take place.</param>
+        </member>
+        <member name="M:MyPlanner.src.PrivateTask.GetDescription">
+            <summary>
+            Gets all the information about the task in some sentences.
+            </summary>
+            <returns>A string with all the information about the task.</returns>
+        </member>
+        <member name="M:MyPlanner.src.PrivateTask.GetInformation">
+            <summary>
+            Gets all the attributes from the task. Used when updating tasks.
+            </summary>
+            <returns>A list of strings containing the attributes.</returns>
+        </member>
+        <member name="T:MyPlanner.src.WorkTask">
+            <summary>
+            This class WorkTask is an extension of MyTask used in the planning tool MyPlanner2.
+            It is a work task, such as planning, research, implementation, testing
+            </summary>
+        </member>
+    </members>
+</doc>

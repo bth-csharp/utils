@@ -1,0 +1,37 @@
+### YamlMime:TableOfContent
+items:
+- uid: MyPlanner.Tests
+  name: MyPlanner.Tests
+  items:
+  - uid: MyPlanner.Tests.MyTaskHandlerTest
+    name: MyTaskHandlerTest
+  - uid: MyPlanner.Tests.MyTaskTest
+    name: MyTaskTest
+  - uid: MyPlanner.Tests.PlannerTest
+    name: PlannerTest
+  - uid: MyPlanner.Tests.PrivateTaskTest
+    name: PrivateTaskTest
+  - uid: MyPlanner.Tests.WorkTaskTest
+    name: WorkTaskTest
+- uid: MyPlanner.src
+  name: MyPlanner.src
+  items:
+  - uid: MyPlanner.src.FileHandler
+    name: FileHandler
+  - uid: MyPlanner.src.Helpers
+    name: Helpers
+  - uid: MyPlanner.src.IFileHandler
+    name: IFileHandler
+  - uid: MyPlanner.src.IPlanner
+    name: IPlanner
+  - uid: MyPlanner.src.MyTask
+    name: MyTask
+  - uid: MyPlanner.src.MyTaskHandler
+    name: MyTaskHandler
+  - uid: MyPlanner.src.Planner
+    name: Planner
+  - uid: MyPlanner.src.PrivateTask
+    name: PrivateTask
+  - uid: MyPlanner.src.WorkTask
+    name: WorkTask
+memberLayout: SamePage
