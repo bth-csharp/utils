@@ -1,3 +1,0 @@
-2,20,19,dbwebb,csharp,utveckla kurs,2025-06-05,true
-vardagsrummet,städ2,damma,2025-06-05,false
-Galtö,Promenad,Slipenrundan med Sara,2025-06-25,true
