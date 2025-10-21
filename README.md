@@ -31,7 +31,7 @@ REPO=<currently not used. For future functionality, can be skipped>
   ]
 ```
 
-1. `pnpn install`
+1. `pnpm install` (i katalogen invite-to-organisation)
 
 1. `node invite.mjs`
 
