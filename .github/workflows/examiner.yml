@@ -37,7 +37,7 @@ jobs:
           <h2>${{github.event.pull_request.title}}<br></h2>
           ${{github.event.pull_request.body}}<br>
           <br>
-          PR URL: <a class="inline_disabled" href="${{ fromJson(inputs.event).pull_request.html_url }}" target="_blank" rel="noopener noreferrer">${{ fromJson(inputs.event).pull_request.html_url }}</a>
+          PR URL: <a class='inline_disabled' href='${{ fromJson(inputs.event).pull_request.html_url }}' target='_blank' rel='noopener noreferrer'>${{ fromJson(inputs.event).pull_request.html_url }}</a>
           EOM
           EOF
 
@@ -60,46 +60,20 @@ jobs:
   generate-matrix:
     runs-on: ubuntu-latest
     outputs:
-      labs: ${{ steps.set-matrix.outputs.labs }}
       kmoms: ${{ steps.set-matrix.outputs.kmoms }}
 
     steps:
-      - name: Extract labs and kmoms based on PR branch
+      - name: Extract kmoms based on PR branch
         id: set-matrix
         run: |
-          BRANCH="${{ github.base_ref }}"
+          BRANCH="$BRANCH_NAME"
           echo "📌 Branch: $BRANCH"
 
-          LABS=$(echo '${{ inputs.kmom_paths }}' | jq -c --arg b "$BRANCH" '.[$b].labs // []')
           KMOMS=$(echo '${{ inputs.kmom_paths }}' | jq -c --arg b "$BRANCH" '.[$b].kmoms // []')
 
-          echo "✅ Labs: $LABS"
           echo "✅ Kmoms: $KMOMS"
 
-          echo "labs={\"folder\":$LABS}" >> $GITHUB_OUTPUT
           echo "kmoms={\"folder\":$KMOMS}" >> $GITHUB_OUTPUT
-
-  run-labs:
-    needs: [generate-matrix]
-    if: needs.generate-matrix.outputs.labs != '{"folder":[]}'
-    runs-on: ubuntu-latest
-
-    strategy:
-      matrix: ${{ fromJson(needs.generate-matrix.outputs.labs) }}
-
-    steps:
-      - name: setup-python
-        uses: bth-csharp/utils/.github/actions/setup-python@main
-
-      - name: "Validate code"
-        run: uv run ruff check ${{ matrix.folder }}
-        continue-on-error: true
-
-      - name: Run lab test in ${{ matrix.folder }}
-        continue-on-error: true
-        run: |
-          echo "🔬 Running lab: ${{ matrix.folder }}"
-          uv run ${{ matrix.folder }}/lab.py
 
   run-kmoms:
     needs: [generate-matrix]
@@ -110,25 +84,71 @@ jobs:
       matrix: ${{ fromJson(needs.generate-matrix.outputs.kmoms) }}
 
     steps:
-      - name: setup-python
-        uses: bth-csharp/utils/.github/actions/setup-python@main
+      - name: setup-csharp
+        uses: bth-csharp/utils/.github/actions/setup-csharp@main
 
-      - name: "Validate code"
-        run: uv run ruff check $(echo "${{ matrix.folder }}" | sed 's/tests/src/')
-
-      - name: Run kmom test in ${{ matrix.folder }}
+      - name: Restore dependencies
+        working-directory: ${{ matrix.folder }}
         run: |
-          echo "🔬 Running kmom: ${{ matrix.folder }}"
-          uv run tester -f ${{ matrix.folder }}
+          dotnet restore ${{ matrix.folder }}/*.csproj
+          dotnet restore ${{ matrix.folder }}.Tests/*.csproj
+        shell: bash
 
-      - name: Run extra tests in ${{ matrix.folder }}
-        continue-on-error: true
+      - name: Validate code in ${{ matrix.folder }}
+        working-directory: ${{ matrix.folder }}/..
         run: |
-          echo "🔬 Running extras: ${{ matrix.folder }}. It is OK if these tests fail. It will not affect your grade"
-          uv run tester -f -e ${{ matrix.folder }}
+          dotnet format ${{ matrix.folder }}/*.csproj
+          dotnet format ${{ matrix.folder }}.Tests/*.csproj
+        shell: bash
+
+      - name: Build project ${{ matrix.folder }}
+        working-directory: ${{ matrix.folder }}/..
+        run: |
+          dotnet build ${{ matrix.folder }}/*.csproj --no-restore
+          dotnet build ${{ matrix.folder }}.Tests/*.csproj --no-restore
+        shell: bash
+
+      - name: Test project ${{ matrix.folder }}
+        working-directory: ${{ matrix.folder }}.Tests
+        run: dotnet test --no-build --verbosity normal
+        shell: bash
+
+
+
+  label-on-success:
+    needs: [run-kmoms]
+    runs-on: ubuntu-latest
+    if: success()
+    steps:
+      - name: Add "PG" label
+        uses: actions-ecosystem/action-add-labels@v1
+        with:
+          github_token: ${{ secrets.READ_ORG_TOKEN }}
+          labels: "PG"
+      - name: Remove "TUx" label
+        uses: actions-ecosystem/action-remove-labels@v1
+        with:
+          github_token: ${{ secrets.READ_ORG_TOKEN }}
+          labels: "TUx"
+
+  label-on-failure:
+    needs: [run-kmoms]
+    runs-on: ubuntu-latest
+    if: failure()
+    steps:
+      - name: Add "failing" label
+        uses: actions-ecosystem/action-add-labels@v1
+        with:
+          github_token: ${{ secrets.READ_ORG_TOKEN }}
+          labels: "TUx"
+      - name: Remove "PG" label
+        uses: actions-ecosystem/action-remove-labels@v1
+        with:
+          github_token: ${{ secrets.READ_ORG_TOKEN }}
+          labels: "PG"
 
   grade-canvas:
-    needs: [run-kmoms, run-labs]
+    needs: [run-kmoms]
     runs-on: ubuntu-latest
     if: always()
     env:
@@ -154,10 +174,17 @@ jobs:
 
       - name: Set grade variable
         id: set_grade
-        run: echo "grade=${{ (needs.run-kmoms.result == 'success' && needs.run-labs.result == 'success') && 'PG' || 'Ux' }}" >> $GITHUB_OUTPUT
+        run: echo "grade=${{ (needs.run-kmoms.result == 'success' && needs.run-labs.result == 'success') && 'PG' || 'TUx' }}" >> $GITHUB_OUTPUT
+
+      - name: Add label
+        uses: actions-ecosystem/action-add-labels@v1
+        with:
+          github_token: ${{ secrets.READ_ORG_TOKEN }}
+          labels: "${{ steps.set_grade.outputs.grade }}"
 
       - name: Update Canvas result from tests
         uses: bth-csharp/utils/.github/actions/update-canvas@main
+        continue-on-error: false
         with:
           subcommand: "grade_submission"
           grade: "${{ steps.set_grade.outputs.grade }}"

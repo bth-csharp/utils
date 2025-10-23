@@ -1,0 +1,22 @@
+name: "Setup CSharp"
+description: "Install C# and .NET"
+runs:
+  using: "composite"
+  steps:
+    - uses: actions/checkout@v4
+      with:
+        repository: bth-csharp/csharp-abcd25
+
+    - uses: actions/checkout@v4
+      with:
+        path: ./student-submission
+    
+    - name: Copy student code
+      shell: bash
+      run: |
+        rsync -av --delete ./student-submission/kmom* ./student/.
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '9.x'

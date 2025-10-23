@@ -139,7 +139,7 @@ När en lärare ska ge en ge en student godkänt på en uppgift måste läraren 
 
 När läraren gör merge körs detta workflow. Först görs en koll att användaren som mergade finns med i teamet `teachers`. Om användaren inte gör det sätts betyg `Ux`. Om användaren finns i teamet sätts betyg `G`. Kommentaren som läraren skrev när den gjorde code reviewn används som kommentar på Canvas rättningen.
 
-#### Skapar i Canvas
+#### Skapar i Canvas - merge
 
 - En kommentar och betyg G (om användaren har rättigheter att godkänna annars U)
 
@@ -147,6 +147,6 @@ När läraren gör merge körs detta workflow. Först görs en koll att använda
 
 Om studenten stänger sin PR körs detta workflow. En kommentar skapas i Canvas med text om att studenten har stängt sin PR och betyget Ux sätts. De behöver skapa en ny PR och då kommer `examiner.yml` köras igen och skapa en ny inlämning på Canvas.
 
-#### Skapar i Canvas
+#### Skapar i Canvas - stängd PR
 
 - En kommentar och betyg Ux
