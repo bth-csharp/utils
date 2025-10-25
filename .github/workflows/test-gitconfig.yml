@@ -22,10 +22,6 @@ jobs:
         with:
           version: 3.x
 
-      - name: Run check for files Task
-        id: check_files
-        run: task check-have-files
-
       - name: Create comment
         id: created_comment
         run: |
