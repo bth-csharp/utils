@@ -22,18 +22,6 @@ jobs:
         with:
           version: 3.x
 
-      - name: Create comment
-        id: created_comment
-        run: |
-          cat << EOF >> $GITHUB_OUTPUT
-          myoutput<<EOM
-          Pull Request Action: ${{ github.event.action }}
-          Status: ${{ steps.check_files.outcome == 'success' && '✅ All files found' || '❌ Some files missing' }}
-
-          PR URL: ${{ github.event.pull_request.html_url }}
-          EOM
-          EOF
-
       - uses: bth-csharp/utils/.github/actions/get-assignment-id@main
         id: resolve
         with:
@@ -43,7 +31,7 @@ jobs:
         uses: bth-csharp/utils/.github/actions/update-canvas@main
         with:
           subcommand: "grade_submission"
-          grade: ${{ steps.check_files.outcome == 'success' && 'G' || 'Ux' }}
+          grade: ${{ steps.check_files.outcome == 'G'}}
           comment: "${{ steps.created_comment.outputs.myoutput }}"
           canvas_api_token: ${{ secrets.CANVAS_API_TOKEN }}
           course_id: ${{inputs.course_id}}
