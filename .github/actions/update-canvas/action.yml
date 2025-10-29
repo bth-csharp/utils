@@ -69,7 +69,7 @@ runs:
           --header "Authorization: Bearer ${{ inputs.canvas_api_token }}" \
           --fail-with-body)
 
-          echo "Raw response: $response"
+          echo "Raw response: {{ $response }}"
           attempt=$(echo "$response" | jq -r '.attempt')
           echo "Attempt value is: $attempt"
           echo "attempt=$attempt" >> $GITHUB_OUTPUT
