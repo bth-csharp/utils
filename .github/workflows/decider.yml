@@ -84,9 +84,9 @@ jobs:
     if: ${{ github.event_name == 'pull_request' && github.event.action == 'opened' && github.base_ref == 'bth/submit/test-gitconfig' }}
     uses: bth-csharp/utils/.github/workflows/test-gitconfig.yml@main
     with:
-      course_id: ${{ inputs.course_id }}
-      available_assignments: ${{ inputs.available_assignments }}
       student_id: ${{ inputs.student_id }}
+      course_id: ${{ vars.COURSE_ID }}
+      available_assignments: ${{ vars.ASSIGNMENTS }}
     secrets: inherit
 
   # on-other:
