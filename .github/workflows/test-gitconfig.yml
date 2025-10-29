@@ -44,7 +44,7 @@ jobs:
           subcommand: "grade_submission"
           grade: 'G'
           comment: 'Test gitconfig ✅'
-          canvas_api_token: ${{ secrets.CANVAS_API_TOKEN }}
+          canvas_api_token: "${{ secrets.CANVAS_API_TOKEN }}"
           course_id: ${{inputs.course_id}}
           assignment_id: 59781
           student_id: ${{ inputs.student_id }}
