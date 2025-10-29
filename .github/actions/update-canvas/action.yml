@@ -65,11 +65,11 @@ runs:
       if: ${{ inputs.subcommand == 'grade_submission' }}
       run: |
           response=$(curl --silent --location --request GET 'https://bth.instructure.com/api/v1/courses/${{ inputs.course_id }}/assignments/${{ inputs.assignment_id }}/submissions/${{ inputs.student_id }}' \
-          --header 'Content-Type: application/x-www-form-urlencoded' \
+          --header "Accept: application/json" \
           --header "Authorization: Bearer ${{ inputs.canvas_api_token }}" \
           --fail-with-body)
-
-          echo "Raw response: $response"
+          echo "---- Response ----"
+          echo "$response"
           attempt=$(echo "$response" | jq -r '.attempt')
           echo "Attempt value is: $attempt"
           echo "attempt=$attempt" >> $GITHUB_OUTPUT
