@@ -4,7 +4,7 @@ on:
       course_id:
         required: true
         type: string
-      available_assignments:
+      assignments:
         required: true
         type: string
       student_id:
@@ -25,7 +25,7 @@ jobs:
       - uses: bth-csharp/utils/.github/actions/get-assignment-id@main
         id: resolve
         with:
-          available_assignments: ${{ inputs.available_assignments }}
+          available_assignments: ${{ inputs.assignments }}
 
       - name: Update Canvas with closed PR
         uses: bth-csharp/utils/.github/actions/update-canvas@main
