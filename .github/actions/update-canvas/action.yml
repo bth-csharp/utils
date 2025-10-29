@@ -41,6 +41,7 @@ runs:
         echo "comment: ${{ inputs.comment }}"
 
     - name: Debug token
+      shell: bash
       env:
         TOKEN: ${{ inputs.canvas_api_token }}
       run: |
