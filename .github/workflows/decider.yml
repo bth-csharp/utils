@@ -3,6 +3,12 @@ name: Decider Workflow
 on:
   workflow_call:
     inputs:
+      course_id:
+        required: true
+        type: string
+      available_assignments:
+        required: true
+        type: string
       student_id:
         required: true
         type: string
@@ -79,8 +85,8 @@ jobs:
     uses: bth-csharp/utils/.github/workflows/test-gitconfig.yml@main
     with:
       student_id: ${{ inputs.student_id }}
-      course_id: ${{ vars.COURSE_ID }}
-      available_assignments: ${{ vars.ASSIGNMENTS }}
+      course_id: ${{ inputs.course_id }}
+      available_assignments: ${{ inputs.available_assignments }}
     secrets: inherit
 
   # on-other:

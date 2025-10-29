@@ -22,20 +22,10 @@ jobs:
         with:
           version: 3.x
 
-
-      - name: Visa contexts
-        env:
-          GITHUB_CONTEXT: ${{ toJSON(github) }}
-          INPUTS_CONTEXT: ${{ toJSON(inputs) }}
-          VARS_CONTEXT:   ${{ toJSON(vars) }}
-          ENV_CONTEXT:    ${{ toJSON(env) }}
-        run: |
-          echo "$GITHUB_CONTEXT" | head -n 50
-          echo "$INPUTS_CONTEXT"
-          echo "$VARS_CONTEXT"
-          echo "$ENV_CONTEXT"
-          echo "COURSE_ID: ${{vars.COURSE_ID}}"
-          echo "available_assignments: ${{vars.ASSIGNMENTS}}"
+      - uses: bth-python/utils/.github/actions/get-assignment-id@main
+        id: resolve
+        with:
+          available_assignments: ${{ inputs.available_assignments }}
 
 
       - name: Update Canvas with closed PR
@@ -46,6 +36,6 @@ jobs:
           comment: 'Test gitconfig ✅'
           canvas_api_token: "${{ secrets.CANVAS_API_TOKEN }}"
           course_id: ${{inputs.course_id}}
-          assignment_id: 59781
+          assignment_id: ${{ steps.resolve.outputs.assignment }}
           student_id: ${{ inputs.student_id }}
           read_org_token: "${{ secrets.READ_ORG_TOKEN }}"
