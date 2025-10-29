@@ -38,11 +38,6 @@ jobs:
           echo "available_assignments: ${{vars.ASSIGNMENTS}}"
 
 
-      - uses: bth-csharp/utils/.github/actions/get-assignment-id@main
-        id: resolve
-        with:
-          available_assignments: ${{ inputs.available_assignments }}
-
       - name: Update Canvas with closed PR
         uses: bth-csharp/utils/.github/actions/update-canvas@main
         with:
@@ -51,6 +46,6 @@ jobs:
           comment: 'Test gitconfig ✅'
           canvas_api_token: ${{ secrets.CANVAS_API_TOKEN }}
           course_id: ${{inputs.course_id}}
-          assignment_id: ${{ steps.resolve.outputs.assignment }}
+          assignment_id: 59781
           student_id: ${{ inputs.student_id }}
           read_org_token: "${{ secrets.READ_ORG_TOKEN }}"
