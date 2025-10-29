@@ -33,6 +33,8 @@ jobs:
           echo "$GITHUB_CONTEXT" | head -n 50
           echo "$INPUTS_CONTEXT"
           echo "$VARS_CONTEXT"
+          echo "$ENV_CONTEXT"
+          echo "${{ steps.resolve.outputs.assignment }}"
 
 
       - uses: bth-csharp/utils/.github/actions/get-assignment-id@main
