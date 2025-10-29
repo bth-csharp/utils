@@ -34,8 +34,8 @@ jobs:
           echo "$INPUTS_CONTEXT"
           echo "$VARS_CONTEXT"
           echo "$ENV_CONTEXT"
-          echo "COURSE_ID: ${{inputs.course_id}}"
-          echo "available_assignments: ${{inputs.available_assignments}}"
+          echo "COURSE_ID: ${{vars.COURSE_ID}}"
+          echo "available_assignments: ${{vars.ASSIGNMENTS}}"
 
 
       - uses: bth-csharp/utils/.github/actions/get-assignment-id@main
