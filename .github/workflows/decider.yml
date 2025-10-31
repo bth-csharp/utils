@@ -8,22 +8,6 @@ on:
         required: false
         type: boolean
         default: false
-      course_id:
-        required: true
-        type: string
-      available_assignments:
-        required: true
-        type: string
-      student_id:
-        required: true
-        type: string
-      kmom_paths:
-        required: true
-        type: string
-      base_ref:
-        description: "PR:ens mål-branch"
-        required: true
-        type: string
       dotnet_version:
         required: false
         default: "9.0.x"
