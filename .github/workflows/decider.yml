@@ -12,6 +12,18 @@ on:
         required: false
         default: "9.0.x"
         type: string
+      course_id:
+        required: true
+        type: string
+      available_assignments:
+        required: true
+        type: string
+      student_id:
+        required: true
+        type: string
+      kmom_paths:
+        required: true
+        type: string
 
 jobs:
 
