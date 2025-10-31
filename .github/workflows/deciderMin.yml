@@ -1,0 +1,55 @@
+name: Decider Workflow
+
+on:
+  workflow_call:
+    inputs:
+      course_id:
+        required: true
+        type: string
+      available_assignments:
+        required: true
+        type: string
+      student_id:
+        required: true
+        type: string
+      kmom_paths:
+        required: true
+        type: string
+      base_ref:
+        description: "PR:ens mål-branch"
+        required: true
+        type: string
+      dotnet_version:
+        required: false
+        default: "9.0.x"
+        type: string
+
+jobs:
+
+  route-to-tests-kmom03:
+    if: ${{ inputs.base_ref == 'bth/submit/kmom03' }}
+    uses: bth-csharp/utils/.github/workflows/tests_kmom03.yml@main
+    secrets: inherit
+    with:
+      pr_number: ${{ inputs.pr_number }}
+      ref: ${{ inputs.ref }}
+      dotnet_version: ${{ inputs.dotnet_version }}
+
+  route-to-tests-kmom06:
+    if: ${{ inputs.base_ref == 'bth/submit/kmom06' }}
+    uses: bth-csharp/utils/.github/workflows/tests_kmom06.yml@main
+    secrets: inherit
+    with:
+      pr_number: ${{ inputs.pr_number }}
+      ref: ${{ inputs.ref }}
+      dotnet_version: ${{ inputs.dotnet_version }}
+
+
+  guard-unknown:
+    # Fångar felaktiga branches (så att workflowen inte "lyckas" i tysthet)
+    if: ${{ inputs.base_ref != 'bth/submit/kmom06' && inputs.base_ref != 'bth/submit/kmom06' }}
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          echo "Okänd base_ref: '${{ inputs.base_ref }}' – förväntade 'bth/submit/kmom03' eller 'bth/submit/kmom06'." >&2
+          exit 1

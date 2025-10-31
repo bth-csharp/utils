@@ -3,6 +3,11 @@ name: Decider Workflow
 on:
   workflow_call:
     inputs:
+      run_decider:
+        description: 'Run decider job'
+        required: false
+        type: boolean
+        default: false
       course_id:
         required: true
         type: string
@@ -25,6 +30,12 @@ on:
         type: string
 
 jobs:
+
+  decider:
+    runs-on: ubuntu-latest
+    if: github.event.inputs.run_decider == 'true'
+    steps:
+      - run: echo "Decider körs"
 
   route-to-tests-kmom03:
     if: ${{ inputs.base_ref == 'bth/submit/kmom03' }}
