@@ -1,0 +1,28 @@
+# .github/workflows/manual-tests.yml
+name: Manual Test Run for kmom01
+
+on:
+  workflow_dispatch:  # Endast manuell körning
+
+jobs:
+  run-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '9.0.x'
+
+      - name: Restore dependencies for Menu
+        working-directory: ./kmom01/Menu
+        run: dotnet restore
+
+      - name: Build Menu
+        working-directory: ./kmom01/Menu
+        run: dotnet build --configuration Release
+
+      - name: Run tests for Menu
+        working-directory: ./kmom01/Menu.Tests
+        run: dotnet test
