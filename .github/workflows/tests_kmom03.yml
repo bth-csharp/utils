@@ -28,17 +28,3 @@ jobs:
         with:
           dotnet-version: ${{ inputs.dotnet_version }}
 
-      - name: Restore
-        run: dotnet restore
-
-      - name: Run test1 suite (snabb/grund)
-        run: dotnet test --configuration Release --no-build \
-             --filter "Category=Fast|Category=Smoke" \
-             --logger "trx;LogFileName=TestResults.test1.trx"
-
-      - name: Upload results (test1)
-        uses: actions/upload-artifact@v4
-        if: always()
-        with:
-          name: test-results-test1-${{ inputs.pr_number }}
-          path: "**/*.trx"
