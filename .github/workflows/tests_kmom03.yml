@@ -1,0 +1,44 @@
+name: Utils – Runner for test1
+
+on:
+  workflow_call:
+    inputs:
+      pr_number:
+        required: true
+        type: number
+      ref:
+        required: true
+        type: string
+      dotnet_version:
+        required: false
+        default: "9.0.x"
+        type: string
+
+jobs:
+  test1-suite:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.ref }}
+
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: ${{ inputs.dotnet_version }}
+
+      - name: Restore
+        run: dotnet restore
+
+      - name: Run test1 suite (snabb/grund)
+        run: dotnet test --configuration Release --no-build \
+             --filter "Category=Fast|Category=Smoke" \
+             --logger "trx;LogFileName=TestResults.test1.trx"
+
+      - name: Upload results (test1)
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: test-results-test1-${{ inputs.pr_number }}
+          path: "**/*.trx"
