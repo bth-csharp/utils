@@ -1,0 +1,43 @@
+name: Kontrollera Menu-kataloger
+
+on:
+  workflow_dispatch:  # du kör den manuellt
+
+jobs:
+  check-repos:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Hämta lista på alla repos i organisationen
+        id: list
+        run: |
+          echo "Hämtar repos..."
+          gh api orgs/bth-csharp/repos --paginate --jq '.[] | .name' > repos.txt
+
+      - name: Kontrollera varje repo
+        run: |
+          echo "Repo;Menu finns;Menu.Tests finns" > resultat.csv
+          while read -r repo; do
+            echo "Kontrollerar $repo..."
+            
+            # Kolla om Menu/ finns
+            Menu=$(gh api repos/bth-csharp/$repo/contents/Menu --jq '.name' 2>/dev/null || echo "saknas")
+            # Kolla om Menu.Tests/ finns
+            Menutests=$(gh api repos/bth-csharp/$repo/contents/Menu.Tests --jq '.name' 2>/dev/null || echo "saknas")
+
+            hasMenu="❌"; hasTests="❌"
+            [ "$Menu" != "saknas" ] && hasMenu="✅"
+            [ "$Menutests" != "saknas" ] && hasTests="✅"
+
+            echo "$repo;$hasMenu;$hasTests" >> resultat.csv
+          done < repos.txt
+
+          echo ""
+          echo "Resultat:"
+          cat resultat.csv
+
+      - name: Ladda upp resultat som artefakt
+        uses: actions/upload-artifact@v4
+        with:
+          name: Menu-check-resultat
+          path: resultat.csv
