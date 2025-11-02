@@ -10,6 +10,8 @@ jobs:
     steps:
       - name: Hämta lista på alla repos i organisationen
         id: list
+        env:
+          GH_TOKEN: ${{ secrets.READ_ORG_TOKEN }}
         run: |
           echo "Hämtar repos..."
           gh api orgs/bth-csharp/repos --paginate --jq '.[] | .name' > repos.txt
