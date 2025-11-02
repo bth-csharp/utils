@@ -15,6 +15,8 @@ jobs:
           gh api orgs/bth-csharp/repos --paginate --jq '.[] | .name' > repos.txt
 
       - name: Kontrollera varje repo
+        env:
+          GH_TOKEN: ${{ secrets.READ_ORG_TOKEN }}
         run: |
           echo "Repo;Menu finns;Menu.Tests finns" > resultat.csv
           while read -r repo; do
