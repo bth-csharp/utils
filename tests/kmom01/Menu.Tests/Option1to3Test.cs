@@ -27,12 +27,12 @@ namespace Menu.Tests
             StringWriter consoleOutput = new StringWriter();
 
             Console.SetOut(consoleOutput);
-            MethodInfo[] filteredMethods = methods.Where(method => method.Name.Contains("PrintInfo")).ToArray();
+            MethodInfo[] filteredMethods = methods.Where(method => method.Name.Contains("PrintInfoAboutCsharp")).ToArray();
 
             Assert.That(filteredMethods, Is.Not.Empty, "PrintInfoAboutCsharp should be there");
             MethodInfo method = filteredMethods[0];
-            object resultObject = method.Invoke(null, null);
-            consoleResult = resultObject.ToString() ?? "";
+            method.Invoke(null, Array.Empty<object>());
+            consoleResult = consoleOutput.ToString().Trim();
             Assert.That(consoleResult.Length, Is.GreaterThan(200), "The length of your C# information should be greater than 200.");
             Console.SetOut(Console.Out);
         }
@@ -48,8 +48,8 @@ namespace Menu.Tests
 
             Assert.That(filteredMethods, Is.Not.Empty, "The method named PrintInfoAboutCsharp should be there");
             MethodInfo method = filteredMethods[0];
-            object resultObject = method.Invoke(null, null);
-            consoleResult = resultObject.ToString() ?? "";
+            method.Invoke(null, Array.Empty<object>());
+            consoleResult = consoleOutput.ToString().Trim();
             var sentences = Regex.Matches(consoleResult, @"[^.!?]+[.!?]")
                                 .Cast<Match>()
                                 .Select(match => match.Value.Trim())

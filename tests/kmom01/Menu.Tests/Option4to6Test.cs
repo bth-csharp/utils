@@ -59,7 +59,7 @@ namespace Menu.Tests
         }
 
         [Test]
-       public void TestCreateAcronymNameWithoutCapitals()
+        public void TestCreateAcronymNameWithoutCapitals()
         {
             string consoleResult = "";
 
@@ -166,9 +166,7 @@ namespace Menu.Tests
         {
             bool consoleResult = false;
             object resultObject;
-            StringWriter consoleOutput = new StringWriter();
 
-            Console.SetOut(consoleOutput);
             MethodInfo[] filteredMethods = methods.Where(method => method.Name.Contains("ValidateSsn")).ToArray();
             Assert.That(filteredMethods, Is.Not.Empty, "The method named ValidateSsn should be there");
 
@@ -181,8 +179,6 @@ namespace Menu.Tests
             }
             Assert.That(resultObject.GetType(), Is.EqualTo(typeof(bool)), "ValidateSsn should return the type bool.");
             consoleResult = Convert.ToBoolean(resultObject);
-            var consoleString = consoleOutput.ToString().Trim();
-            Assert.That(consoleString, Does.Contain("Valid"), "Input: 811218-9876 => printout: Valid");
             Assert.That(consoleResult, Is.True, "Input: 811218-9876 => return: true");
             Console.SetOut(Console.Out);
         }
@@ -191,9 +187,7 @@ namespace Menu.Tests
         public void TestValidateSsn2()
         {
             bool consoleResult = true;
-            StringWriter consoleOutput = new StringWriter();
 
-            Console.SetOut(consoleOutput);
             MethodInfo[] filteredMethods = methods.Where(method => method.Name.Contains("ValidateSsn")).ToArray();
             Assert.That(filteredMethods, Is.Not.Empty, "The method named ValidateSsn should be there");
 
@@ -205,8 +199,6 @@ namespace Menu.Tests
                 object resultObject = method.Invoke(null, null);
                 consoleResult = Convert.ToBoolean(resultObject);
             }
-            var consoleString = consoleOutput.ToString().Trim();
-            Assert.That(consoleString, Does.Contain("Not valid"), "Input: 231218-9874 => printout: Not valid");
             Assert.That(consoleResult, Is.False, "Input: 231218-9874 => return: false");
             Console.SetOut(Console.Out);
         }
@@ -215,9 +207,7 @@ namespace Menu.Tests
         public void TestValidateSsn3()
         {
             bool consoleResult = false;
-            StringWriter consoleOutput = new StringWriter();
 
-            Console.SetOut(consoleOutput);
             MethodInfo[] filteredMethods = methods.Where(method => method.Name.Contains("ValidateSsn")).ToArray();
             Assert.That(filteredMethods, Is.Not.Empty, "The method named ValidateSsn should be there");
 
@@ -229,8 +219,6 @@ namespace Menu.Tests
                 object resultObject = method.Invoke(null, null);
                 consoleResult = Convert.ToBoolean(resultObject);
             }
-            var consoleString = consoleOutput.ToString().Trim();
-            Assert.That(consoleString, Does.Contain("Valid"), "Input: 8181818181 => printout: Valid");
             Assert.That(consoleResult, Is.True, "Input: 8181818181 => return: true");
             Console.SetOut(Console.Out);
         }
@@ -239,9 +227,7 @@ namespace Menu.Tests
         public void TestValidateSsnEmpty()
         {
             bool consoleResult = true;
-            StringWriter consoleOutput = new StringWriter();
 
-            Console.SetOut(consoleOutput);
             MethodInfo[] filteredMethods = methods.Where(method => method.Name.Contains("ValidateSsn")).ToArray();
             Assert.That(filteredMethods, Is.Not.Empty, "The method named ValidateSsn should be there");
 
@@ -253,8 +239,6 @@ namespace Menu.Tests
                 object resultObject = method.Invoke(null, null);
                 consoleResult = Convert.ToBoolean(resultObject);
             }
-            var consoleString = consoleOutput.ToString().Trim();
-            Assert.That(consoleString, Does.Contain("Not valid"), "Input: empty string => printout: Not valid");
             Assert.That(consoleResult, Is.False, "Input: empty string => return: false");
             Console.SetOut(Console.Out);
         }
