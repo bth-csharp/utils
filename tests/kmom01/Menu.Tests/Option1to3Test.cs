@@ -31,7 +31,7 @@ namespace Menu.Tests
 
             Assert.That(filteredMethods, Is.Not.Empty, "PrintInfoAboutCsharp should be there");
             MethodInfo method = filteredMethods[0];
-            method.Invoke(null, Array.Empty<object>());
+            method.Invoke(null, []);
             consoleResult = consoleOutput.ToString().Trim();
             Assert.That(consoleResult.Length, Is.GreaterThan(200), "The length of your C# information should be greater than 200.");
             Console.SetOut(Console.Out);
@@ -48,7 +48,7 @@ namespace Menu.Tests
 
             Assert.That(filteredMethods, Is.Not.Empty, "The method named PrintInfoAboutCsharp should be there");
             MethodInfo method = filteredMethods[0];
-            method.Invoke(null, Array.Empty<object>());
+            method.Invoke(null, []);
             consoleResult = consoleOutput.ToString().Trim();
             var sentences = Regex.Matches(consoleResult, @"[^.!?]+[.!?]")
                                 .Cast<Match>()
