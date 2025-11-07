@@ -1,4 +1,4 @@
-# .github/workflows/manual-tests.yml
+# .github/workflows/tests_kmom01.yml
 name: Test Run for kmom01
 
 on:
