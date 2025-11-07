@@ -1,0 +1,62 @@
+﻿namespace MyBankApp.src;
+
+public class BankAccount
+{
+    private static int _nextAccountNumber = 100000;
+    public const string BANK_NAME = "Dbwebb Bank";
+    private string _owner;
+    private decimal _balance;
+    private string _accountNumber;
+
+    public BankAccount(string name, decimal initialBalance)
+    {
+        this._owner = name;
+        this._balance = initialBalance;
+        this._accountNumber = BankAccount._nextAccountNumber.ToString();
+        BankAccount._nextAccountNumber++;
+    }
+
+    public string GetOwner()
+    {
+        return this._owner;
+    }
+
+    public decimal GetBalance()
+    {
+        return this._balance;
+    }
+
+    public string GetAccountNumber()
+    {
+        return this._accountNumber;
+    }
+
+    public bool Deposit(decimal amount)
+    {
+        bool okDeposit = false;
+
+        if (amount > 0)
+        {
+            this._balance += amount;
+            okDeposit = true;
+        }
+        return okDeposit;
+    }
+
+    public bool Withdraw(decimal amount)
+    {
+        bool okWithdraw = false;
+
+        if (this._balance >= amount)
+        {
+            this._balance -= amount;
+            okWithdraw = true;
+        }
+        return okWithdraw;
+    }
+
+    public void PrintAccountDescription()
+    {
+        Console.WriteLine($"Kontot med nummer {this._accountNumber} skapades till {this._owner} med saldot {this._balance} kr.");
+    }
+}
