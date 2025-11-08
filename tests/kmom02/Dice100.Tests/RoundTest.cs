@@ -1,4 +1,4 @@
-namespace Die100Tests;
+namespace Die100.Tests;
 using Dice100.src;
 
 public class RoundTest
@@ -121,3 +121,4 @@ public class RoundTest
         }
      }
 }
+
