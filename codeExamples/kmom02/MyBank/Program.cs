@@ -1,7 +1,7 @@
 ﻿using MyBank.src;
 
-var account1 = new BankAccount("Marie", 1000);
-var account2 = new BankAccount("Betty", 2000);
+BankAccount account1 = new BankAccount("Marie", 1000);
+BankAccount account2 = new BankAccount("Betty", 2000);
 string bankName = BankAccount.BANK_NAME;
 
 Console.WriteLine($"\nThe name of the bank is {bankName}");
