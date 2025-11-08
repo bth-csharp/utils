@@ -1,0 +1,32 @@
+# .github/workflows/tests_kmom03.yml
+name: Test Run for kmom03
+
+on:
+  push:
+    tags:
+      - 'v[1-6]\.[0-9]+\.[0-9]+'
+      - 'v10\.[0-9]+\.[0-9]+'
+  workflow_dispatch:  # Endast manuell körning
+
+jobs:
+  run-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '9.0.x'
+
+      - name: Restore dependencies for Dice100
+        working-directory: ./kmom03/Dice100
+        run: dotnet restore
+
+      - name: Build Dice100
+        working-directory: ./kmom03/Dice100
+        run: dotnet build --configuration Release
+
+      - name: Run tests for Dice100
+        working-directory: ./kmom03/Dice100.Tests
+        run: dotnet test
