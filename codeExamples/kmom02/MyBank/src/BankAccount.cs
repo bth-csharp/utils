@@ -1,4 +1,4 @@
-﻿namespace MyBankApp.src;
+﻿namespace MyBank.src;
 
 public class BankAccount
 {

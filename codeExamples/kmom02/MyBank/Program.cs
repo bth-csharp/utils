@@ -1,4 +1,4 @@
-﻿using MyBankApp.src;
+﻿using MyBank.src;
 
 var account1 = new BankAccount("Marie", 1000);
 var account2 = new BankAccount("Betty", 2000);
