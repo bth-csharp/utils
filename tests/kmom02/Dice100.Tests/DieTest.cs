@@ -1,4 +1,4 @@
-namespace Die100Tests;
+namespace Die100.Tests;
 using Dice100.src;
 
 [TestFixture]
@@ -77,3 +77,4 @@ public class DieTest
         Assert.That(die.GetString(), Is.EqualTo(value.ToString()), "The value of the Die should be " + value + ".");
     }
 }
+
