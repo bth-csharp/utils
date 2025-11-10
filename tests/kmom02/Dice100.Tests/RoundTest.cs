@@ -68,7 +68,7 @@ public class RoundTest
     }
 
     [Test]
-    public void TestGetPoints()
+    public void TestGetPoints1()
     {
         List<int> values = new List<int> { 6, 6, 6, 6, 5 };
         Round round = new Round(values);
@@ -76,7 +76,7 @@ public class RoundTest
     }
 
     [Test]
-    public void TestGetPoints0()
+    public void TestGetPoints2()
     {
         List<int> values = new List<int> { 0, 1, 1, 1, 10 };
         Round round = new Round(values);
@@ -84,12 +84,12 @@ public class RoundTest
     }
 
     [Test]
-    public void TestSetPoints0()
+    public void TestClearPoints()
     {
         List<int> values = new List<int> { 6, 6, 6, 6, 5 };
         Round round = new Round(values);
         Assert.That(round.GetPoints(), Is.EqualTo(29), "The sum of the dice should be 29.");
-        round.SetPoints(0);
+        round.ClearPoints();
         Assert.That(round.GetPoints(), Is.EqualTo(0), "The sum of the dice should be 0.");
     }
 
@@ -120,3 +120,4 @@ public class RoundTest
         }
     }
 }
+
