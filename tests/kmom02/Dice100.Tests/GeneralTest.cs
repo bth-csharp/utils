@@ -73,6 +73,10 @@ public class GeneralTest
         bool exists = File.Exists(fullPath1) || File.Exists(fullPath2);
 
         Assert.That(exists, Is.True, "Klassdiagram saknas! Har du rätt filnamn?");
+        Assert.That(
+            (File.Exists(fullPath1) && !string.IsNullOrWhiteSpace(File.ReadAllText(fullPath1))) ||
+            (File.Exists(fullPath2) && !string.IsNullOrWhiteSpace(File.ReadAllText(fullPath2))),
+            Is.True, "Aj då, tom fil.");
 
         TestContext.Out.WriteLine("✅ Klassdiagram finns");
     }
@@ -88,6 +92,10 @@ public class GeneralTest
         bool exists = File.Exists(fullPath1) || File.Exists(fullPath2);
 
         Assert.That(exists, Is.True, "Flödesdiagram saknas! Har du rätt filnamn?");
+        Assert.That(
+            (File.Exists(fullPath1) && !string.IsNullOrWhiteSpace(File.ReadAllText(fullPath1))) ||
+            (File.Exists(fullPath2) && !string.IsNullOrWhiteSpace(File.ReadAllText(fullPath2))),
+            Is.True, "Aj då, tom fil.");
 
         TestContext.Out.WriteLine("✅ Flödesdiagram finns");
     }
