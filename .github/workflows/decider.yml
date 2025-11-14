@@ -33,3 +33,29 @@ jobs:
     steps:
       - run: echo "Decider körs"
 
+  on-pr-opened-kmom01:
+    if: ${{ github.event_name == 'pull_request' && github.event.action == 'opened' && github.base_ref == 'bth/submit/kmom03'}}
+    uses: bth-csharp/utils/.github/workflows/tests_kmom01.yml@main
+    with:
+      course_id: ${{ inputs.course_id }}
+      available_assignments: ${{ inputs.available_assignments }}
+      student_id: ${{ inputs.student_id }}
+    secrets: inherit
+
+  on-pr-opened-kmom02:
+    if: ${{ github.event_name == 'pull_request' && github.event.action == 'opened' && github.base_ref == 'bth/submit/kmom03'}}
+    uses: bth-csharp/utils/.github/workflows/tests_kmom02.yml@main
+    with:
+      course_id: ${{ inputs.course_id }}
+      available_assignments: ${{ inputs.available_assignments }}
+      student_id: ${{ inputs.student_id }}
+    secrets: inherit
+
+  on-pr-opened-kmom03:
+    if: ${{ github.event_name == 'pull_request' && github.event.action == 'opened' && github.base_ref == 'bth/submit/kmom03'}}
+    uses: bth-csharp/utils/.github/workflows/tests_kmom03.yml@main
+    with:
+      course_id: ${{ inputs.course_id }}
+      available_assignments: ${{ inputs.available_assignments }}
+      student_id: ${{ inputs.student_id }}
+    secrets: inherit
