@@ -129,7 +129,7 @@ public class GeneralTest
         Assert.That(File.Exists(filePath), Is.True, $"Filen saknas: {filePath}");
 
         var content = File.ReadAllText(filePath) ?? "";
-        
+
         var nonEmptyLines = content
             .Split(Environment.NewLine)
             .Where(l => !string.IsNullOrWhiteSpace(l))
@@ -147,5 +147,20 @@ public class GeneralTest
         });
 
         TestContext.Out.WriteLine("✅ Ett objekt av klassen Menu skapas och menyn körs igång");
+    }
+    
+    [Test]
+    public void RequiredClassDiagram()
+    {
+        Assert.That(Directory.Exists(_targetDir), Is.True, $"Katalogen saknas: {_targetDir}");
+
+        var fullPath1 = Path.Combine(_targetDir, "classdiagram.pdf");
+        var fullPath2 = Path.Combine(_targetDir, "classdiagram.png");
+
+        bool exists = File.Exists(fullPath1) || File.Exists(fullPath2);
+
+        Assert.That(exists, Is.True, "Klassdiagram saknas! Har du rätt filnamn?");
+
+        TestContext.Out.WriteLine("✅ Klassdiagram finns");
     }
 }
