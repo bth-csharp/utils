@@ -1,4 +1,4 @@
-﻿namespace Dice100.src;
+﻿namespace MenuApp2.src;
 
 public class AsciiArt
 {
@@ -58,3 +58,4 @@ public class AsciiArt
         }
     }
 }
+
