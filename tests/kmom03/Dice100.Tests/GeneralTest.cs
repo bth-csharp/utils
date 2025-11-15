@@ -154,8 +154,8 @@ public class GeneralTest
     {
         Assert.That(Directory.Exists(_targetDir), Is.True, $"Katalogen saknas: {_targetDir}");
 
-        var fullPath1 = Path.Combine(_targetDir, "classdiagram.pdf");
-        var fullPath2 = Path.Combine(_targetDir, "classdiagram.png");
+        var fullPath1 = Path.Combine(_targetDir, "..", "classdiagram.pdf");
+        var fullPath2 = Path.Combine(_targetDir, "..", "classdiagram.png");
 
         bool exists = File.Exists(fullPath1) || File.Exists(fullPath2);
 
