@@ -45,6 +45,14 @@ jobs:
           token: ${{ env.STUDENT_READ_TOKEN }}
           path: student
 
+      - name: Build student code
+        if: ${{ inputs.student_branch == 'bth/submit/kmom03' }}
+        id: code_kmom03
+        run: |
+          dotnet build student/kmom01/Menu/Menu.csproj
+          dotnet build student/kmom02/Dice100/Dice100.csproj
+          dotnet build student/kmom03/Dice100/Dice100.csproj
+
       - name: Checkout internal test repo
         uses: actions/checkout@v4
         with:
