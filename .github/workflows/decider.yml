@@ -85,6 +85,8 @@ jobs:
           echo "Test project: $TEST_KMOM02"
           echo "Test project: $TEST_KMOM03"
           cd $TEST_KMOM01
+          echo "Debug student kmom01 path"
+          ls -R ../../../../student/kmom01/Menu
           dotnet add Menu.Tests.csproj reference "$STUDENT_KMOM01"
           dotnet test --configuration Debug --logger:"trx;LogFileName=kmom01.trx" || { echo "FAIL:kmom01" > ../../../../result.txt; ALL_OK=false; }          
           cd $ROOT_DIR
