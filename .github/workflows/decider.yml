@@ -57,6 +57,8 @@ jobs:
           pwd
           echo "--- Root content ---"
           ls ..
+          echo "--- Start content ---"
+          ls
           echo "--- Student repo content ---"
           ls -R student || echo "Student folder missing"
           echo "--- Tests content ---"
