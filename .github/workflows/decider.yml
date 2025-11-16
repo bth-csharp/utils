@@ -67,17 +67,17 @@ jobs:
       - name: Run tests for bth/submit/kmom03
         if: ${{ inputs.student_branch == 'bth/submit/kmom03' }}
         id: tests_kmom03
-        working-directory: utils/tests
         run: |
           ALL_OK=true
           echo "Adding ProjectReference to tests"
-          STUDENT_PATH="../../student"
-          dotnet add kmom01/Menu.Tests/Menu.Tests.csproj reference "$STUDENT_PATH/kmom01/Menu/Menu.csproj"
-          dotnet add kmom02/Dice100.Tests/Dice100.Tests.csproj reference "$STUDENT_PATH/kmom02/Dice100/Dice100.csproj"
-          dotnet add kmom03/Dice100.Tests/Dice100.Tests.csproj reference "$STUDENT_PATH/kmom03/Dice100/Dice100.csproj"
-          dotnet test kmom01/Menu.Tests/Menu.Tests.csproj --configuration Debug --logger:"trx;LogFileName=kmom01.trx" || { echo "FAIL:kmom01" > result.txt; ALL_OK=false; }
-          dotnet test kmom02/Dice100.Tests/Dice100.Tests.csproj --configuration Debug --logger:"trx;LogFileName=kmom02.trx" || { echo "FAIL:kmom02" >> result.txt; ALL_OK=false; }
-          dotnet test kmom03/Dice100.Tests/Dice100.Tests.csproj --configuration Debug --logger:"trx;LogFileName=kmom03.trx" || { echo "FAIL:kmom03" >> result.txt; ALL_OK=false; }
+          STUDENT_PATH="student"
+          TEST_PATH="utils/tests"
+          dotnet add "$TEST_PATH/kmom01/Menu.Tests/Menu.Tests.csproj" reference "$STUDENT_PATH/kmom01/Menu/Menu.csproj"
+          dotnet add "$TEST_PATH/kmom02/Dice100.Tests/Dice100.Tests.csproj" reference "$STUDENT_PATH/kmom02/Dice100/Dice100.csproj"
+          dotnet add "$TEST_PATH/kmom03/Dice100.Tests/Dice100.Tests.csproj" reference "$STUDENT_PATH/kmom03/Dice100/Dice100.csproj"
+          dotnet test $TEST_PATH/kmom01/Menu.Tests/Menu.Tests.csproj --configuration Debug --logger:"trx;LogFileName=kmom01.trx" || { echo "FAIL:kmom01" > result.txt; ALL_OK=false; }
+          dotnet test $TEST_PATH/kmom02/Dice100.Tests/Dice100.Tests.csproj --configuration Debug --logger:"trx;LogFileName=kmom02.trx" || { echo "FAIL:kmom02" >> result.txt; ALL_OK=false; }
+          dotnet test $TEST_PATH/kmom03/Dice100.Tests/Dice100.Tests.csproj --configuration Debug --logger:"trx;LogFileName=kmom03.trx" || { echo "FAIL:kmom03" >> result.txt; ALL_OK=false; }
           cat result.txt || echo "All tests passed" > result.txt
           # Sätt environment-variabel för senare steg
           echo "ALL_OK=$ALL_OK" >> $GITHUB_ENV
