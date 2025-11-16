@@ -70,9 +70,9 @@ jobs:
         run: |
           ALL_OK=true
           echo "Adding ProjectReference to tests"
-          STUDENT_PATH="student"
+          STUDENT_KMOM01==$(find student/kmom01 -name "Menu.csproj" | head -n1)
           TEST_PATH="utils/tests"
-          dotnet add "$TEST_PATH/kmom01/Menu.Tests/Menu.Tests.csproj" reference "$STUDENT_PATH/kmom01/Menu/Menu.csproj"
+          dotnet add "$TEST_PATH/kmom01/Menu.Tests/Menu.Tests.csproj" reference "STUDENT_KMOM01"
           dotnet add "$TEST_PATH/kmom02/Dice100.Tests/Dice100.Tests.csproj" reference "$STUDENT_PATH/kmom02/Dice100/Dice100.csproj"
           dotnet add "$TEST_PATH/kmom03/Dice100.Tests/Dice100.Tests.csproj" reference "$STUDENT_PATH/kmom03/Dice100/Dice100.csproj"
           dotnet test $TEST_PATH/kmom01/Menu.Tests/Menu.Tests.csproj --configuration Debug --logger:"trx;LogFileName=kmom01.trx" || { echo "FAIL:kmom01" > result.txt; ALL_OK=false; }
