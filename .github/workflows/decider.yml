@@ -30,20 +30,20 @@ jobs:
           echo "student_branch: '${{ inputs.student_branch }}'"
           pwd
           ls -R .
-
+          
       - name: Checkout student code
         uses: actions/checkout@v4
         with:
           repository: ${{ inputs.student_repo }}
           ref: ${{ inputs.student_branch }}
-          token: ${{ secret.GITHUB_TOKEN }}
+          token: ${{ env,STUDENT_READ_TOKEN }}
           path: student-code
 
       - name: Checkout internal test repo
         uses: actions/checkout@v4
         with:
           repository: bth-csharp/utils
-          token: ${{ secret.GITHUB_TOKEN }}
+          token: ${{ env.STUDENT_READ_TOKEN }}
           path: tests
 
       - name: Run tests for bth/submit/kmom03
