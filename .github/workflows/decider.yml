@@ -50,7 +50,7 @@ jobs:
 
       # ---------------- Run tests depending on task ----------------
       - name: Run tests for bth/submit/kmom03
-        if: steps.task.outputs.task == 'bth/submit/kmom03'
+        if: ${{ inputs.student_branch == 'bth/submit/kmom03' }}
         id: tests_kmom03
         run: |
           ALL_OK=true
