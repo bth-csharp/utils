@@ -15,6 +15,11 @@ on:
         value: ${{ jobs.decide.outputs.all_tests_passed }}
 
 jobs:
+  - name: Debug folders
+  run: |
+    pwd
+    ls -R .
+
   decide:
     runs-on: ubuntu-latest
     env:
@@ -42,6 +47,7 @@ jobs:
       - name: Run tests for bth/submit/kmom03
         if: ${{ inputs.student_branch == 'bth/submit/kmom03' }}
         id: tests_kmom03
+        working-directory: tests
         run: |
           ALL_OK=true
           dotnet test tests/kmom01/Menu.Tests --logger:"trx;LogFileName=kmom01.trx" || { echo "FAIL:kmom01" > result.txt; ALL_OK=false; }
