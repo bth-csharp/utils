@@ -2,6 +2,10 @@ name: Decider
 
 on:
   workflow_call:
+    inputs:
+      student_branch:
+        required: true
+        type: string
     outputs:
       all_tests_passed:
         description: "True if all selected test suites passed"
@@ -34,7 +38,7 @@ jobs:
       - name: Determine task
         id: task
         run: |
-          BRANCH="${{ github.event.pull_request.head.ref }}"
+          BRANCH="${{ inputs.student_branch }}"
           echo "Branch is: $BRANCH"
           if [[ "$BRANCH" == "bth/submit/kmom03" ]]; then
             echo "bth/submit/kmom03" >> $GITHUB_OUTPUT
