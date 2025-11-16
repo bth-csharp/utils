@@ -33,7 +33,7 @@ jobs:
           echo "student_branch: '${{ inputs.student_branch }}'"
           echo "student_ref: '${{ inputs.student_ref }}'"
           pwd
-          ls -R student
+          ls -R student-code
           
       - name: Checkout student code
         uses: actions/checkout@v4
