@@ -55,6 +55,7 @@ jobs:
       - name: Debug student repo files
         run: |
           pwd
+          ls .
           echo "--- Student repo content ---"
           ls -R student || echo "Student folder missing"
           echo "--- Tests content ---"
@@ -67,9 +68,10 @@ jobs:
         run: |
           ALL_OK=true
           echo "Adding ProjectReference to tests"
-          dotnet add kmom01/Menu.Tests/Menu.Tests.csproj reference "../../student/kmom01/Menu/Menu.csproj"
-          dotnet add kmom02/Dice100.Tests/Dice100.Tests.csproj reference ../../student/kmom02/Dice100/Dice100.csproj
-          dotnet add kmom03/Dice100.Tests/Dice100.Tests.csproj reference ../../student/kmom03/Dice100/Dice100.csproj
+          STUDENT_PATH="../../student/"
+          dotnet add kmom01/Menu.Tests/Menu.Tests.csproj reference "$STUDENT_PATH/kmom01/Menu/Menu.csproj"
+          dotnet add kmom02/Dice100.Tests/Dice100.Tests.csproj reference "$STUDENT_PATH/kmom02/Dice100/Dice100.csproj"
+          dotnet add kmom03/Dice100.Tests/Dice100.Tests.csproj reference "$STUDENT_PATH/kmom03/Dice100/Dice100.csproj"
           dotnet test kmom01/Menu.Tests/Menu.Tests.csproj --no-build --logger:"trx;LogFileName=kmom01.trx" || { echo "FAIL:kmom01" > result.txt; ALL_OK=false; }
           dotnet test kmom02/Dice100.Tests/Dice100.Tests.csproj --no-build --logger:"trx;LogFileName=kmom02.trx" || { echo "FAIL:kmom02" >> result.txt; ALL_OK=false; }
           dotnet test kmom03/Dice100.Tests/Dice100.Tests.csproj --no-build --logger:"trx;LogFileName=kmom03.trx" || { echo "FAIL:kmom03" >> result.txt; ALL_OK=false; }
