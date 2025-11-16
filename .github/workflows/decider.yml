@@ -72,12 +72,12 @@ jobs:
           ROOT_DIR=$(pwd)
           echo "Workspace root: $ROOT_DIR"
           echo "Adding ProjectReference to tests"
-          STUDENT_KMOM01=$(find student/kmom01 -name "Menu.csproj" | head -n1)
+          STUDENT_KMOM01="$ROOT_DIR/" + $(find student/kmom01 -name "Menu.csproj" | head -n1)
           STUDENT_KMOM02=$(find student/kmom02 -name "Dice100.csproj" | head -n1)
           STUDENT_KMOM03=$(find student/kmom03 -name "Dice100.csproj" | head -n1)
           echo "Student project: $STUDENT_KMOM01"
-          echo "Student project: $STUDENT_KMOM02"
-          echo "Student project: $STUDENT_KMOM03"
+          echo "Student project: $ROOT_DIR/$STUDENT_KMOM02"
+          echo "Student project: $ROOT_DIR/$STUDENT_KMOM03"
           TEST_KMOM01="$ROOT_DIR/utils/tests/kmom01/Menu.Tests/Menu.Tests.csproj"
           TEST_KMOM02="$ROOT_DIR/utils/tests/kmom02/Dice100.Tests/Dice100.Tests.csproj"
           TEST_KMOM03="$ROOT_DIR/utils/tests/kmom03/Dice100.Tests/Dice100.Tests.csproj"
