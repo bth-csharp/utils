@@ -2,10 +2,6 @@ name: Decider
 
 on:
   workflow_call:
-    inputs:
-      github_token:
-        required: true
-        type: string
     outputs:
       all_tests_passed:
         description: "True if all selected test suites passed"
@@ -14,6 +10,9 @@ on:
 jobs:
   decide:
     runs-on: ubuntu-latest
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}   # för att kommentera PR / sätta labels
+      STUDENT_READ_TOKEN: ${{ secrets.READ_ORG_TOKEN }}       # för att läsa interna testrepo
     outputs:
       all_tests_passed: ${{ steps.set-result.outputs.all_tests_passed }}
     steps:
@@ -23,6 +22,14 @@ jobs:
         with:
           repository: ${{ github.event.pull_request.head.repo.full_name }}
           ref: ${{ github.event.pull_request.head.ref }}
+          token: ${{ env.STUDENT_READ_TOKEN }}
+
+      - name: Checkout internal test repo
+        uses: actions/checkout@v4
+        with:
+          repository: bth-csharp/utils/tests/
+          token: ${{ env.STUDENT_READ_TOKEN }}
+          path: tests
 
       - name: Determine task
         id: task
@@ -42,9 +49,9 @@ jobs:
         if: steps.task.outputs.task == 'bth/submit/kmom03'
         id: tests_kmom03
         run: |
-          dotnet test bth-csharp/utils/tests/kmom01/Menu.Tests --logger:"trx;LogFileName=test1.trx" || echo "FAIL:test1" > result.txt
-          dotnet test bth-csharp/utils/tests/kmom02/Dice100.Tests --logger:"trx;LogFileName=test2.trx" || echo "FAIL:test2" >> result.txt
-          dotnet test bth-csharp/utils/tests/kmom03/Dice100.Tests --logger:"trx;LogFileName=test3.trx" || echo "FAIL:test3" >> result.txt
+          dotnet test tests/kmom01/Menu.Tests --logger:"trx;LogFileName=test1.trx" || echo "FAIL:test1" > result.txt
+          dotnet test tests/kmom02/Dice100.Tests --logger:"trx;LogFileName=test2.trx" || echo "FAIL:test2" >> result.txt
+          dotnet test tests/kmom03/Dice100.Tests --logger:"trx;LogFileName=test3.trx" || echo "FAIL:test3" >> result.txt
           cat result.txt || echo "All tests passed" > result.txt
 
       - name: Run tests for bth/submit/kmom06
@@ -65,7 +72,7 @@ jobs:
             else
               echo "all_tests_passed=true" >> $GITHUB_OUTPUT
             fi
-          elif [ "$TASK" == "2bth/submit/kmom06" ]; then
+          elif [ "$TASK" == "bth/submit/kmom06" ]; then
             if grep -q "FAIL" result.txt; then
               echo "all_tests_passed=false" >> $GITHUB_OUTPUT
             else
@@ -79,7 +86,7 @@ jobs:
       - name: Post results as PR comment
         uses: peter-evans/create-or-update-comment@v4
         with:
-          token: ${{ inputs.github_token }}
+          token: ${{ env.GITHUB_TOKEN }}
           issue-number: ${{ github.event.pull_request.number }}
           body: |
             **Test results for ${{ steps.task.outputs.task }}**
