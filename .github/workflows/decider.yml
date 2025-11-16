@@ -33,7 +33,7 @@ jobs:
           echo "student_branch: '${{ inputs.student_branch }}'"
           echo "student_ref: '${{ inputs.student_ref }}'"
           pwd
-          ls -R student
+          ls -R .
           
       - name: Checkout student code
         uses: actions/checkout@v4
@@ -49,6 +49,12 @@ jobs:
           repository: bth-csharp/utils
           token: ${{ env.STUDENT_READ_TOKEN }}
           path: tests
+
+      - name: Debug student repo files
+        run: |
+          pwd
+          ls -R student
+          ls -R test
 
       - name: Run tests for bth/submit/kmom03
         if: ${{ inputs.student_branch == 'bth/submit/kmom03' }}
