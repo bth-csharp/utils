@@ -41,7 +41,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: ${{ inputs.student_repo }}
-          ref: ${{ inputs.student_sha }}
+          ref: ${{ inputs.student_main }}
           token: ${{ env.STUDENT_READ_TOKEN }}
           path: student
 
@@ -67,9 +67,9 @@ jobs:
         run: |
           ALL_OK=true
           echo "Adding ProjectReference to tests"
-          dotnet add kmom01/Menu.Tests/Menu.Tests.csproj reference student/kmom01/Menu/Menu.csproj
-          dotnet add kmom02/Dice100.Tests/Dice100.Tests.csproj reference student/kmom02/Dice100/Dice100.csproj
-          dotnet add kmom03/Dice100.Tests/Dice100.Tests.csproj reference student/kmom03/Dice100/Dice100.csproj
+          dotnet add kmom01/Menu.Tests/Menu.Tests.csproj reference ../../student/kmom01/Menu/Menu.csproj
+          dotnet add kmom02/Dice100.Tests/Dice100.Tests.csproj reference ../../student/kmom02/Dice100/Dice100.csproj
+          dotnet add kmom03/Dice100.Tests/Dice100.Tests.csproj reference ../../student/kmom03/Dice100/Dice100.csproj
           dotnet test kmom01/Menu.Tests/Menu.Tests.csproj --no-build --logger:"trx;LogFileName=kmom01.trx" || { echo "FAIL:kmom01" > result.txt; ALL_OK=false; }
           dotnet test kmom02/Dice100.Tests/Dice100.Tests.csproj --no-build --logger:"trx;LogFileName=kmom02.trx" || { echo "FAIL:kmom02" >> result.txt; ALL_OK=false; }
           dotnet test kmom03/Dice100.Tests/Dice100.Tests.csproj --no-build --logger:"trx;LogFileName=kmom03.trx" || { echo "FAIL:kmom03" >> result.txt; ALL_OK=false; }
