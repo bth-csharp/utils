@@ -68,7 +68,7 @@ jobs:
         run: |
           ALL_OK=true
           echo "Adding ProjectReference to tests"
-          STUDENT_PATH="../../student/"
+          STUDENT_PATH="../../student"
           dotnet add kmom01/Menu.Tests/Menu.Tests.csproj reference "$STUDENT_PATH/kmom01/Menu/Menu.csproj"
           dotnet add kmom02/Dice100.Tests/Dice100.Tests.csproj reference "$STUDENT_PATH/kmom02/Dice100/Dice100.csproj"
           dotnet add kmom03/Dice100.Tests/Dice100.Tests.csproj reference "$STUDENT_PATH/kmom03/Dice100/Dice100.csproj"
