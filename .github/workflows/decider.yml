@@ -45,11 +45,11 @@ jobs:
           BRANCH="${{ inputs.student_branch }}"
           echo "Branch is: $BRANCH"
           if [[ "$BRANCH" == "bth/submit/kmom03" ]]; then
-            echo "bth/submit/kmom03" >> $GITHUB_OUTPUT
+            echo "Testing kmom03" >> $GITHUB_OUTPUT
           elif [[ "$BRANCH" == "bth/submit/kmom06" ]]; then
-            echo "bth/submit/kmom06" >> $GITHUB_OUTPUT
+            echo "Testing kmom06" >> $GITHUB_OUTPUT
           else
-            echo "task=unknown" >> $GITHUB_OUTPUT
+            echo "Unknown student branch" >> $GITHUB_OUTPUT
           fi
 
       # ---------------- Run tests depending on task ----------------
