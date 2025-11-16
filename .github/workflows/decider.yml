@@ -76,13 +76,15 @@ jobs:
           echo "Student project: $STUDENT_KMOM01"
           echo "Student project: $STUDENT_KMOM02"
           echo "Student project: $STUDENT_KMOM03"
-          TEST_PATH="utils/tests"
-          dotnet add "$TEST_PATH/kmom01/Menu.Tests/Menu.Tests.csproj" reference "$STUDENT_KMOM01"
-          dotnet add "$TEST_PATH/kmom02/Dice100.Tests/Dice100.Tests.csproj" reference "$STUDENT_KMOM02"
-          dotnet add "$TEST_PATH/kmom03/Dice100.Tests/Dice100.Tests.csproj" reference "$STUDENT_KMOM03"
-          dotnet test $TEST_PATH/kmom01/Menu.Tests/Menu.Tests.csproj --configuration Debug --logger:"trx;LogFileName=kmom01.trx" || { echo "FAIL:kmom01" > result.txt; ALL_OK=false; }
-          dotnet test $TEST_PATH/kmom02/Dice100.Tests/Dice100.Tests.csproj --configuration Debug --logger:"trx;LogFileName=kmom02.trx" || { echo "FAIL:kmom02" >> result.txt; ALL_OK=false; }
-          dotnet test $TEST_PATH/kmom03/Dice100.Tests/Dice100.Tests.csproj --configuration Debug --logger:"trx;LogFileName=kmom03.trx" || { echo "FAIL:kmom03" >> result.txt; ALL_OK=false; }
+          TEST_KMOM01="utils/tests/kmom01/Menu.Tests/Menu.Tests.csproj"
+          TEST_KMOM02="utils/tests/kmom02/Dice100.Tests/Dice100.Tests.csproj"
+          TEST_KMOM03="utils/tests/kmom03/Dice100.Tests/Dice100.Tests.csproj"
+          dotnet add "$TEST_KMOM01" reference "$STUDENT_KMOM01"
+          dotnet add "$TEST_KMOM02 reference "$STUDENT_KMOM02"
+          dotnet add "$TEST_KMOM03" reference "$STUDENT_KMOM03"
+          dotnet test "$TEST_KMOM01" --configuration Debug --logger:"trx;LogFileName=kmom01.trx" || { echo "FAIL:kmom01" > result.txt; ALL_OK=false; }
+          dotnet test "$TEST_KMOM02" --configuration Debug --logger:"trx;LogFileName=kmom02.trx" || { echo "FAIL:kmom02" >> result.txt; ALL_OK=false; }
+          dotnet test "$TEST_KMOM03" --configuration Debug --logger:"trx;LogFileName=kmom03.trx" || { echo "FAIL:kmom03" >> result.txt; ALL_OK=false; }
           cat result.txt || echo "All tests passed" > result.txt
           # Sätt environment-variabel för senare steg
           echo "ALL_OK=$ALL_OK" >> $GITHUB_ENV
