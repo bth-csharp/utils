@@ -15,11 +15,6 @@ on:
         value: ${{ jobs.decide.outputs.all_tests_passed }}
 
 jobs:
-  - name: Debug folders
-  run: |
-    pwd
-    ls -R .
-
   decide:
     runs-on: ubuntu-latest
     env:
@@ -28,6 +23,11 @@ jobs:
     outputs:
       all_tests_passed: ${{ steps.set-result.outputs.all_tests_passed }}
     steps:
+
+      - name: Debug folders
+        run: |
+          pwd
+          ls -R .
 
       - name: Checkout student code
         uses: actions/checkout@v4
