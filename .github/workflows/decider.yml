@@ -71,6 +71,11 @@ jobs:
           ALL_OK=true
           echo "Adding ProjectReference to tests"
           STUDENT_KMOM01==$(find student/kmom01 -name "Menu.csproj" | head -n1)
+          STUDENT_KMOM02==$(find student/kmom02 -name "Dice100.csproj" | head -n1)
+          STUDENT_KMOM03==$(find student/kmom03 -name "Dice100.csproj" | head -n1)
+          echo "Student project: $STUDENT_KMOM01"
+          echo "Student project: $STUDENT_KMOM02"
+          echo "Student project: $STUDENT_KMOM03"
           TEST_PATH="utils/tests"
           dotnet add "$TEST_PATH/kmom01/Menu.Tests/Menu.Tests.csproj" reference "$STUDENT_KMOM01"
           dotnet add "$TEST_PATH/kmom02/Dice100.Tests/Dice100.Tests.csproj" reference "$STUDENT_PATH/kmom02/Dice100/Dice100.csproj"
