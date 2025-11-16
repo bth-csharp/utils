@@ -39,20 +39,14 @@ jobs:
           token: ${{ env.STUDENT_READ_TOKEN }}
           path: tests
 
-      - name: Determine task
-        id: task
-        run: |
-          BRANCH="${{ inputs.student_branch }}"
-
-      # ---------------- Run tests depending on task ----------------
       - name: Run tests for bth/submit/kmom03
         if: ${{ inputs.student_branch == 'bth/submit/kmom03' }}
         id: tests_kmom03
         run: |
           ALL_OK=true
-          dotnet test bth-csharp/utils/tests/kmom01/Menu.Tests --logger:"trx;LogFileName=kmom01.trx" || { echo "FAIL:kmom01" > result.txt; ALL_OK=false; }
-          dotnet test bth-csharp/utils/tests/kmom02/Dice100.Tests --logger:"trx;LogFileName=kmom02.trx" || { echo "FAIL:kmom02" >> result.txt; ALL_OK=false; }
-          dotnet test bth-csharp/utils/tests/kmom03/Dice100.Tests --logger:"trx;LogFileName=kmom03.trx" || { echo "FAIL:kmom03" >> result.txt; ALL_OK=false; }
+          dotnet test tests/kmom01/Menu.Tests --logger:"trx;LogFileName=kmom01.trx" || { echo "FAIL:kmom01" > result.txt; ALL_OK=false; }
+          dotnet test tests/kmom02/Dice100.Tests --logger:"trx;LogFileName=kmom02.trx" || { echo "FAIL:kmom02" >> result.txt; ALL_OK=false; }
+          dotnet test tests/kmom03/Dice100.Tests --logger:"trx;LogFileName=kmom03.trx" || { echo "FAIL:kmom03" >> result.txt; ALL_OK=false; }
           cat result.txt || echo "All tests passed" > result.txt
           # Sätt environment-variabel för senare steg
           echo "ALL_OK=$ALL_OK" >> $GITHUB_ENV
@@ -64,7 +58,6 @@ jobs:
           echo "Under development" >> result.txt
           cat result.txt || echo "Under development" > result.txt
 
-      # ---------------- Decide pass/fail ----------------
       - name: Evaluate results
         id: set-result
         run: |
