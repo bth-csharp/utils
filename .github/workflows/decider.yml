@@ -9,6 +9,9 @@ on:
       student_branch:
         required: true
         type: string
+      student_ref:
+        required: true
+        type: string
     outputs:
       all_tests_passed:
         description: "True if all selected test suites passed"
@@ -28,6 +31,7 @@ jobs:
           echo "Setup for testing student code"
           echo "repository: '${{ inputs.repository }}'"
           echo "student_branch: '${{ inputs.student_branch }}'"
+          echo "student_branch: '${{ inputs.student_ref }}'"
           pwd
           ls -R .
           
