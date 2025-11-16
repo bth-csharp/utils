@@ -72,7 +72,7 @@ jobs:
           ROOT_DIR=$(pwd)
           echo "Workspace root: $ROOT_DIR"
           echo "Adding ProjectReference to tests"
-          STUDENT_KMOM01="../../../../student/kmom01/Menu/Menu.csproj"
+          STUDENT_KMOM01="../../../student/kmom01/Menu/Menu.csproj"
           STUDENT_KMOM02="../../../../student/kmom02/Dice100/Dice100.csproj"
           STUDENT_KMOM03="../../../../student/kmom03/Dice100/Dice100.csproj"
           echo "Student project: $STUDENT_KMOM01"
@@ -86,7 +86,7 @@ jobs:
           echo "Test project: $TEST_KMOM03"
           cd $TEST_KMOM01
           echo "Debug student kmom01 path"
-          ls -R ../../../../student/kmom01/Menu
+          ls -R ../../../student/kmom01/Menu
           dotnet add Menu.Tests.csproj reference "$STUDENT_KMOM01"
           dotnet test --configuration Debug --logger:"trx;LogFileName=kmom01.trx" || { echo "FAIL:kmom01" > ../../../../result.txt; ALL_OK=false; }          
           cd $ROOT_DIR
