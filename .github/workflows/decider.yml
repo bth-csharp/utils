@@ -52,7 +52,6 @@ jobs:
         run: |
           pwd
           ls -R student
-          ls -R test
 
       - name: Run tests for bth/submit/kmom03
         if: ${{ inputs.student_branch == 'bth/submit/kmom03' }}
