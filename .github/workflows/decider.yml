@@ -3,6 +3,9 @@ name: Decider
 on:
   workflow_call:
     inputs:
+      student_repo:
+        required: true
+        type: string
       student_branch:
         required: true
         type: string
@@ -23,10 +26,12 @@ jobs:
 
       - name: Checkout student code
         uses: actions/checkout@v4
+        working-directory: bth-csharp/utils/tests
         with:
-          repository: ${{ github.event.pull_request.head.repo.full_name }}
-          ref: ${{ github.event.pull_request.head.ref }}
+          repository: ${{ inputs.student_repo }}
+          ref: ${{ inputs.student_branch }}
           token: ${{ env.STUDENT_READ_TOKEN }}
+          path: student-code
 
       - name: Checkout internal test repo
         uses: actions/checkout@v4
@@ -52,6 +57,7 @@ jobs:
       - name: Run tests for bth/submit/kmom03
         if: ${{ inputs.student_branch == 'bth/submit/kmom03' }}
         id: tests_kmom03
+        working-directory: bth-csharp/utils/tests
         run: |
           ALL_OK=true
           dotnet test kmom01/Menu.Tests --logger:"trx;LogFileName=kmom01.trx" || { echo "FAIL:kmom01" > result.txt; ALL_OK=false; }
@@ -62,7 +68,7 @@ jobs:
           echo "ALL_OK=$ALL_OK" >> $GITHUB_ENV
 
       - name: Run tests for bth/submit/kmom06
-        if: steps.task.outputs.task == 'bth/submit/kmom06'
+        if: ${{ inputs.student_branch == 'bth/submit/kmom06' }}
         id: tests_kmom06
         run: |
           echo "Under development" >> result.txt
