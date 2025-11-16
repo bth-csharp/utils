@@ -27,7 +27,7 @@ jobs:
       - name: Checkout internal test repo
         uses: actions/checkout@v4
         with:
-          repository: bth-csharp/utils/tests/
+          repository: bth-csharp/utils
           token: ${{ env.STUDENT_READ_TOKEN }}
           path: tests
 
@@ -49,9 +49,9 @@ jobs:
         if: steps.task.outputs.task == 'bth/submit/kmom03'
         id: tests_kmom03
         run: |
-          dotnet test tests/kmom01/Menu.Tests --logger:"trx;LogFileName=test1.trx" || echo "FAIL:test1" > result.txt
-          dotnet test tests/kmom02/Dice100.Tests --logger:"trx;LogFileName=test2.trx" || echo "FAIL:test2" >> result.txt
-          dotnet test tests/kmom03/Dice100.Tests --logger:"trx;LogFileName=test3.trx" || echo "FAIL:test3" >> result.txt
+          dotnet test kmom01/Menu.Tests --logger:"trx;LogFileName=test1.trx" || echo "FAIL:test1" > result.txt
+          dotnet test kmom02/Dice100.Tests --logger:"trx;LogFileName=test2.trx" || echo "FAIL:test2" >> result.txt
+          dotnet test kmom03/Dice100.Tests --logger:"trx;LogFileName=test3.trx" || echo "FAIL:test3" >> result.txt
           cat result.txt || echo "All tests passed" > result.txt
 
       - name: Run tests for bth/submit/kmom06
