@@ -43,9 +43,10 @@ jobs:
         id: task
         run: |
           BRANCH="${{ inputs.student_branch }}"
+          TEST="Testing"
           echo "Branch is: $BRANCH"
           if [[ "$BRANCH" == "bth/submit/kmom03" ]]; then
-            echo "Testing" >> $GITHUB_OUTPUT
+            echo {{ $TEST }} >> $GITHUB_OUTPUT
             echo {{ $BRANCH }} >> $GITHUB_OUTPUT
           elif [[ "$BRANCH" == "bth/submit/kmom06" ]]; then
             echo "Testing_kmom06" >> $GITHUB_OUTPUT
