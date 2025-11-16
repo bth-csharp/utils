@@ -3,6 +3,16 @@ name: Test Run for kmom03
 
 on:
   workflow_call:
+    inputs:
+      course_id:
+        required: true
+        type: string
+      available_assignments:
+        required: true
+        type: string
+      student_id:
+        required: true
+        type: string
 
 jobs:
   run-tests:

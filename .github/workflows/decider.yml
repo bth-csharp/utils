@@ -1,61 +1,88 @@
-name: Decider Workflow
+name: Decider
 
 on:
   workflow_call:
     inputs:
-      run_decider:
-        description: 'Run decider job'
-        required: false
-        type: boolean
-        default: false
-      dotnet_version:
-        required: false
-        default: "9.0.x"
-        type: string
-      course_id:
+      github_token:
         required: true
         type: string
-      available_assignments:
-        required: true
-        type: string
-      student_id:
-        required: true
-        type: string
-      kmom_paths:
-        required: true
-        type: string
+    outputs:
+      all_tests_passed:
+        description: "True if all selected test suites passed"
+        value: ${{ jobs.decide.outputs.all_tests_passed }}
 
 jobs:
-
-  decider:
+  decide:
     runs-on: ubuntu-latest
-    if: github.event.inputs.run_decider == 'true'
+    outputs:
+      all_tests_passed: ${{ steps.set-result.outputs.all_tests_passed }}
     steps:
-      - run: echo "Decider körs"
 
-  on-pr-opened-kmom01:
-    if: ${{ github.event_name == 'pull_request' && github.event.action == 'opened' && github.base_ref == 'bth/submit/kmom03'}}
-    uses: bth-csharp/utils/.github/workflows/tests_kmom01.yml@main
-    with:
-      course_id: ${{ inputs.course_id }}
-      available_assignments: ${{ inputs.available_assignments }}
-      student_id: ${{ inputs.student_id }}
-    secrets: inherit
+      - name: Checkout student code
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ github.event.pull_request.head.repo.full_name }}
+          ref: ${{ github.event.pull_request.head.ref }}
 
-  on-pr-opened-kmom02:
-    if: ${{ github.event_name == 'pull_request' && github.event.action == 'opened' && github.base_ref == 'bth/submit/kmom03'}}
-    uses: bth-csharp/utils/.github/workflows/tests_kmom02.yml@main
-    with:
-      course_id: ${{ inputs.course_id }}
-      available_assignments: ${{ inputs.available_assignments }}
-      student_id: ${{ inputs.student_id }}
-    secrets: inherit
+      - name: Determine task
+        id: task
+        run: |
+          BRANCH="${{ github.event.pull_request.head.ref }}"
+          echo "Branch is: $BRANCH"
+          if [[ "$BRANCH" == "bth/submit/kmom03" ]]; then
+            echo "bth/submit/kmom03" >> $GITHUB_OUTPUT
+          elif [[ "$BRANCH" == "bth/submit/kmom06" ]]; then
+            echo "bth/submit/kmom06" >> $GITHUB_OUTPUT
+          else
+            echo "task=unknown" >> $GITHUB_OUTPUT
+          fi
 
-  on-pr-opened-kmom03:
-    if: ${{ github.event_name == 'pull_request' && github.event.action == 'opened' && github.base_ref == 'bth/submit/kmom03'}}
-    uses: bth-csharp/utils/.github/workflows/tests_kmom03.yml@main
-    with:
-      course_id: ${{ inputs.course_id }}
-      available_assignments: ${{ inputs.available_assignments }}
-      student_id: ${{ inputs.student_id }}
-    secrets: inherit
+      # ---------------- Run tests depending on task ----------------
+      - name: Run tests for bth/submit/kmom03
+        if: steps.task.outputs.task == 'bth/submit/kmom03'
+        id: tests_kmom03
+        run: |
+          dotnet test bth-csharp/utils/tests/kmom01/Menu.Tests --logger:"trx;LogFileName=test1.trx" || echo "FAIL:test1" > result.txt
+          dotnet test bth-csharp/utils/tests/kmom02/Dice100.Tests --logger:"trx;LogFileName=test2.trx" || echo "FAIL:test2" >> result.txt
+          dotnet test bth-csharp/utils/tests/kmom03/Dice100.Tests --logger:"trx;LogFileName=test3.trx" || echo "FAIL:test3" >> result.txt
+          cat result.txt || echo "All tests passed" > result.txt
+
+      - name: Run tests for bth/submit/kmom06
+        if: steps.task.outputs.task == 'bth/submit/kmom06'
+        id: tests_kmom06
+        run: |
+          echo "Under development" >> result.txt
+          cat result.txt || echo "Under development" > result.txt
+
+      # ---------------- Decide pass/fail ----------------
+      - name: Evaluate results
+        id: set-result
+        run: |
+          TASK=${{ steps.task.outputs.task }}
+          if [ "$TASK" == "bth/submit/kmom03" ]; then
+            if grep -q "FAIL" result.txt; then
+              echo "all_tests_passed=false" >> $GITHUB_OUTPUT
+            else
+              echo "all_tests_passed=true" >> $GITHUB_OUTPUT
+            fi
+          elif [ "$TASK" == "2bth/submit/kmom06" ]; then
+            if grep -q "FAIL" result.txt; then
+              echo "all_tests_passed=false" >> $GITHUB_OUTPUT
+            else
+              echo "all_tests_passed=true" >> $GITHUB_OUTPUT
+            fi
+          else
+            echo "all_tests_passed=false" >> $GITHUB_OUTPUT
+          fi
+
+      # ---------------- Post comment to PR ----------------
+      - name: Post results as PR comment
+        uses: peter-evans/create-or-update-comment@v4
+        with:
+          token: ${{ inputs.github_token }}
+          issue-number: ${{ github.event.pull_request.number }}
+          body: |
+            **Test results for ${{ steps.task.outputs.task }}**
+            ```
+            $(cat result.txt)
+            ```
