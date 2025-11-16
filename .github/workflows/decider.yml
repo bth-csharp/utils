@@ -29,9 +29,9 @@ jobs:
       - name: Debug folders
         run: |
           echo "Setup for testing student code"
-          echo "repository: '${{ inputs.repository }}'"
+          echo "repository: '${{ inputs.student_repo }}'"
           echo "student_branch: '${{ inputs.student_branch }}'"
-          echo "student_branch: '${{ inputs.student_ref }}'"
+          echo "student_ref: '${{ inputs.student_ref }}'"
           pwd
           ls -R .
           
