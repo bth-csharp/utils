@@ -53,3 +53,15 @@ jobs:
       - run: |
           echo "Okänd base_ref: '${{ inputs.base_ref }}' – förväntade 'bth/submit/kmom03' eller 'bth/submit/kmom06'." >&2
           exit 1
+
+                # ---------------- Post comment to PR ----------------
+      - name: Post results as PR comment
+        uses: peter-evans/create-or-update-comment@v4
+        with:
+          token: ${{ env.GITHUB_TOKEN }}
+          issue-number: ${{ github.event.pull_request.number }}
+          body: |
+            **Test results for ${{ steps.task.outputs.task }}**
+            ```
+            $(cat result.txt)
+            ```

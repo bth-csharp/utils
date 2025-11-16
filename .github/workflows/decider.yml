@@ -82,14 +82,4 @@ jobs:
             echo "all_tests_passed=false" >> $GITHUB_OUTPUT
           fi
 
-      # ---------------- Post comment to PR ----------------
-      - name: Post results as PR comment
-        uses: peter-evans/create-or-update-comment@v4
-        with:
-          token: ${{ env.GITHUB_TOKEN }}
-          issue-number: ${{ github.event.pull_request.number }}
-          body: |
-            **Test results for ${{ steps.task.outputs.task }}**
-            ```
-            $(cat result.txt)
-            ```
+
