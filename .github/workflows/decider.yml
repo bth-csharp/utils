@@ -69,6 +69,8 @@ jobs:
         id: tests_kmom03
         run: |
           ALL_OK=true
+          ROOT_DIR=$(pwd)
+          echo "Workspace root: $ROOT_DIR"
           echo "Adding ProjectReference to tests"
           STUDENT_KMOM01=$(find student/kmom01 -name "Menu.csproj" | head -n1)
           STUDENT_KMOM02=$(find student/kmom02 -name "Dice100.csproj" | head -n1)
@@ -76,15 +78,15 @@ jobs:
           echo "Student project: $STUDENT_KMOM01"
           echo "Student project: $STUDENT_KMOM02"
           echo "Student project: $STUDENT_KMOM03"
-          TEST_KMOM01="utils/tests/kmom01/Menu.Tests/Menu.Tests.csproj"
-          TEST_KMOM02="utils/tests/kmom02/Dice100.Tests/Dice100.Tests.csproj"
-          TEST_KMOM03="utils/tests/kmom03/Dice100.Tests/Dice100.Tests.csproj"
+          TEST_KMOM01="$ROOT_DIR/utils/tests/kmom01/Menu.Tests/Menu.Tests.csproj"
+          TEST_KMOM02="$ROOT_DIR/utils/tests/kmom02/Dice100.Tests/Dice100.Tests.csproj"
+          TEST_KMOM03="$ROOT_DIR/utils/tests/kmom03/Dice100.Tests/Dice100.Tests.csproj"
           echo "Test project: $TEST_KMOM01"
           echo "Test project: $TEST_KMOM02"
           echo "Test project: $TEST_KMOM03"
-          dotnet add "$TEST_KMOM01" reference "$STUDENT_KMOM01"
-          dotnet add "$TEST_KMOM02" reference "$STUDENT_KMOM02"
-          dotnet add "$TEST_KMOM03" reference "$STUDENT_KMOM03"
+          dotnet add "$TEST_KMOM01" reference "$ROOT_DIR/$STUDENT_KMOM01"
+          dotnet add "$TEST_KMOM02" reference "$ROOT_DIR/$STUDENT_KMOM02"
+          dotnet add "$TEST_KMOM03" reference "$ROOT_DIR/$STUDENT_KMOM03"
           dotnet test "$TEST_KMOM01" --configuration Debug --logger:"trx;LogFileName=kmom01.trx" || { echo "FAIL:kmom01" > result.txt; ALL_OK=false; }
           dotnet test "$TEST_KMOM02" --configuration Debug --logger:"trx;LogFileName=kmom02.trx" || { echo "FAIL:kmom02" >> result.txt; ALL_OK=false; }
           dotnet test "$TEST_KMOM03" --configuration Debug --logger:"trx;LogFileName=kmom03.trx" || { echo "FAIL:kmom03" >> result.txt; ALL_OK=false; }
