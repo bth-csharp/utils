@@ -55,7 +55,8 @@ jobs:
       - name: Debug student repo files
         run: |
           pwd
-          ls .
+          echo "--- Root content ---"
+          ls ..
           echo "--- Student repo content ---"
           ls -R student || echo "Student folder missing"
           echo "--- Tests content ---"
