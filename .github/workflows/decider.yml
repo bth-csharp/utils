@@ -166,7 +166,9 @@ jobs:
         run: |
           echo "📄 Debug: visar var vi står"
           pwd
-          ls -R .
+          ls .
+          echo "Innehåll i result.txt"
+          cat "$RESULT_DIR/result.txt"
           if [ -f $RESULT_DIR/result.txt ]; then
             BODY_CONTENT=$(cat $RESULT_DIR/result.txt)
           else
