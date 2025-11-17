@@ -45,6 +45,19 @@ jobs:
           token: ${{ env.STUDENT_READ_TOKEN }}
           path: student
 
+      - name: Add label submitted on PR
+        uses: actions/github-script@v7
+        with:
+          token: ${{ secrets.READ_ORG_TOKEN }}
+          script: |
+            const [owner, repo] = "${{ inputs.student_repo }}".split('/');
+            await github.rest.issues.addLabels({
+              owner,
+              repo,
+              issue_number: ${{ inputs.pr_number }},
+              labels: ['submitted']
+            });
+
       - name: Checkout internal test repo
         uses: actions/checkout@v4
         with:
@@ -85,15 +98,14 @@ jobs:
           echo "Test project: $TEST_KMOM01"
           echo "Test project: $TEST_KMOM02"
           echo "Test project: $TEST_KMOM03"
+          echo "Following tests has failed" > "$RESULT_DIR/result.txt"
           cd $TEST_KMOM01
-          echo "Debug student kmom01 path"
-          ls -R ../../../../student/kmom01/Menu
           dotnet add reference "$STUDENT_KMOM01"
           if dotnet test --configuration Debug --logger:"trx;LogFileName=kmom01.trx"
           then
             echo "kmom01 ok"
           else
-            echo "FAIL:kmom01" > "$RESULT_DIR/result.txt"
+            echo "FAIL:kmom01" >> "$RESULT_DIR/result.txt"
             ALL_OK=false
           fi      
           cd $ROOT_DIR
@@ -137,6 +149,7 @@ jobs:
             echo "all_tests_passed=true" >> $GITHUB_OUTPUT
           else
             echo "all_tests_passed=false" >> $GITHUB_OUTPUT
+            echo "Recommendation: download the tests for the failing kmom locally, fix the errors and test the kmom locally. When the tests are ok, mark the PR re-submitted." >> "$RESULT_DIR/result.txt"
           fi
 
       - name: Create comment on PR
