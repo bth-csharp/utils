@@ -189,7 +189,10 @@ jobs:
         uses: actions-ecosystem/action-add-labels@v1
         with:
           github_token: ${{ secrets.READ_ORG_TOKEN }}
-          labels: submitted, test-passed
+          labels: |
+            submitted
+            tests-passed
+
 
   fail-if-needed:
     runs-on: ubuntu-latest
