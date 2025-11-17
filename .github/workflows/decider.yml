@@ -183,7 +183,7 @@ jobs:
         if: ${{ needs.run-tests.outputs.all_tests_passed == 'false' }}
         uses: actions/github-script@v7
         with:
-          token: ${{ secrets.READ_ORG_TOKEN }}
+          token: ${{ secrets.GITHUB_TOKEN }}
           script: |
             const [owner, repo] = "${{ inputs.student_repo }}".split('/');
             await github.rest.issues.addLabels({
