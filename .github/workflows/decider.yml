@@ -87,6 +87,7 @@ jobs:
           echo "Test project: $TEST_KMOM01"
           echo "Test project: $TEST_KMOM02"
           echo "Test project: $TEST_KMOM03"
+          ALL_OK=true
           echo "Following tests has failed" > "$RESULT_DIR/result.txt"
           cd $TEST_KMOM01
           dotnet add reference "$STUDENT_KMOM01"
