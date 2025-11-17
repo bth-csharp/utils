@@ -171,7 +171,7 @@ jobs:
     needs: run-tests
     steps:
       - name: Fail job if tests failed
-        if: ${{ needs.decide.outputs.all_tests_passed == 'false' }}
+        if: ${{ needs.run-tests.outputs.all_tests_passed == 'false' }}
         run: |
           echo "Tests failed. Download the tests locally and fix the errors!"
           exit 1
