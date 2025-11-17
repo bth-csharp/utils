@@ -144,7 +144,7 @@ jobs:
           cd $GITHUB_WORKSPACE
           echo "📄 Debug: visar var vi står"
           pwd
-          ls .
+          ls -la .
           echo "Innehåll i result.txt"
           cat "$RESULT_DIR/result.txt"
           if [ -f $RESULT_DIR/result.txt ]; then
