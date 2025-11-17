@@ -154,11 +154,7 @@ jobs:
           echo "Innehåll i BODY_CONTENT"
           echo "$BODY_CONTENT"
           PR_NUMBER=${{ github.event.pull_request.number }}
-          gh pr comment "$PR_NUMBER" --body "### 🧪 Testresultat
-
-\`\`\`
-$BODY_CONTENT
-\`\`\`"
+          gh pr comment "$PR_NUMBER" --body $'### 🧪 Testresultat\n\n```\n'"$BODY_CONTENT"$'\n```'
 
   fail-if-needed:
     runs-on: ubuntu-latest
