@@ -150,10 +150,10 @@ jobs:
     if: ${{ always() }}
     steps:
       - name: Download test result
-      uses: actions/download-artifact@v4
-      with:
-        name: test-result
-        path: ./result
+        uses: actions/download-artifact@v4
+        with:
+          name: test-result
+          path: ./result
       - name: Read result file
         id: readfile
         run: |
