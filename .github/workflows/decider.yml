@@ -119,7 +119,10 @@ jobs:
             ALL_OK=false
           fi
           cd $ROOT_DIR
-          cat "$RESULT_DIR/result.txt" || echo "All tests passed" >> "$RESULT_DIR/result.txt"
+          echo "All tests passed" >> "$RESULT_DIR/result.txt"
+          echo "Debug resultfile"
+          ls "$RESULT_DIR"
+          cat "$RESULT_DIR/result.txt"
           # Sätt environment-variabel för senare steg
           echo "ALL_OK=$ALL_OK" >> $GITHUB_ENV
 
