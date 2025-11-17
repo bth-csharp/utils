@@ -71,7 +71,7 @@ jobs:
         env:
           PROJECT_ROOT: ${{ github.workspace }}/student
         run: |
-          rm -f "$RESULT_DIR/result.txt"
+          echo "PROJECT_ROOT = $PROJECT_ROOT"
           ROOT_DIR=$(pwd)
           echo "Workspace root: $ROOT_DIR"
           echo "Adding ProjectReference to tests"
