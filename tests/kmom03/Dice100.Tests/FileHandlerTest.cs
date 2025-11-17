@@ -12,18 +12,29 @@ public class FileHandlerTest
     private const string CORRECT_LINE1 = "5, Testperson1, 103, 15";
     private const string CORRECT_LINE2 = "3, Testperson2, 108, 25";
     private const string CORRECT_LINE3 = "3, Testperson3, 103, 16";
-    private string _testDirectory;
-    private string _targetDir;
+    private string _testDirectory = "";
+    private string _targetDir = "";
 
     [OneTimeSetUp]
     public void SetupBeforeTests()
     {
+        var workflowDir = Environment.GetEnvironmentVariable("PROJECT_ROOT");
+
         this._testDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) ?? "./";
         var filePath = Path.Combine(_testDirectory, WRITE_FILE);
         File.Delete(filePath);
-                var testDir = TestContext.CurrentContext.TestDirectory;
-        var rootDir = Path.GetFullPath(Path.Combine(testDir, "..", "..", "..", ".."));
-        this._targetDir = Path.Combine(rootDir, "Dice100") ?? "";
+        if (!string.IsNullOrEmpty(workflowDir))
+        {
+            // Körs i GitHub Actions
+            _targetDir = Path.Combine(workflowDir, "kmom02", "Dice100") ?? "";
+        }
+        else
+        
+        {
+            var testDir = TestContext.CurrentContext.TestDirectory;
+            var rootDir = Path.GetFullPath(Path.Combine(testDir, "..", "..", "..", ".."));
+            this._targetDir = Path.Combine(rootDir, "Dice100") ?? "";
+        }
     }
 
     [OneTimeTearDown]
