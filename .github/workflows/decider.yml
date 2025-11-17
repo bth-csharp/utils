@@ -48,7 +48,7 @@ jobs:
       - name: Add label submitted on PR
         uses: actions/github-script@v7
         with:
-          token: ${{ secrets.READ_ORG_TOKEN }}
+          github-token: ${{ secrets.READ_ORG_TOKEN }}
           script: |
             const [owner, repo] = "${{ inputs.student_repo }}".split('/');
             await github.rest.issues.addLabels({
