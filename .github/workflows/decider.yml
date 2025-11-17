@@ -164,7 +164,7 @@ jobs:
           repository: ${{ inputs.student_repo }}
           issue-number: ${{ inputs.pr_number }}
           body: ${{ env.BODY_CONTENT }}
- 
+
       - name: Lägg till label PG om testerna gick bra
         if: ${{ needs.run-tests.outputs.all_tests_passed == 'true' }}
         uses: actions/github-script@v7
@@ -179,20 +179,19 @@ jobs:
               labels: ['PG']
             });
 
-
-        - name: Lägg till label TUx om testerna gick fel
-          if: ${{ needs.run-tests.outputs.all_tests_passed == 'false' }}
-          uses: actions/github-script@v7
-          with:
-            token: ${{ secrets.READ_ORG_TOKEN }}
-            script: |
-              const [owner, repo] = "${{ inputs.student_repo }}".split('/');
-              await github.rest.issues.addLabels({
-                owner,
-                repo,
-                issue_number: ${{ inputs.pr_number }},
-                labels: ['TUx']
-              });
+      - name: Lägg till label TUx om testerna gick fel
+        if: ${{ needs.run-tests.outputs.all_tests_passed == 'false' }}
+        uses: actions/github-script@v7
+        with:
+          token: ${{ secrets.READ_ORG_TOKEN }}
+          script: |
+            const [owner, repo] = "${{ inputs.student_repo }}".split('/');
+            await github.rest.issues.addLabels({
+              owner,
+              repo,
+              issue_number: ${{ inputs.pr_number }},
+              labels: ['TUx']
+            });
 
 
   fail-if-needed:
