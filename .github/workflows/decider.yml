@@ -195,6 +195,12 @@ jobs:
               labels: ['TUx']
             });
 
+      - name: Add label TUx
+        if: ${{ needs.run-tests.outputs.all_tests_passed == 'false' }}
+        uses: actions-ecosystem/action-add-labels@v1
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          labels: TUx
 
   fail-if-needed:
     runs-on: ubuntu-latest
