@@ -26,7 +26,7 @@ jobs:
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}   # för att kommentera PR / sätta labels
       STUDENT_READ_TOKEN: ${{ secrets.READ_ORG_TOKEN }}       # för att läsa interna testrepo
-    outputs:
+      outputs:
       all_tests_passed: ${{ steps.set-result.outputs.all_tests_passed }}
     steps:
       - name: Debug folders
@@ -68,6 +68,8 @@ jobs:
       - name: Run tests for bth/submit/kmom03
         if: ${{ inputs.student_branch == 'bth/submit/kmom03' }}
         id: tests_kmom03
+        env:
+          PROJECT_ROOT: ${{ RESULT_DIR/student }}
         run: |
           rm -f "$RESULT_DIR/result.txt"
           ROOT_DIR=$(pwd)
