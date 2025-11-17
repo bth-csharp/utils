@@ -119,7 +119,6 @@ jobs:
             ALL_OK=false
           fi
           cd $ROOT_DIR
-          echo "All tests passed" >> "$RESULT_DIR/result.txt"
           echo "Debug resultfile"
           ls "$RESULT_DIR"
           cat "$RESULT_DIR/result.txt"
@@ -165,8 +164,20 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
+          echo "📄 Debug: visar var vi står"
+          pwd
+          ls -R .
+          if [ -f $RESULT_DIR/result.txt ]; then
+            BODY_CONTENT=$(cat $RESULT_DIR/result.txt)
+          else
+            BODY_CONTENT="Hittade ingen result.txt!"
+          fi
+
           gh pr comment ${{ github.event.pull_request.number }} \
-            --body "### 🧪 Testresultat\n\`\`\`\n${{ steps.readfile.outputs.text }}\n\`\`\`\n"
+            --body "### 🧪 Testresultat  
+      \`\`\`
+      $BODY_CONTENT
+      \`\`\`"
 
   fail-if-needed:
     runs-on: ubuntu-latest
