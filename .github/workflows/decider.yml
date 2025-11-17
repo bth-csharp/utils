@@ -59,6 +59,7 @@ jobs:
           ls ..
           echo "--- Start content ---"
           ls
+          echo "RESULT_DIR=$(pwd)" >> $GITHUB_ENV
           echo "--- Student repo content ---"
           ls -R student || echo "Student folder missing"
           echo "--- Tests content ---"
@@ -94,7 +95,7 @@ jobs:
           then
             echo "kmom01 ok"
           else
-            echo "FAIL:kmom01" > "$RESULT_PATH"
+            echo "FAIL:kmom01" > "$RESULT_DIR/result.txt"
             ALL_OK=false
           fi      
           cd $ROOT_DIR
@@ -104,7 +105,7 @@ jobs:
           then
             echo "kmom02 ok"
           else
-            echo "FAIL:kmom02" >> "$RESULT_PATH"
+            echo "FAIL:kmom02" >> "$RESULT_DIR/result.txt"
             ALL_OK=false
           fi
           cd $ROOT_DIR
@@ -114,7 +115,7 @@ jobs:
           then
             echo "kmom03 ok"
           else
-            echo "FAIL:kmom03" >> "$RESULT_PATH"
+            echo "FAIL:kmom03" >> "$RESULT_DIR/result.txt"
             ALL_OK=false
           fi
           cd $ROOT_DIR
@@ -126,8 +127,8 @@ jobs:
         if: ${{ inputs.student_branch == 'bth/submit/kmom06' }}
         id: tests_kmom06
         run: |
-          echo "Under development" >> result.txt
-          cat result.txt || echo "Under development" > result.txt
+          echo "Under development" >> "$RESULT_DIR/result.txt"
+          cat $RESULT_DIR/result.txt || echo "Under development" > result.txt
 
       - name: Evaluate results
         id: set-result
@@ -146,9 +147,15 @@ jobs:
       - name: Read result file
         id: readfile
         run: |
-          echo "text<<EOF" >> $GITHUB_OUTPUT
-          cat ../../../../result.txt >> $GITHUB_OUTPUT
-          echo "EOF" >> $GITHUB_OUTPUT
+          if [ -f "$RESULT_DIR/result.txt" ]; then
+            echo "text<<EOF" >> $GITHUB_OUTPUT
+            cat "$RESULT_DIR/result.txt" >> $GITHUB_OUTPUT
+            echo "EOF" >> $GITHUB_OUTPUT
+          else
+            echo "text<<EOF" >> $GITHUB_OUTPUT
+            echo "No result.txt found." >> $GITHUB_OUTPUT
+            echo "EOF" >> $GITHUB_OUTPUT
+          fi
 
       - name: Comment on PR
         if: ${{ github.event_name == 'pull_request' }}
