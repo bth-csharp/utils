@@ -69,6 +69,8 @@ jobs:
         id: tests_kmom03
         run: |
           ALL_OK=true
+          RESULT_PATH="../../../../result.txt"
+          rm -f "$RESULT_PATH"
           ROOT_DIR=$(pwd)
           echo "Workspace root: $ROOT_DIR"
           echo "Adding ProjectReference to tests"
@@ -88,15 +90,33 @@ jobs:
           echo "Debug student kmom01 path"
           ls -R ../../../../student/kmom01/Menu
           dotnet add reference "$STUDENT_KMOM01"
-          dotnet test --configuration Debug --logger:"trx;LogFileName=kmom01.trx" || { echo "FAIL:kmom01" > ../../../../result.txt; ALL_OK=false; }          
+          if dotnet test --configuration Debug --logger:"trx;LogFileName=kmom01.trx"
+          then
+            echo "kmom01 ok"
+          else
+            echo "FAIL:kmom01" > "$RESULT_PATH"
+            ALL_OK=false
+          fi      
           cd $ROOT_DIR
           cd $TEST_KMOM02
           dotnet add Dice100.Tests.csproj reference "$STUDENT_KMOM02"
-          dotnet test  --configuration Debug --logger:"trx;LogFileName=kmom02.trx" || { echo "FAIL:kmom02" >> ../../../../result.txt; ALL_OK=false; }
+          if dotnet test  --configuration Debug --logger:"trx;LogFileName=kmom02.trx"
+          then
+            echo "kmom02 ok"
+          else
+            echo "FAIL:kmom02" >> "$RESULT_PATH"
+            ALL_OK=false
+          fi
           cd $ROOT_DIR
           cd $TEST_KMOM03
           dotnet add Dice100.Tests.csproj reference "$STUDENT_KMOM03"
-          dotnet test  --configuration Debug --logger:"trx;LogFileName=kmom03.trx" || { echo "FAIL:kmom03" >> ../../../../result.txt; ALL_OK=false; }
+          if dotnet test  --configuration Debug --logger:"trx;LogFileName=kmom03.trx"
+          then
+            echo "kmom03 ok"
+          else
+            echo "FAIL:kmom03" >> "$RESULT_PATH"
+            ALL_OK=false
+          fi
           cd $ROOT_DIR
           cat result.txt || echo "All tests passed" > result.txt
           # Sätt environment-variabel för senare steg
