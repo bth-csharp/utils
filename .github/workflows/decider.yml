@@ -69,9 +69,7 @@ jobs:
         if: ${{ inputs.student_branch == 'bth/submit/kmom03' }}
         id: tests_kmom03
         run: |
-          ALL_OK=true
-          RESULT_PATH="../../../../result.txt"
-          rm -f "$RESULT_PATH"
+          rm -f "$RESULT_DIR/result.txt"
           ROOT_DIR=$(pwd)
           echo "Workspace root: $ROOT_DIR"
           echo "Adding ProjectReference to tests"
@@ -162,7 +160,8 @@ jobs:
       - name: Comment on PR
         if: ${{ github.event_name == 'pull_request' }}
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          RESULT_DIR: ${{ env.RESULT_DIR }}
         run: |
           echo "📄 Debug: visar var vi står"
           pwd
