@@ -199,7 +199,7 @@ jobs:
         if: ${{ needs.run-tests.outputs.all_tests_passed == 'false' }}
         uses: actions-ecosystem/action-add-labels@v1
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          github_token: ${{ secrets.READ_ORG_TOKEN }}
           labels: TUx
 
   fail-if-needed:
