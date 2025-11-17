@@ -7,9 +7,20 @@ public class GeneralTest
     [SetUp]
     public void Setup()
     {
-        var testDir = TestContext.CurrentContext.TestDirectory;
-        var rootDir = Path.GetFullPath(Path.Combine(testDir, "..", "..", "..", ".."));
-        this._targetDir = Path.Combine(rootDir, "Dice100") ?? "";
+        var workflowDir = Environment.GetEnvironmentVariable("PROJECT_ROOT");
+
+        if (!string.IsNullOrEmpty(workflowDir))
+        {
+            // Körs i GitHub Actions
+            _targetDir = Path.Combine(workflowDir, "kmom02", "Dice100");
+        }
+        else
+        
+        {
+            var testDir = TestContext.CurrentContext.TestDirectory;
+            var rootDir = Path.GetFullPath(Path.Combine(testDir, "..", "..", "..", ".."));
+            this._targetDir = Path.Combine(rootDir, "Dice100") ?? "";
+        }
     }
 
     [Test]
