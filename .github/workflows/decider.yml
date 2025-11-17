@@ -12,7 +12,7 @@ on:
       student_main:
         required: true
         type: string
-      student_sha:
+      pr_number:
         required: true
         type: string
     outputs:
@@ -139,28 +139,28 @@ jobs:
             echo "all_tests_passed=false" >> $GITHUB_OUTPUT
           fi
 
-      - name: Hitta PR för studentens SHA
-        id: find-pr
-        uses: actions/github-script@v7
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          token: ${{ env.STUDENT_READ_TOKEN }}
-          script: |
-            const [owner, repo] = "${{ inputs.student_repo }}".split('/');
-            const sha = "${{ inputs.student_sha }}";
-            const prs = await github.rest.pulls.list({ owner, repo, state: 'open' });
-            const pr = prs.data.find(p => p.head.sha === sha);
-            if (!pr) {
-              core.setFailed(`Ingen PR hittades för SHA ${sha}`);
-            } else {
-              return pr.number;
-            }
+      - name: Create comment on PR
+        run: |
+          echo "📄 Debug: visar var vi står"
+          pwd
+          ls .
+          echo "Innehåll i result.txt"
+          cat "$RESULT_DIR/result.txt"
+          if [ -f $RESULT_DIR/result.txt ]; then
+            BODY_CONTENT=$(cat $RESULT_DIR/result.txt)
+          else
+            BODY_CONTENT="Hittade ingen result.txt!"
+          fi
+          echo "Innehåll i BODY_CONTENT"
+          echo "$BODY_CONTENT" 
+          echo "BODY_CONTENT=$BODY_CONTENT" >> $GITHUB_ENV
 
       - name: Kommentera testresultat i PR
         uses: peter-evans/create-or-update-comment@v4
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          issue-number: ${{ steps.find-pr.outputs.result }}
+          token: ${{ secrets.READ_ORG_TOKEN }}
+          repository: ${{ inputs.student_repo }}
+          issue-number: ${{ inputs.pr_number }}
           body: ${{ env.BODY_CONTENT }}
 
 
