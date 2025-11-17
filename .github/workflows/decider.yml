@@ -184,6 +184,6 @@ jobs:
       - name: Fail job if tests failed
         if: ${{ needs.decide.outputs.all_tests_passed == 'false' }}
         run: |
-          echo "Tests failed. See PR comment for details."
+          echo "Tests failed. Download the tests locally and fix the errors!"
           exit 1
 
