@@ -178,6 +178,7 @@ jobs:
         with:
           github_token: ${{ secrets.READ_ORG_TOKEN }}
           labels: tests-failed
+        continue-on-error: true
       - name: Add label tests-failed
         if: ${{ needs.run-tests.outputs.all_tests_passed == 'false' }}
         uses: actions-ecosystem/action-add-labels@v1
