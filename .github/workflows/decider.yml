@@ -151,7 +151,8 @@ jobs:
           else
             BODY_CONTENT="Hittade ingen result.txt!"
           fi
-
+          echo "Innehåll i BODY_CONTENT"
+          cat "$BODY_CONTENT"
           gh pr comment ${{ github.event.pull_request.number }} \
             --body $'### 🧪 Testresultat\n\n```\n'"$BODY_CONTENT"$'\n```'
 
