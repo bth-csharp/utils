@@ -153,7 +153,9 @@ jobs:
           fi
           echo "Innehåll i BODY_CONTENT"
           echo "$BODY_CONTENT" 
-          echo "BODY_CONTENT=$BODY_CONTENT" >> $GITHUB_ENV
+          echo "BODY_CONTENT<<EOF" >> $GITHUB_ENV
+          echo "$BODY_CONTENT" >> $GITHUB_ENV
+          echo "EOF" >> $GITHUB_ENV
 
       - name: Kommentera testresultat i PR
         uses: peter-evans/create-or-update-comment@v4
