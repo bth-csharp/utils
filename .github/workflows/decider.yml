@@ -139,46 +139,28 @@ jobs:
             echo "all_tests_passed=false" >> $GITHUB_OUTPUT
           fi
 
-      - name: Comment on PR
+      - name: Hitta PR för studentens SHA
+        id: find-pr
         uses: actions/github-script@v7
-        script: |
-          cd $GITHUB_WORKSPACE
-          echo "📄 Debug: visar var vi står"
-          pwd
-          ls -la .
-          echo "Innehåll i result.txt"
-          cat "$RESULT_DIR/result.txt"
-          if [ -f $RESULT_DIR/result.txt ]; then
-            BODY_CONTENT=$(cat $RESULT_DIR/result.txt)
-          else
-            BODY_CONTENT="Hittade ingen result.txt!"
-          fi
-          echo "Innehåll i BODY_CONTENT"
-          echo "$BODY_CONTENT"
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const [owner, repo] = "${{ inputs.student_repo }}".split('/');
+            const sha = "${{ inputs.student_sha }}";
+            const prs = await github.rest.pulls.list({ owner, repo, state: 'open' });
+            const pr = prs.data.find(p => p.head.sha === sha);
+            if (!pr) {
+              core.setFailed(`Ingen PR hittades för SHA ${sha}`);
+            } else {
+              return pr.number;
+            }
 
-          const repo = process.env.student_repo;
-          const sha = process.env.student_sha;
-          const body = process.env.BODY_CONTENT;
-
-
-          // Hämta PR baserat på commit SHA
-          const prs = await github.rest.pulls.list({
-            owner: repo.split('/')[0],
-            repo: repo.split('/')[1],
-            state: 'open'
-          });
-
-          const pr = prs.data.find(p => p.head.sha === sha);
-          if (!pr) {
-            core.setFailed("Ingen PR hittades för SHA: " + sha);
-          } else {
-            await github.rest.issues.createComment({
-              owner: repo.split('/')[0],
-              repo: repo.split('/')[1],
-              issue_number: pr.number,
-              body: body
-            });
-          }
+      - name: Kommentera testresultat i PR
+        uses: peter-evans/create-or-update-comment@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          issue-number: ${{ steps.find-pr.outputs.result }}
+          body: ${{ env.BODY_CONTENT }}
 
 
   fail-if-needed:
