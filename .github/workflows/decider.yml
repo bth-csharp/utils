@@ -21,7 +21,7 @@ on:
         value: ${{ jobs.decide.outputs.all_tests_passed }}
 
 jobs:
-  decide:
+  run-tests:
     runs-on: ubuntu-latest
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}   # för att kommentera PR / sätta labels
@@ -152,13 +152,13 @@ jobs:
             BODY_CONTENT="Hittade ingen result.txt!"
           fi
           echo "Innehåll i BODY_CONTENT"
-          cat "$BODY_CONTENT"
+          echo "$BODY_CONTENT"
           gh pr comment ${{ github.event.pull_request.number }} \
             --body $'### 🧪 Testresultat\n\n```\n'"$BODY_CONTENT"$'\n```'
 
   fail-if-needed:
     runs-on: ubuntu-latest
-    needs: decide
+    needs: run-tests
     steps:
       - name: Fail job if tests failed
         if: ${{ needs.decide.outputs.all_tests_passed == 'false' }}
