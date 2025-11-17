@@ -171,7 +171,6 @@ jobs:
         if: ${{ github.event_name == 'pull_request' }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          RESULT_DIR: ${{ env.RESULT_DIR }}
         run: |
           echo "📄 Debug: visar var vi står"
           pwd
@@ -179,7 +178,7 @@ jobs:
           echo "Innehåll i result.txt"
           cat "./result/result.txt"
           if [ -f $RESULT_DIR/result.txt ]; then
-            BODY_CONTENT=$(cat BODY_CONTENT=$(cat ./result/result.txt))
+            BODY_CONTENT=$(cat ./result/result.txt)
           else
             BODY_CONTENT="Hittade ingen result.txt!"
           fi
