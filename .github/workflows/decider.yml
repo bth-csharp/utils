@@ -138,18 +138,28 @@ jobs:
           else
             echo "all_tests_passed=false" >> $GITHUB_OUTPUT
           fi
+      - name: Upload test result
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-result
+          path: $RESULT_DIR/result.txt
 
   comment-pr:
     runs-on: ubuntu-latest
     needs: decide
     if: ${{ always() }}
     steps:
+      - name: Download test result
+      uses: actions/download-artifact@v4
+      with:
+        name: test-result
+        path: ./result
       - name: Read result file
         id: readfile
         run: |
-          if [ -f "$RESULT_DIR/result.txt" ]; then
+          if [ -f "./result/result.txt" ]; then
             echo "text<<EOF" >> $GITHUB_OUTPUT
-            cat "$RESULT_DIR/result.txt" >> $GITHUB_OUTPUT
+            cat "./result/result.txt" >> $GITHUB_OUTPUT
             echo "EOF" >> $GITHUB_OUTPUT
           else
             echo "text<<EOF" >> $GITHUB_OUTPUT
@@ -167,9 +177,9 @@ jobs:
           pwd
           ls .
           echo "Innehåll i result.txt"
-          cat "$RESULT_DIR/result.txt"
+          cat "./result/result.txt"
           if [ -f $RESULT_DIR/result.txt ]; then
-            BODY_CONTENT=$(cat $RESULT_DIR/result.txt)
+            BODY_CONTENT=$(cat BODY_CONTENT=$(cat ./result/result.txt))
           else
             BODY_CONTENT="Hittade ingen result.txt!"
           fi
