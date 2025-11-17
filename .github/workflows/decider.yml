@@ -140,6 +140,7 @@ jobs:
           fi
 
       - name: Comment on PR
+        uses: actions/github-script@v7
         run: |
           cd $GITHUB_WORKSPACE
           echo "📄 Debug: visar var vi står"
@@ -154,8 +155,31 @@ jobs:
           fi
           echo "Innehåll i BODY_CONTENT"
           echo "$BODY_CONTENT"
-          PR_NUMBER=${{ github.event.pull_request.number }}
-          gh pr comment "$PR_NUMBER" --body $'### 🧪 Testresultat\n\n```\n'"$BODY_CONTENT"$'\n```'
+
+          const repo = process.env.student_repo;
+          const sha = process.env.student_sha;
+          const body = process.env.BODY_CONTENT;
+
+
+          // Hämta PR baserat på commit SHA
+          const prs = await github.rest.pulls.list({
+            owner: repo.split('/')[0],
+            repo: repo.split('/')[1],
+            state: 'open'
+          });
+
+          const pr = prs.data.find(p => p.head.sha === sha);
+          if (!pr) {
+            core.setFailed("Ingen PR hittades för SHA: " + sha);
+          } else {
+            await github.rest.issues.createComment({
+              owner: repo.split('/')[0],
+              repo: repo.split('/')[1],
+              issue_number: pr.number,
+              body: body
+            });
+          }
+
 
   fail-if-needed:
     runs-on: ubuntu-latest
