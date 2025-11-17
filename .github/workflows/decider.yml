@@ -69,7 +69,7 @@ jobs:
         if: ${{ inputs.student_branch == 'bth/submit/kmom03' }}
         id: tests_kmom03
         env:
-          PROJECT_ROOT: ${{ $RESULT_DIR/student }}
+          PROJECT_ROOT: ${{ github.workspace }}/student
         run: |
           rm -f "$RESULT_DIR/result.txt"
           ROOT_DIR=$(pwd)
