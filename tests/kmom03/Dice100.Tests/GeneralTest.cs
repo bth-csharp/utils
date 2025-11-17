@@ -12,7 +12,7 @@ public class GeneralTest
         if (!string.IsNullOrEmpty(workflowDir))
         {
             // Körs i GitHub Actions
-            _targetDir = Path.Combine(workflowDir, "kmom02", "Dice100");
+            _targetDir = Path.Combine(workflowDir, "kmom03", "Dice100");
         }
         else
         
