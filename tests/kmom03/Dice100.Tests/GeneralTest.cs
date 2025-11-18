@@ -2,7 +2,7 @@
 
 public class GeneralTest
 {
-    private string _targetDir;
+    private string _targetDir = "";
 
     [SetUp]
     public void Setup()
