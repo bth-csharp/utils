@@ -15,7 +15,19 @@ on:
       pr_number:
         required: true
         type: string
-    outputs:
+      course_id:
+        required: true
+        type: string
+      available_assignments:
+        required: true
+        type: string
+      student_id:
+        required: true
+        type: string
+      kmom_paths:
+        required: true
+        type: string
+        outputs:
       all_tests_passed:
         description: "True if all selected test suites passed"
         value: ${{ jobs.decide.outputs.all_tests_passed }}
