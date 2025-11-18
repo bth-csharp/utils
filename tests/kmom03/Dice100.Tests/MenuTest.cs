@@ -42,7 +42,7 @@ public class MenuTest
         Assert.That(content, Does.Contain(title), $"Välkomstmeddelandet ska innehålla titeln: {title}.");
         Assert.That(content, Does.Contain(name), $"Välkomstmeddelandet ska innehålla namnet: {name}.");
         Assert.That(content, Does.Contain(noOfDice), $"Välkomstmeddelandet ska innehålla antalet tärningar {noOfDice}.");
-        TestContext.Out.WriteLine("✅ Godkänt valkomstmeddelande med rubrik, namn och antal tärningar");
+        TestContext.Out.WriteLine("✅ Menu: Godkänt valkomstmeddelande med rubrik, namn och antal tärningar");
     }
 
     [Test]
@@ -63,7 +63,7 @@ public class MenuTest
 
         Assert.That(content, Does.Contain(errorMessage), $"Felmeddelandet ska innehålla delsträngen: {errorMessage}.");
         Assert.That(content, Does.Contain(noOfDice), $"Antalet tärningar {noOfDice}.");
-        TestContext.Out.WriteLine("✅ Inmatning av antalet tärningar över 10 kastar NumberOfDieException");
+        TestContext.Out.WriteLine("✅ Menu: Inmatning av antalet tärningar över 10 kastar NumberOfDieException");
     }
 
     [Test]
@@ -84,6 +84,6 @@ public class MenuTest
 
         Assert.That(content, Does.Contain(errorMessage), $"Felmeddelandet ska innehålla delsträngen: {errorMessage}.");
         Assert.That(content, Does.Contain(noOfDice), $"Antalet tärningar {noOfDice}.");
-        TestContext.Out.WriteLine("✅ Inmatning av antalet tärningar mindre än 2 kastar NumberOfDieException");
+        TestContext.Out.WriteLine("✅ Menu: Inmatning av antalet tärningar mindre än 2 kastar NumberOfDieException");
     }
 }

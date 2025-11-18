@@ -26,7 +26,7 @@ public class FileHandlerTest
         if (!string.IsNullOrEmpty(workflowDir))
         {
             // Körs i GitHub Actions
-            _targetDir = Path.Combine(workflowDir, "kmom03", "Dice100") ?? "";
+            _targetDir = Path.Combine(workflowDir, "kmom02", "Dice100") ?? "";
         }
         else
         
@@ -55,7 +55,7 @@ public class FileHandlerTest
 
         Assert.That(content, Does.Contain("public static string[] ReadFromFile("),
                     $"ReadFromFile ska vara statisk.");
-        TestContext.Out.WriteLine("✅ ReadFromFile är statisk");
+        TestContext.Out.WriteLine("✅ FileHandler: ReadFromFile är statisk");
     }
 
     [Test]
@@ -69,7 +69,7 @@ public class FileHandlerTest
 
         Assert.That(content, Does.Contain("public static void SaveToFile("),
                     $"SaveToFile ska vara statisk.");
-        TestContext.Out.WriteLine("✅ SaveToFile är statisk");
+        TestContext.Out.WriteLine("✅ FileHandler: SaveToFile är statisk");
     }
 
     [Test]
@@ -83,7 +83,7 @@ public class FileHandlerTest
 
         Assert.That(fileLines, Has.Length.EqualTo(1));
         Assert.That(fileLines[0], Does.Contain(content[0]).And.Contain(content[1]).And.Contain(content[2]).And.Contain(content[3]), message);
-        TestContext.Out.WriteLine("✅ ReadFromFile funkar bra med en rad");
+        TestContext.Out.WriteLine("✅ FileHandler: ReadFromFile funkar bra med en rad");
     }
 
     [Test]
@@ -102,7 +102,7 @@ public class FileHandlerTest
         content = CORRECT_LINE3.Split(",");
         message = $"Test that your FileHandler can read and contains {content[0]}, {content[1]}, {content[2]} and {content[3]}";
         Assert.That(fileLines[2], Does.Contain(content[0]).And.Contain(content[1]).And.Contain(content[2]).And.Contain(content[3]), message);
-        TestContext.Out.WriteLine("✅ ReadFromFile funkar bra med flera rader");
+        TestContext.Out.WriteLine("✅ FileHandler: ReadFromFile funkar bra med flera rader");
     }
 
     [Test]
@@ -118,7 +118,7 @@ public class FileHandlerTest
 
         Assert.That(result.Length, Is.EqualTo(23));
         Assert.That(result, Does.Contain(content[0]).And.Contain(content[1]).And.Contain(content[2]).And.Contain(content[3]), message);
-        TestContext.Out.WriteLine("✅ SaveToFile funkar bra med en rad");
+        TestContext.Out.WriteLine("✅ FileHandler: SaveToFile funkar bra med en rad");
     }
 
     [Test]
@@ -140,6 +140,6 @@ public class FileHandlerTest
         content = CORRECT_LINE3.Split(",");
         message = $"Test that your FileHandler can append and read and contains {content[0]}, {content[1]}, {content[2]} and {content[3]}";
         Assert.That(resultLines[2], Does.Contain(content[0]).And.Contain(content[1]).And.Contain(content[2]).And.Contain(content[3]), message);
-        TestContext.Out.WriteLine("✅ SaveToFile funkar bra med flera rader");
+        TestContext.Out.WriteLine("✅ FileHandler: SaveToFile funkar bra med flera rader");
     }
 }
