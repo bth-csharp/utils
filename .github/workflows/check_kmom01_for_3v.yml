@@ -23,17 +23,34 @@ jobs:
           echo "Repo;Menu finns;Menu.Tests finns" > resultat.csv
           while read -r repo; do
             echo "Kontrollerar $repo..."
-            
-            # Kolla om Menu/ finns
-            Menu=$(gh api repos/bth-csharp/$repo/contents/Menu --jq '.name' 2>/dev/null || echo "saknas")
-            # Kolla om Menu.Tests/ finns
-            Menutests=$(gh api repos/bth-csharp/$repo/contents/Menu.Tests --jq '.name' 2>/dev/null || echo "saknas")
 
-            hasMenu="❌"; hasTests="❌"
-            [ "$Menu" != "saknas" ] && hasMenu="✅"
-            [ "$Menutests" != "saknas" ] && hasTests="✅"
+            #
+            # 1. Kolla om katalogen FINNS
+            #
+            menu_exists=$(gh api repos/bth-csharp/$repo/contents/kmom01/Menu \
+                --jq '.[0].name' 2>/dev/null || echo "saknas")
 
-            echo "$repo;$hasMenu;$hasTests" >> resultat.csv
+            if [ "$menu_exists" = "saknas" ]; then
+              hasMenu="❌"
+              hasContent="❌"
+            else
+              hasMenu="✅"
+
+              #
+              # 2. Kolla om den INTE är tom (dvs API returnerar entries)
+              #
+              file_count=$(gh api repos/bth-csharp/$repo/contents/kmom01/Menu \
+                  --jq 'length' 2>/dev/null || echo 0)
+
+              if [ "$file_count" -gt 0 ]; then
+                hasContent="✅"
+              else
+                hasContent="❌"
+              fi
+            fi
+
+            echo "$repo;$hasMenu;$hasContent" >> resultat.csv
+
           done < repos.txt
 
           echo ""
@@ -45,3 +62,4 @@ jobs:
         with:
           name: Menu-check-resultat
           path: resultat.csv
+          
