@@ -88,12 +88,12 @@ jobs:
           echo "Test project: $TEST_KMOM02"
           echo "Test project: $TEST_KMOM03"
           ALL_OK=true
-          echo "Following tests has failed" > "$RESULT_DIR/result.txt"
+          echo "Test result" > "$RESULT_DIR/result.txt"
           cd $TEST_KMOM01
           dotnet add reference "$STUDENT_KMOM01"
           if dotnet test --configuration Debug --logger:"trx;LogFileName=kmom01.trx"
           then
-            echo "kmom01 ok"
+            echo "kmom01 ok" >> "$RESULT_DIR/result.txt"
           else
             echo "FAIL:kmom01" >> "$RESULT_DIR/result.txt"
             ALL_OK=false
@@ -103,7 +103,7 @@ jobs:
           dotnet add Dice100.Tests.csproj reference "$STUDENT_KMOM02"
           if dotnet test  --configuration Debug --logger:"trx;LogFileName=kmom02.trx"
           then
-            echo "kmom02 ok"
+            echo "kmom02 ok" >> "$RESULT_DIR/result.txt"
           else
             echo "FAIL:kmom02" >> "$RESULT_DIR/result.txt"
             ALL_OK=false
@@ -113,7 +113,7 @@ jobs:
           dotnet add Dice100.Tests.csproj reference "$STUDENT_KMOM03"
           if dotnet test  --configuration Debug --logger:"trx;LogFileName=kmom03.trx"
           then
-            echo "kmom03 ok"
+            echo "kmom03 ok" >> "$RESULT_DIR/result.txt"
           else
             echo "FAIL:kmom03" >> "$RESULT_DIR/result.txt"
             ALL_OK=false
@@ -139,7 +139,7 @@ jobs:
             echo "all_tests_passed=true" >> $GITHUB_OUTPUT
           else
             echo "all_tests_passed=false" >> $GITHUB_OUTPUT
-            echo "Recommendation: download the tests for the failing kmom locally, fix the errors and test the kmom locally. When the tests are ok, mark the PR re-submitted." >> "$RESULT_DIR/result.txt"
+            echo "Recommendation: download the tests for the failing kmom locally, fix the errors and test the kmom locally before handing in again!" >> "$RESULT_DIR/result.txt"
           fi
 
       - name: Create comment on PR
@@ -172,27 +172,27 @@ jobs:
     runs-on: ubuntu-latest
     needs: run-tests
     steps:
-      - name: Remove tests-failed if tests passed 
+      - name: Remove Tests-failed if tests passed 
         if: ${{ needs.run-tests.outputs.all_tests_passed == 'true' }}
         uses: actions-ecosystem/action-remove-labels@v1
         with:
           github_token: ${{ secrets.READ_ORG_TOKEN }}
-          labels: tests-failed
+          labels: Tests-failed
         continue-on-error: true
-      - name: Add label tests-failed
+      - name: Add label Tests-failed
         if: ${{ needs.run-tests.outputs.all_tests_passed == 'false' }}
         uses: actions-ecosystem/action-add-labels@v1
         with:
           github_token: ${{ secrets.READ_ORG_TOKEN }}
-          labels: tests-failed
-      - name: Add label submitted
+          labels: Tests-failed
+      - name: Add label Submitted
         if: ${{ needs.run-tests.outputs.all_tests_passed == 'true' }}
         uses: actions-ecosystem/action-add-labels@v1
         with:
           github_token: ${{ secrets.READ_ORG_TOKEN }}
           labels: |
-            submitted
-            tests-passed
+            Submitted
+            Tests-passed
 
 
   fail-if-needed:

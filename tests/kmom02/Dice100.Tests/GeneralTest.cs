@@ -1,8 +1,10 @@
-﻿namespace Dice100.Tests;
+﻿using System.Text.RegularExpressions;
+
+namespace Dice100.Tests;
 
 public class GeneralTest
 {
-    private string _targetDir;
+    private string _targetDir = "";
 
     [SetUp]
     public void Setup()
@@ -109,5 +111,45 @@ public class GeneralTest
             Is.True, "Aj då, tom fil.");
 
         TestContext.Out.WriteLine("✅ Flödesdiagram finns");
+    }
+
+    [Test]
+    public void DieContainingThis()
+    {
+        var filePath = Path.Combine(this._targetDir, "src/Die.cs");
+
+        Assert.That(File.Exists(filePath), Is.True, $"Filen saknas: {filePath}");
+
+        var content = File.ReadAllText(filePath) ?? "";
+
+        var totalValueCount = Regex.Matches(content, "_value").Count;
+        var thisValueCount = Regex.Matches(content, "this\\._value").Count;
+
+        Assert.That(totalValueCount, Is.EqualTo(thisValueCount + 1),
+        "_value ska endast användas direkt vid deklarationen — alla andra användningar ska vara this._value.");
+
+        TestContext.Out.WriteLine("✅ Använd this för att referera till attribut i klassen Die ok");
+    }
+
+    [Test]
+    public void RoundContainingThis()
+    {
+        var filePath = Path.Combine(this._targetDir, "src/Round.cs");
+
+        Assert.That(File.Exists(filePath), Is.True, $"Filen saknas: {filePath}");
+
+        var content = File.ReadAllText(filePath) ?? "";
+
+        var totalHandCount = Regex.Matches(content, "_hand").Count;
+        var thisHandCount = Regex.Matches(content, "this\\._hand").Count;
+        var totalPointCount = Regex.Matches(content, "_points").Count;
+        var thisPointCount = Regex.Matches(content, "this\\._points").Count;
+
+        Assert.That(totalHandCount, Is.EqualTo(thisHandCount + 1),
+        "_hand ska endast användas direkt vid deklarationen — alla andra användningar ska vara this._hand.");
+        Assert.That(totalPointCount, Is.EqualTo(thisPointCount + 1),
+        "_points ska endast användas direkt vid deklarationen — alla andra användningar ska vara this._points.");
+
+        TestContext.Out.WriteLine("✅ Använd this för att referera till attribut i klassen Round ok");
     }
 }

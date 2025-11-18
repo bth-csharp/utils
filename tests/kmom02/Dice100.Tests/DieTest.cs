@@ -19,13 +19,8 @@ public class DieTest
         Die die = new Die();
         Assert.That(die.GetValue(), Is.LessThanOrEqualTo(MAX_VALUE), "The value of the Die should be 1 <= value <= 6.");
         Assert.That(die.GetValue(), Is.GreaterThanOrEqualTo(MIN_VALUE), "The value of the Die should be 1 <= value <= 6.");
-    }
 
-    [Test]
-    public void TestCreateDieNoArgument2()
-    {
-        Die die = new Die();
-        Assert.That(this._numbers.Contains(die.GetValue()), Is.True, "The value of the Die should be 1 <= value <= 6.");
+        TestContext.Out.WriteLine("✅ Konstruktorn i Die utan argument ok");
     }
 
     [TestCase(5)]
@@ -34,6 +29,8 @@ public class DieTest
     {
         Die die = new Die(value);
         Assert.That(die.GetValue(), Is.EqualTo(value), "The value of the Die should be " + value + ".");
+
+        TestContext.Out.WriteLine("✅ Konstruktorn i Die med argument ok");
     }
 
     [Test]
@@ -41,6 +38,8 @@ public class DieTest
     {
         Die die = new Die(555);
         Assert.That(die.GetValue(), Is.EqualTo(6), "The value of the Die should be 6.");
+
+        TestContext.Out.WriteLine("✅ Konstruktorn i Die med för högt argument ok");
     }
 
     [Test]
@@ -48,6 +47,8 @@ public class DieTest
     {
         Die die = new Die(0);
         Assert.That(die.GetValue(), Is.EqualTo(1), "The value of the Die should be 1.");
+
+        TestContext.Out.WriteLine("✅ Konstruktorn i Die med för lågt argument ok");
     }
 
     [Test]
@@ -55,6 +56,8 @@ public class DieTest
     {
         Die die = new Die(-5);
         Assert.That(die.GetValue(), Is.EqualTo(1), "The value of the Die should be 1.");
+
+        TestContext.Out.WriteLine("✅ Konstruktorn i Die med negativt argument ok");
     }
 
     [Test]
@@ -66,6 +69,8 @@ public class DieTest
         Assert.That(this._numbers.Contains(die.GetValue()), Is.True, "The value of the Die should be 1 <= value <= 6 after Roll.");
         die.Roll();
         Assert.That(this._numbers.Contains(die.GetValue()), Is.True, "The value of the Die should be 1 <= value <= 6 after Roll.");
+
+        TestContext.Out.WriteLine("✅ Die: Metoden Roll genererar slumptal ok");
     }
 
     [TestCase(5)]
@@ -74,5 +79,7 @@ public class DieTest
     {
         Die die = new Die(value);
         Assert.That(die.GetString(), Is.EqualTo(value.ToString()), "The value of the Die should be " + value + ".");
+
+        TestContext.Out.WriteLine("✅ Die: Metoden GetString funkar ok");
     }
 }
