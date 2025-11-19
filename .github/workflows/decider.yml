@@ -4,16 +4,16 @@ on:
   workflow_call:
     inputs:
       student_repo:
-        required: true
+        required: false
         type: string
       student_branch:
-        required: true
+        required: false
         type: string
       student_main:
-        required: true
+        required: false
         type: string
       pr_number:
-        required: true
+        required: false
         type: string
       course_id:
         required: true
