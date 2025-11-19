@@ -148,7 +148,7 @@ public class FileHandlerTest
     public void TestWriteLinesCorrect()
     {
         var filePath = Path.Combine(this._testDirectory, APPEND_FILE);
-        string[] fileLines = [CORRECT_LINE2, CORRECT_LINE3];
+        string[] fileLines = [CORRECT_LINE1, CORRECT_LINE2, CORRECT_LINE3];
         FileHandler.SaveToFile(filePath, fileLines);
 
         string[] resultLines = File.ReadAllLines(filePath);
