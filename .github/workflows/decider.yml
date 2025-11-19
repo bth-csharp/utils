@@ -66,6 +66,19 @@ jobs:
           ref: ${{ inputs.student_main }}
           token: ${{ env.STUDENT_READ_TOKEN }}
           path: student
+      
+      - name: Check student main.yml content
+        run: |
+          file="student/.github/workflows/main.yml"
+          if [ ! -f "$file" ]; then
+            echo "::error::main.yml is missing!"
+            exit 1
+          fi
+
+          if ! grep -q "student_repo" "$file" || ! grep -q "student_branch" "$file"; then
+            echo "::error::main.yml does not contain required inputs!"
+            exit 1
+          fi
 
       - name: Checkout internal test repo
         uses: actions/checkout@v4
