@@ -122,7 +122,7 @@ public class MenuTest
 
         var content = File.ReadAllText(filePath) ?? "";
 
-        Assert.That(content, Does.Match("Game"), $"Game objektet saknas");
+        Assert.That(content, Does.Match(@"\bGame\b"), $"Game objektet saknas");
 
 
         TestContext.Out.WriteLine("✅ Menu: innehåller Game ok");
