@@ -154,7 +154,7 @@ public class FileHandlerTest
         string[] resultLines = File.ReadAllLines(filePath);
         string message = $"Test that your FileHandler can write or append to file and should contain {CORRECT_LINE1}, {CORRECT_LINE2} and {CORRECT_LINE3}";
         
-        Assert.That(resultLines, Has.Length.EqualTo(3));
+        Assert.That(resultLines, Has.Length.EqualTo(3), "Filen ska bara innehålla 3 rader.");
         Assert.That(resultLines[0], Does.Contain(CORRECT_LINE1).Or.Contain(CORRECT_LINE2).Or.Contain(CORRECT_LINE3), message);
         Assert.That(resultLines[1], Does.Contain(CORRECT_LINE1).Or.Contain(CORRECT_LINE2).Or.Contain(CORRECT_LINE3), message);
         Assert.That(resultLines[2], Does.Contain(CORRECT_LINE1).Or.Contain(CORRECT_LINE2).Or.Contain(CORRECT_LINE3), message);
