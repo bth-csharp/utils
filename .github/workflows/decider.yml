@@ -172,6 +172,7 @@ jobs:
         run: |
           if [ "$ALL_OK" = "true" ]; then
             echo "all_tests_passed=true" >> $GITHUB_OUTPUT
+            echo "Everything is ok. Wait for a teacher to do a code review and correct the task!" >> $GITHUB_OUTPUT
           else
             echo "all_tests_passed=false" >> $GITHUB_OUTPUT
             echo "Recommendation: download the tests for the failing kmom locally, fix the errors and test the kmom locally before handing in again!" >> "$RESULT_DIR/result.txt"
