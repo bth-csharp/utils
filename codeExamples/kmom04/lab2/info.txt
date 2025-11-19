@@ -1,0 +1,20 @@
+C# bakgrund
+C# (uttalas "C-sharp") är ett modernt, objektorienterat programmeringsspråk utvecklat av Microsoft.
+Språket introducerades år 2000 som en del av .NET-plattformen och leddes av Anders Hejlsberg, som också arbetat med Turbo Pascal och Delphi.
+C# designades för att vara enkelt, kraftfullt och säkert, med inspiration från språk som C++, Java och Delphi.
+Det är starkt typat och stöder både objektorienterad och komponentbaserad programmering.
+C# används främst för att utveckla Windows-applikationer, webbapplikationer, spel (via Unity), och molnbaserade tjänster.
+Språket har utvecklats kontinuerligt med nya versioner som introducerar moderna funktioner som LINQ, async/await och records.
+C# är en central del av Microsofts .NET-ekosystem, vilket gör det möjligt att bygga applikationer som körs på flera plattformar.
+
+C# - ett objektorienterat språk
+Objektorienterad programmering i C# bygger på fyra grundprinciper: inkapsling, arv, polymorfism och abstraktion.
+I C# definieras objekt med hjälp av klasser, som fungerar som mallar för att skapa instanser.
+Inkapsling innebär att data och metoder döljs inom en klass och endast exponeras via publika gränssnitt.
+Arv gör det möjligt för en klass att ärva egenskaper och beteenden från en annan klass, vilket främjar återanvändning av kod.
+Polymorfism tillåter att metoder kan ha olika implementationer beroende på vilken typ av objekt som anropas.
+Abstraktion används för att dölja komplexitet och endast visa relevant information för användaren.
+I C# används nyckelord som class, public, private, virtual och override för att implementera OOP-koncept.
+Interfaces i C# definierar kontrakt som klasser kan implementera för att säkerställa viss funktionalitet.
+Konstruktörer används för att initiera objekt när de skapas från en klass.
+Genom att använda OOP i C# kan man skapa modulär, underhållbar och skalbar programvara.
