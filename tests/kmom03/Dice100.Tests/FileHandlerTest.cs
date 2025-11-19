@@ -122,6 +122,7 @@ public class FileHandlerTest
     }
 
     [Test]
+    [Ignore("FileHandler ska kunna antingen append eller write, inte båda just nu")]
     public void TestAppendLinesCorrect()
     {
         var filePath = Path.Combine(this._testDirectory, APPEND_FILE);
@@ -141,5 +142,23 @@ public class FileHandlerTest
         message = $"Test that your FileHandler can append and read and contains {content[0]}, {content[1]}, {content[2]} and {content[3]}";
         Assert.That(resultLines[2], Does.Contain(content[0]).And.Contain(content[1]).And.Contain(content[2]).And.Contain(content[3]), message);
         TestContext.Out.WriteLine("✅ FileHandler: SaveToFile funkar bra med flera rader");
+    }
+
+    [Test]
+    public void TestWriteLinesCorrect()
+    {
+        var filePath = Path.Combine(this._testDirectory, APPEND_FILE);
+        string[] fileLines = [CORRECT_LINE2, CORRECT_LINE3];
+        FileHandler.SaveToFile(filePath, fileLines);
+
+        string[] resultLines = File.ReadAllLines(filePath);
+        string message = $"Test that your FileHandler can write or append to file and should contain {CORRECT_LINE1}, {CORRECT_LINE2} and {CORRECT_LINE3}";
+        
+        Assert.That(resultLines, Has.Length.EqualTo(3));
+        Assert.That(resultLines[0], Does.Contain(CORRECT_LINE1).Or.Contain(CORRECT_LINE2).Or.Contain(CORRECT_LINE3), message);
+        Assert.That(resultLines[1], Does.Contain(CORRECT_LINE1).Or.Contain(CORRECT_LINE2).Or.Contain(CORRECT_LINE3), message);
+        Assert.That(resultLines[2], Does.Contain(CORRECT_LINE1).Or.Contain(CORRECT_LINE2).Or.Contain(CORRECT_LINE3), message);
+        TestContext.Out.WriteLine("✅ FileHandler: SaveToFile funkar bra med flera rader");
+
     }
 }
