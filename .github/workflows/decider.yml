@@ -41,6 +41,15 @@ jobs:
     outputs:
       all_tests_passed: ${{ steps.set-result.outputs.all_tests_passed }}
     steps:
+      - name: Ensure student_repo has updated workflow file
+        run: |
+          repo="${{ inputs.student_repo }}"
+          branch=${{ inputs.student_branch }}
+          if [ -z "$repo" ] || [ -z "$branch" ]; then
+            echo "::error::New workload file is needed! Download and try again!""
+            exit 1
+          fi
+
       - name: Debug folders
         run: |
           echo "Setup for testing student code"
