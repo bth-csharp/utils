@@ -46,7 +46,7 @@ jobs:
           repo="${{ inputs.student_repo }}"
           branch=${{ inputs.student_branch }}
           if [ -z "$repo" ] || [ -z "$branch" ]; then
-            echo "::error::New workload file is needed! Download and try again!""
+            echo "::error::New workload file is needed! Download and try again!"
             exit 1
           fi
 
