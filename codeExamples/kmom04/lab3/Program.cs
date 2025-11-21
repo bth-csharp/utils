@@ -64,18 +64,18 @@ string[] checkCatHelperContent = ["class CatHelper",
 "public int AddCat(Cat", "public int RemoveCat(Cat"];
 if (Lab.CheckClassesContent(checkCatHelperContent))
 {
-    Console.WriteLine(Lab.Assert(Solution.GetTheNumberOfCatsInShelter, [], expectedAmount));
+    Console.WriteLine(Lab.Assert(Module.GetTheNumberOfCatsInShelter, [], expectedAmount));
 }
 
 string[] checkCatShelterContent = ["class CatShelter",
 "public int GetCatNoOfCats()", "public void MoveCatToCatHelper(", "public void ReturnCatToShelter("];
 if (Lab.CheckClassesContent(checkCatShelterContent))
 {
-    Console.WriteLine(Lab.Assert(Solution.GetTheNumberOfCatsAtCarHelper, [], expectedAmount));
+    Console.WriteLine(Lab.Assert(Module.GetTheNumberOfCatsAtCarHelper, [], expectedAmount));
 }
 
-Console.WriteLine(Lab.Assert(Solution.GetTheNumberOfCatsInShelter2, [], expectedAmount));
+Console.WriteLine(Lab.Assert(Module.GetTheNumberOfCatsInShelter2, [], expectedAmount));
 
-Console.WriteLine(Lab.Assert(Solution.GetTheNumberOfCatsAtCarHelper2, [], expectedAmount));
+Console.WriteLine(Lab.Assert(Module.GetTheNumberOfCatsAtCarHelper2, [], expectedAmount));
 
 Console.WriteLine(Lab.Done());
