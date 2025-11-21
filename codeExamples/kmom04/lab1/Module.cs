@@ -19,7 +19,7 @@ static class Module
     public static int ToMinutes(int hour, int minute)
     {
         // TODO: Write your code here.
-        return 0;
+        return -1;
     }
 
     /*
@@ -28,7 +28,7 @@ static class Module
     public static int ToSeconds(int hour, int minute, int second)
     {
         // TODO: Write your code here.
-        return 0;
+        return -1;
     }
 
     /*
@@ -65,7 +65,7 @@ static class Module
     public static int RectangleArea(int width, int height)
     {
         // TODO: Write your code here.
-        return 0;
+        return -1;
     }
 
     /*
