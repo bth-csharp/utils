@@ -155,4 +155,81 @@ static class Module
 
         return "";
     }
+
+    /*
+    Create a class "CatHelper" with 2 private variables; a list of Cat objects 
+    and the name of the cat helper. Implement the method "public int AddCat(Cat newCat)"
+    that adds a Cat object to the cat helpers list of cats and returns the number
+    of cats. Implement the method "public int RemoveCat(Cat oldCat)" that removes
+    the Cat object "oldCat" from the list of cats and returns the number of cats.
+
+    Create a class "CatShelter" with 2 private variables; a list of Cat objects 
+    and the name of the cat shelter. Implement:
+    public int GetCatNoOfCats()
+    public void MoveCatToCatHelper(Cat aCat, CatHelper helper) - takes a cat "aCat" from
+    the shelter and puts it into the care of cat helper "helper".
+    public void ReturnCatToShelter(Cat aCat, CatHelper helper) - takes a cat "aCat"
+    from the cat helper "helper" and puts it into the care of the shelter.
+    Create a default parameter for helper for cats that is admitted without any helper.
+
+    Create 2 Cat objects and put into CatShelter, the cats come from no one.
+    Create 1 CatHelper object and give the cat helper one of the cats to take care
+    of.
+    
+    Return the number of cats in the shelter.
+    */
+    public static int GetTheNumberOfCatsInShelter()
+    {
+        // TODO: Write your code here.
+
+        return 0;
+    }
+
+    /*
+    Create 2 Cat objects and put one into CatShelter and the other one to the
+    cat helper.
+    Create 1 CatShelter and put one cat there. The cat is found on the street.
+    Create 1 CatHelper object and give the cat helper one of the cats to take care
+    of.
+
+    Return the number of cats at the cat helper.
+    */
+    public static int GetTheNumberOfCatsAtCarHelper()
+    {
+        // TODO: Write your code here.
+
+        return 0;
+    }
+
+    /*
+    Create 2 Cat objects and put into CatShelter.
+    Create 1 CatHelper object and give the cat helper both the cats to take care
+    of.
+    One of the cats is to hard for the cat helper so it will be return to the 
+    shelter.
+
+    Return the number of cats in the shelter.
+    */
+    public static int GetTheNumberOfCatsInShelter2()
+    {
+        // TODO: Write your code here.
+
+        return 0;
+    }
+
+    /*
+    Create 2 Cat objects.
+    Create 1 CatHelper object and give the cat helper both the cats to take care
+    of.
+    One of the cats is to hard for the cat helper but the neighbour wants that cat.
+    Just remove that Cat object from the cat helper.
+
+    Return the number of cats at the cat helper.
+    */
+    public static int GetTheNumberOfCatsAtCarHelper2()
+    {
+        // TODO: Write your code here.
+
+        return 0;
+    }
 }

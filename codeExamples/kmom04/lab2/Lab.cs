@@ -13,7 +13,7 @@ static class Lab
      * Define the two levels to PASS or PASS WITH HONOUR.
      */
     private static readonly int _pass = 10;
-    private static readonly int _passWithHonour = 13;
+    private static readonly int _passWithHonour = 12;
 
     /*
      * Store the total number of points, when calculated.

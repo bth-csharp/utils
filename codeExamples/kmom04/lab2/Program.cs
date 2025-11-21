@@ -17,17 +17,45 @@ Console.WriteLine(Lab.Assert(Module.SortArray, [], sortedFruits));
 
 Console.WriteLine(Lab.Assert(Module.GetListSize, [], 4));
 
-List<string> expectedNames = new List<string> {"Betty", "Marie", "Andreas", "Mikael"};
+List<string> expectedNames = ["Betty", "Marie", "Andreas", "Mikael"];
 Console.WriteLine(Lab.Assert(Module.GetList, [], expectedNames));
 
-List<string> expectedNamesSorted = new List<string> {"Mikael", "Marie", "Betty", "Andreas"};
+List<string> expectedNamesSorted = ["Mikael", "Marie", "Betty", "Andreas"];
 Console.WriteLine(Lab.Assert(Module.SortList, [expectedNames], expectedNamesSorted));
 
 string[] expectedCars = ["Volvo", "Peugeot", "Skoda", "Toyota"];
 Console.WriteLine(Lab.Assert(Module.GetCars, [], expectedCars));
 
-string[] checkedFruits = Lab.ReadFile("fruits.txt");
-Console.WriteLine(Lab.Assert(Module.CreateFruitsFile, [], new object(), checkedFruits));
+string[] outPutFromFruitFile = Lab.ReadFile("fruits.txt");
+string[] expectedFruitsInFile = ["apple", "orange", "banana"];
+int expectedNoOfFruitInFile = expectedFruitsInFile.Count();
+int fruitCounter = 0;
+if (outPutFromFruitFile.Length != expectedNoOfFruitInFile)
+{
+    Console.WriteLine("❌ Filen fruits.txt ska innehålla 3 rader.");
+}
+else
+{
+    fruitCounter++;
+}
+
+string fruits = string.Join(", ", outPutFromFruitFile);
+
+foreach (var fruit in expectedFruitsInFile)
+{
+    if (!fruits.Contains(fruit))
+    {
+        Console.WriteLine($"❌ {fruit} saknas i filen fruits.txt.");
+    }
+    else
+    {
+        fruitCounter++;
+    }
+}
+if (fruitCounter == 4)
+{
+    Console.WriteLine($"✅ {fruits} finns i filen fruits.txt.");
+}
 
 string[] correctCars = ["Volvo", "Peugeot", "Skoda", "Toyota", "Ferrari"];
 Console.WriteLine(Lab.Assert(Module.AppendToCarsFile, [], new object(), correctCars));

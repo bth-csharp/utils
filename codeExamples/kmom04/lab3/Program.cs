@@ -59,4 +59,23 @@ string expectedCatStr3 = "Cat 1, named Missy has Insurance type: Full, price: 20
 expectedCatStr3 += "Cat 2, named Luna has Insurance type: Half, price: 100 kr per month.\n";
 Console.WriteLine(Lab.Assert(Module.GetCatInfo2, [], expectedCatStr3));
 
+int expectedAmount = 1;
+string[] checkCatHelperContent = ["class CatHelper",
+"public int AddCat(Cat", "public int RemoveCat(Cat"];
+if (Lab.CheckClassesContent(checkCatHelperContent))
+{
+    Console.WriteLine(Lab.Assert(Solution.GetTheNumberOfCatsInShelter, [], expectedAmount));
+}
+
+string[] checkCatShelterContent = ["class CatShelter",
+"public int GetCatNoOfCats()", "public void MoveCatToCatHelper(", "public void ReturnCatToShelter("];
+if (Lab.CheckClassesContent(checkCatShelterContent))
+{
+    Console.WriteLine(Lab.Assert(Solution.GetTheNumberOfCatsAtCarHelper, [], expectedAmount));
+}
+
+Console.WriteLine(Lab.Assert(Solution.GetTheNumberOfCatsInShelter2, [], expectedAmount));
+
+Console.WriteLine(Lab.Assert(Solution.GetTheNumberOfCatsAtCarHelper2, [], expectedAmount));
+
 Console.WriteLine(Lab.Done());

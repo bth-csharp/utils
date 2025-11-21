@@ -1,5 +1,8 @@
 /*
- * This module contains the classes you should implement.
+ * This module contains the classes you should implement. 
+ * You should alwaus have ONE class in ONE file!!!
+ *
+ * Problems if this file has extension cs that is why extension is txt.
  */
 
 public class Cat
@@ -106,5 +109,60 @@ public class Insurance
     public string Information()
     {
         return $"Insurance type: {this._type}, price: {this._price} kr per month.";
+    }
+}
+
+class CatHelper
+{
+    private List<Cat> _cats;
+    private string _name;
+
+    public CatHelper(string name)
+    {
+        this._name = name;
+        this._cats = new List<Cat>();
+    }
+
+    public int AddCat(Cat newCat)
+    {
+        this._cats.Add(newCat);
+
+        return this._cats.Count();
+    }
+
+    public int RemoveCat(Cat oldCat)
+    {
+        this._cats.Remove(oldCat);
+
+        return this._cats.Count();
+    }
+}
+
+class CatShelter
+{
+    private List<Cat> _cats;
+    private string _name;
+
+    public CatShelter(string name)
+    {
+        this._name = name;
+        this._cats = new List<Cat>();
+    }
+
+    public int GetCatNoOfCats() { return this._cats.Count(); }
+
+    public void MoveCatToCatHelper(Cat aCat, CatHelper helper)
+    {
+        this._cats.Remove(aCat);
+        helper.AddCat(aCat);
+    }
+
+    public void ReturnCatToShelter(Cat aCat, CatHelper helper = null)
+    {
+        this._cats.Add(aCat);
+        if (helper != null)
+        {
+            helper.RemoveCat(aCat);
+        }
     }
 }
