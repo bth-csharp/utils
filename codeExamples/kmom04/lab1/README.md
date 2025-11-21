@@ -2,7 +2,7 @@
 
 I denna laboration får du fortsätta att träna på att programmera med grunderna i programmeringsspråket CSharp med datatyper, villkor och loopar med enkla beräkningar.
 
-Du kan också behöva använda manuelen för att lära dig nya konstruktioner eller leta reda på inbyggda metoder och konstanter.
+Du kan också behöva använda manualen för att lära dig nya konstruktioner eller leta reda på inbyggda metoder och konstanter.
 
 [[_TOC_]]
 
@@ -30,6 +30,8 @@ Verifiera att du kan köra koden.
 
 ```bash
 dotnet run
+
+// ger utskriften Hello, World!
 ```
 
 ### Hämta filerna till labben
