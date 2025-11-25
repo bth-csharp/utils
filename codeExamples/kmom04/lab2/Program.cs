@@ -26,41 +26,12 @@ Console.WriteLine(Lab.Assert(Module.SortList, [expectedNames], expectedNamesSort
 string[] expectedCars = ["Volvo", "Peugeot", "Skoda", "Toyota"];
 Console.WriteLine(Lab.Assert(Module.GetCars, [], expectedCars));
 
-string[] outPutFromFruitFile = Lab.ReadFile("fruits.txt");
-string[] expectedFruitsInFile = ["apple", "orange", "banana"];
-int expectedNoOfFruitInFile = expectedFruitsInFile.Count();
-int fruitCounter = 0;
-if (outPutFromFruitFile.Length != expectedNoOfFruitInFile)
-{
-    Console.WriteLine("❌ Filen fruits.txt ska innehålla 3 rader.");
-}
-else
-{
-    fruitCounter++;
-}
-
-string fruits = string.Join(", ", outPutFromFruitFile);
-
-foreach (var fruit in expectedFruitsInFile)
-{
-    if (!fruits.Contains(fruit))
-    {
-        Console.WriteLine($"❌ {fruit} saknas i filen fruits.txt.");
-    }
-    else
-    {
-        fruitCounter++;
-    }
-}
-if (fruitCounter == 4)
-{
-    Console.WriteLine($"✅ {fruits} finns i filen fruits.txt.");
-}
+string[] correctFruitsInFile = ["apple", "orange", "banana"];
+Console.WriteLine(Lab.Assert(Module.CreateFruitsFile, [], correctFruitsInFile, new object()));
 
 string[] correctCars = ["Volvo", "Peugeot", "Skoda", "Toyota", "Ferrari"];
-Console.WriteLine(Lab.Assert(Module.AppendToCarsFile, [], new object(), correctCars));
+Console.WriteLine(Lab.Assert(Module.AppendToCarsFile, [], correctCars, new object()));
 Lab.ResetCarsFile();
-
 Console.WriteLine(Lab.Assert(Module.GetWordsInInfo, [], 269));
 
 Console.WriteLine(Lab.Assert(Module.GetWordOccuranceInInfo, [], 11));

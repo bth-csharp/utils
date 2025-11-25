@@ -13,7 +13,7 @@ static class Lab
      * Define the two levels to PASS or PASS WITH HONOUR.
      */
     private static readonly int _pass = 10;
-    private static readonly int _passWithHonour = 12;
+    private static readonly int _passWithHonour = 13;
 
     /*
      * Store the total number of points, when calculated.
@@ -116,8 +116,7 @@ static class Lab
         object? result = method.DynamicInvoke(args);
         if (result == null)
         {
-            result = voidOutput;
-            expected = ReadFile(methodName);
+            result = ReadFile(methodName);
         }
         bool success = false;
 

@@ -161,8 +161,8 @@ static class Solution
     }
 
     /*
-     * Check if the incoming number is a prime number, meaning it is only
-     * divisible with 1 and itself. 
+     * Check if the incoming number is a prime number, meaning it is greater than 1
+     * and only divisible with 1 and itself. 
      * Return true or false.
      */
     public static bool IsPrime(int number)
@@ -170,6 +170,7 @@ static class Solution
         // TODO: Write your code here.
         bool success = true;
 
+        if (number <= 1) { success = false; }
         for (int i = 2; i < number; i++)
         {
             if (number % i == 0)

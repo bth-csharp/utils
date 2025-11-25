@@ -183,4 +183,88 @@ static class Solution
             Console.WriteLine($"Something went wrong, error: {ex.Message}");
         }
     }
+
+    /*
+    * Read the content of the file, info.txt. 
+    * Count the number of words in the file and return that number.
+    * Return the number of words as an int.
+    */
+    public static int GetWordsInInfo()
+    {
+        string filename = "info.txt";
+        int wordCount = 0;
+
+        // TODO: Write your code here.
+        try
+        {
+            // Testa om filen finns
+            if (File.Exists(filename))
+            {
+                string content = File.ReadAllText(filename);
+                char[] separators = { ' ', '\n', '\r', '\t' };
+                string[] words = content.Split(separators);
+
+                foreach (string word in words)
+                {
+                    if (!string.IsNullOrWhiteSpace(word))
+                    {
+                        wordCount++;
+                    }
+                }
+
+            }
+            else
+            {
+                Console.WriteLine("Filen hittades inte.");
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Something went wrong, error: {ex.Message}");
+        }
+
+        return wordCount;
+    }
+
+    /*
+    * Read the content of the file, info.txt. 
+    * Count the number of time C# is in the file and return that number.
+    * Return the number of occurances of C# as an int.
+    */
+    public static int GetWordOccuranceInInfo()
+    {
+        string filename = "info.txt";
+        int csharpCount = 0;
+
+        // TODO: Write your code here.
+        try
+        {
+            // Testa om filen finns
+            if (File.Exists(filename))
+            {
+                string content = File.ReadAllText(filename).ToLower();
+                char[] separators = { ' ', '\n', '\r', '\t' };
+                string[] words = content.Split(separators);
+
+                foreach (string word in words)
+                {
+                    if (word == "c#")
+                    {
+                        csharpCount++;
+                    }
+                }
+
+            }
+            else
+            {
+                Console.WriteLine("Filen hittades inte.");
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Something went wrong, error: {ex.Message}");
+        }
+
+        return csharpCount;
+    }
 }

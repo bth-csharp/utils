@@ -47,7 +47,7 @@ Console.WriteLine(Lab.Assert(Module.FizzBuzz, [1, 3], "1 2 Fizz"));
 Console.WriteLine(Lab.Assert(Module.FizzBuzz, [2, 9], "2 Fizz 4 Buzz Fizz 7 8 Fizz"));
 Console.WriteLine(Lab.Assert(Module.FizzBuzz, [11, 20], "11 Fizz 13 14 FizzBuzz 16 17 Fizz 19 Buzz"));
 
-Console.WriteLine(Lab.Assert(Module.IsPrime, [1], true, 3));
+Console.WriteLine(Lab.Assert(Module.IsPrime, [1], false, 3));
 Console.WriteLine(Lab.Assert(Module.IsPrime, [2], true));
 Console.WriteLine(Lab.Assert(Module.IsPrime, [5], true));
 Console.WriteLine(Lab.Assert(Module.IsPrime, [10], false));
