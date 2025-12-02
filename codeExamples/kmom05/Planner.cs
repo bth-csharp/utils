@@ -2,14 +2,14 @@ namespace MyPlanner.src;
 
 public class Planner
 {
-    private readonly MyTaskHandler _myTaskHandler;
+    private MyTaskHandler _myTaskHandler;
 
     public Planner()
     {
-        _myTaskHandler = new MyTaskHandler();
+        this._myTaskHandler = new MyTaskHandler();
     }
 
-    private static void PrintMenu()
+    private void PrintMenu()
     {
         Console.WriteLine("\nVälj mellan dessa menyalternativ:");
         Console.WriteLine("\n==================================");
@@ -31,27 +31,27 @@ public class Planner
 
         while (choice != "e")
         {
-            PrintMenu();
-            Console.WriteLine($"\nDet finns {_myTaskHandler.GetNoOfTasks()} uppgifter sparade.");
+            this.PrintMenu();
+            Console.WriteLine($"\nDet finns {this._myTaskHandler.GetNoOfTasks()} uppgifter sparade.");
             Console.WriteLine("\nDitt val: ");
             choice = Console.ReadLine() ?? "";
 
             switch (choice)
             {
                 case "1":
-                    HandleCreateTask();
+                    this.HandleCreateTask();
                     break;
                 case "2":
-                    HandleUpdateTask();
+                    this.HandleUpdateTask();
                     break;
                 case "3":
-                    HandleDeleteTask();
+                    this.HandleDeleteTask();
                     break;
                 case "4":
-                    PrintAllTasks();
+                    this.PrintAllTasks();
                     break;
                 case "5":
-                    SetTaskToCompleted();
+                    this.SetTaskToCompleted();
                     break;
                 case "e":
                     Console.WriteLine("\nDu har valt att avsluta! Hej då!");
@@ -91,6 +91,6 @@ public class Planner
 
     public int GetNoOfTasks()
     {
-        return _myTaskHandler.GetNoOfTasks();
+        return this._myTaskHandler.GetNoOfTasks();
     }
 }
