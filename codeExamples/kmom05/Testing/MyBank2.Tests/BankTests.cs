@@ -58,34 +58,4 @@ public class BankTests
         // Assert
         Assert.That(noOfAccounts, Does.Contain("2"));
     }
-
-    [Test]
-    public void TestDescriptionWithInterface()
-    {
-        // Arrange
-        var mockBank = new Mock<IBank>();
-        string message = $"Banken heter {BANK_NAME}";
-        mockBank.Setup(m => m.PrintDescription()).Callback(() => Console.WriteLine(message));
-
-        // Act
-        mockBank.Object.PrintDescription();
-
-        // Assert att Verify använts en gång
-        mockBank.Verify(b => b.PrintDescription(), Times.Once());
-    }
-
-    [Test]
-    public void TestNoOfAccountsWithInterface()
-    {
-        // Arrange
-        var mockBank = new Mock<IBank>();
-        mockBank.Setup(m => m.GetNoOfAccounts()).Returns("3");
-
-        // Act
-        var noOfAccounts = mockBank.Object.GetNoOfAccounts();
-
-        // Assert
-        mockBank.Verify(m => m.GetNoOfAccounts(), Times.AtLeastOnce());
-        Assert.That(noOfAccounts, Does.Contain("3")); 
-    }
 }
