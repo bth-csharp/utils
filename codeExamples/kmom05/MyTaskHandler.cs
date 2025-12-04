@@ -1,8 +1,5 @@
 namespace MyPlanner.src;
 
-/// <summary>
-/// This class MyTaskHandler takes care of the tasks in a planning tool.
-/// </summary>
 public class MyTaskHandler
 {
     private List<MyTask> _tasks;
