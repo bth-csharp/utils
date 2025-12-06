@@ -83,7 +83,7 @@ jobs:
       - name: Checkout internal test repo
         uses: actions/checkout@v4
         with:
-          repository: bth-csharp/code
+          repository: bth-csharp/utils
           token: ${{ env.STUDENT_READ_TOKEN }}
           path: utils
 
