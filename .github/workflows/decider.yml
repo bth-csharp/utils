@@ -91,7 +91,7 @@ jobs:
         if: ${{ inputs.student_branch == 'bth/submit/kmom06' }}
         uses: actions/checkout@v4
         with:
-          repository: bth-csharp/code
+          repository: bth-csharp/code.git
           token: ${{ env.GITHUB_TOKEN }}
           path: secretTests
 
