@@ -83,7 +83,7 @@ jobs:
       - name: Checkout internal test repo
         uses: actions/checkout@v4
         with:
-          repository: bth-csharp/utils
+          repository: bth-csharp/code/tests
           token: ${{ env.STUDENT_READ_TOKEN }}
           path: utils
 
@@ -164,8 +164,44 @@ jobs:
         if: ${{ inputs.student_branch == 'bth/submit/kmom06' }}
         id: tests_kmom06
         run: |
-          echo "Under development" >> "$RESULT_DIR/result.txt"
-          cat $RESULT_DIR/result.txt || echo "Under development" > result.txt
+          ROOT_DIR=$(pwd)
+          echo "Workspace root: $ROOT_DIR"
+          echo "Adding ProjectReference to tests"
+          STUDENT_KMOM05="../../../../student/kmom05/MyPlanner/MyPlanner.csproj"
+          STUDENT_KMOM06="../../../../student/kmom06/MyPlanner2/MyPlanner2.csproj"
+          echo "Student project: $STUDENT_KMOM05"
+          echo "Student project: $STUDENT_KMOM06"
+          TEST_KMOM05="utils/tests/kmom05/MyPlanner.Tests"
+          TEST_KMOM06="utils/tests/kmom06/MyPlanner2.Tests"
+          echo "Test project: $TEST_KMOM05"
+          echo "Test project: $TEST_KMOM06"
+          ALL_OK=true
+          echo "Test result" > "$RESULT_DIR/result.txt"
+          cd $TEST_KMOM01
+          dotnet add reference "$STUDENT_KMOM05"
+          if dotnet test --configuration Debug --logger:"trx;LogFileName=kmom05.trx"
+          then
+            echo "kmom05 ok" >> "$RESULT_DIR/result.txt"
+          else
+            echo "FAIL:kmom05" >> "$RESULT_DIR/result.txt"
+            ALL_OK=false
+          fi      
+          cd $ROOT_DIR
+          cd $TEST_KMOM06
+          dotnet add Dice100.Tests.csproj reference "$STUDENT_KMOM06"
+          if dotnet test  --configuration Debug --logger:"trx;LogFileName=kmom06.trx"
+          then
+            echo "kmom06 ok" >> "$RESULT_DIR/result.txt"
+          else
+            echo "FAIL:kmom06" >> "$RESULT_DIR/result.txt"
+            ALL_OK=false
+          fi
+          cd $ROOT_DIR
+          echo "Debug resultfile"
+          ls "$RESULT_DIR"
+          cat "$RESULT_DIR/result.txt"
+          # Sätt environment-variabel för senare steg
+          echo "ALL_OK=$ALL_OK" >> $GITHUB_ENV
 
       - name: Evaluate results
         id: set-result
