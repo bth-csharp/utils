@@ -87,6 +87,15 @@ jobs:
           token: ${{ env.STUDENT_READ_TOKEN }}
           path: utils
 
+      - name: Checkout secret test repo
+        if: ${{ inputs.student_branch == 'bth/submit/kmom06' }}
+        uses: actions/checkout@v4
+        with:
+          repository: bth-csharp/code
+          token: ${{ env.GITHUB_TOKEN }}
+          ref: main
+          path: secretTests
+
       - name: Debug student repo files
         run: |
           pwd
@@ -171,8 +180,8 @@ jobs:
           STUDENT_KMOM06="../../../../student/kmom06/MyPlanner2/MyPlanner2.csproj"
           echo "Student project: $STUDENT_KMOM05"
           echo "Student project: $STUDENT_KMOM06"
-          TEST_KMOM05="utils/tests/kmom05/MyPlanner.Tests"
-          TEST_KMOM06="utils/tests/kmom06/MyPlanner2.Tests"
+          TEST_KMOM05="secretTests/tests/kmom05/MyPlanner.Tests"
+          TEST_KMOM06="secretTests/tests/kmom06/MyPlanner2.Tests"
           echo "Test project: $TEST_KMOM05"
           echo "Test project: $TEST_KMOM06"
           ALL_OK=true
