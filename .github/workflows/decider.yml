@@ -93,7 +93,6 @@ jobs:
         with:
           repository: bth-csharp/code
           token: ${{ env.GITHUB_TOKEN }}
-          ref: main
           path: secretTests
 
       - name: Debug student repo files
