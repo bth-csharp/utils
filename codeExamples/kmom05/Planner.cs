@@ -223,7 +223,7 @@ public class Planner
 
     private void PrintAllTasks()
     {
-        int nrOfTAsks = _myTaskHandler.GetNoOfTasks();
+        int nrOfTAsks = this._myTaskHandler.GetNoOfTasks();
         if (nrOfTAsks == 0)
         {
             Console.WriteLine("\nDet finns inga uppgifter!");
