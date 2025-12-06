@@ -187,7 +187,7 @@ jobs:
           echo "Test project: $TEST_KMOM06"
           ALL_OK=true
           echo "Test result" > "$RESULT_DIR/result.txt"
-          cd $TEST_KMOM01
+          cd $TEST_KMOM05
           dotnet add reference "$STUDENT_KMOM05"
           if dotnet test --configuration Debug --logger:"trx;LogFileName=kmom05.trx"
           then
@@ -198,7 +198,7 @@ jobs:
           fi      
           cd $ROOT_DIR
           cd $TEST_KMOM06
-          dotnet add Dice100.Tests.csproj reference "$STUDENT_KMOM06"
+          dotnet add reference "$STUDENT_KMOM06"
           if dotnet test  --configuration Debug --logger:"trx;LogFileName=kmom06.trx"
           then
             echo "kmom06 ok" >> "$RESULT_DIR/result.txt"
