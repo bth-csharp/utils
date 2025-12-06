@@ -173,6 +173,8 @@ jobs:
       - name: Run tests for bth/submit/kmom06
         if: ${{ inputs.student_branch == 'bth/submit/kmom06' }}
         id: tests_kmom06
+        env:
+          PROJECT_ROOT: ${{ github.workspace }}/student
         run: |
           ROOT_DIR=$(pwd)
           echo "Workspace root: $ROOT_DIR"
