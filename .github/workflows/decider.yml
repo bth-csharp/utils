@@ -42,6 +42,7 @@ jobs:
       all_tests_passed: ${{ steps.set-result.outputs.all_tests_passed }}
     steps:
       - name: Ensure student_repo has updated workflow file
+        if: ${{ inputs.student_branch == 'bth/submit/kmom03' || inputs.student_branch == 'bth/submit/kmom06' }} 
         run: |
           repo="${{ inputs.student_repo }}"
           branch=${{ inputs.student_branch }}
