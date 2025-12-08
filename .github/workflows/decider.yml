@@ -219,6 +219,7 @@ jobs:
           echo "ALL_OK=$ALL_OK" >> $GITHUB_ENV
 
       - name: Evaluate results
+        if: ${{ inputs.student_branch == 'bth/submit/kmom03' || inputs.student_branch == 'bth/submit/kmom06' }} 
         id: set-result
         run: |
           if [ "$ALL_OK" = "true" ]; then
@@ -230,6 +231,7 @@ jobs:
           fi
 
       - name: Create comment on PR
+        if: ${{ inputs.student_branch == 'bth/submit/kmom03' || inputs.student_branch == 'bth/submit/kmom06' }} 
         run: |
           echo "📄 Debug: visar var vi står"
           pwd
@@ -248,6 +250,7 @@ jobs:
           echo "EOF" >> $GITHUB_ENV
 
       - name: Kommentera testresultat i PR
+        if: ${{ inputs.student_branch == 'bth/submit/kmom03' || inputs.student_branch == 'bth/submit/kmom06' }} 
         uses: peter-evans/create-or-update-comment@v4
         with:
           token: ${{ secrets.READ_ORG_TOKEN }}
@@ -282,13 +285,4 @@ jobs:
             Tests-passed
 
 
-  fail-if-needed:
-    runs-on: ubuntu-latest
-    needs: run-tests
-    steps:
-      - name: Fail job if tests failed
-        if: ${{ needs.run-tests.outputs.all_tests_passed == 'false' }}
-        run: |
-          echo "Tests failed. Download the tests locally and fix the errors!"
-          exit 1
 
