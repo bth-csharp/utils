@@ -107,8 +107,10 @@ jobs:
           ls -R student || echo "Student folder missing"
           echo "--- Tests content ---"
           ls -R utils/tests
-          echo "--- Secret tests content ---"
-          ls -R secretTests/tests
+          if [ -d secretTests ]; then
+              echo "--- Secret tests content ---"
+              ls -R secretTests/tests
+          fi
 
       - name: Run tests for bth/submit/kmom03
         if: ${{ inputs.student_branch == 'bth/submit/kmom03' }}
