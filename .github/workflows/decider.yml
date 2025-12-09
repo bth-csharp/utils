@@ -260,6 +260,9 @@ jobs:
           issue-number: ${{ inputs.pr_number }}
           body: ${{ env.BODY_CONTENT }}
 
+      - name: Install xmllint
+        run: sudo apt-get update && sudo apt-get install -y libxml2-utils
+
       - name: Parse NUnit XML -> Markdown tables per class (inkl output)
         if: ${{ inputs.student_branch == 'bth/submit/kmom06' }}
         id: parse
