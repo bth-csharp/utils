@@ -293,6 +293,8 @@ jobs:
       - name: Fail job if tests failed
         if: ${{ needs.run-tests.outputs.all_tests_passed == 'false' }}
         run: |
-          echo "Tests failed. Fix the errors and push again!"
+          echo "Tests failed. Check workflow run-tests, click on Run tests for branch <branch name>."
+          echo "Read through to find the failing test case with its error message."
+          echo "Fix the errors and push again!"
           exit 1
 
