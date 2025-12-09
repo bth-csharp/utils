@@ -196,7 +196,7 @@ jobs:
           echo "Test result" > "$RESULT_DIR/result.txt"
           cd $TEST_KMOM05
           dotnet add reference "$STUDENT_KMOM05"
-          if dotnet test --configuration Debug --logger:"trx;LogFileName=kmom05.trx"
+          if dotnet test --configuration Debug --logger:"nunit;LogFileName=kmom05-test-result.xml"
           then
             echo "kmom05 ok" >> "$RESULT_DIR/result.txt"
           else
@@ -206,7 +206,7 @@ jobs:
           cd $ROOT_DIR
           cd $TEST_KMOM06
           dotnet add reference "$STUDENT_KMOM06"
-          if dotnet test  --configuration Debug --logger:"trx;LogFileName=kmom06.trx"
+          if dotnet test  --configuration Debug --logger:"nunit;LogFileName=kmom06-test-result.xml"
           then
             echo "kmom06 ok" >> "$RESULT_DIR/result.txt"
           else
@@ -259,6 +259,62 @@ jobs:
           repository: ${{ inputs.student_repo }}
           issue-number: ${{ inputs.pr_number }}
           body: ${{ env.BODY_CONTENT }}
+
+      - name: Parse NUnit XML -> Markdown tables per class (inkl output)
+        if: ${{ inputs.student_branch == 'bth/submit/kmom06' }}
+        id: parse
+        run: |
+          echo "# Test Results" > results.md
+          echo "" >> results.md
+
+          # Hitta unika testklasser
+          classes=$(xmllint --xpath "//test-case/@classname" test-results.xml | sed 's/classname=\"//g' | sed 's/\"//g' | sort | uniq)
+
+          for cls in $classes; do
+            echo "## $cls" >> results.md
+            echo "" >> results.md
+
+            passed=0
+            failed=0
+
+            echo "| Test | Result | Time (ms) | Output |" >> results.md
+            echo "|------|--------|-----------|--------|" >> results.md
+
+            # Hämta alla testcases för denna klass
+            xmllint --xpath "//test-case[@classname='$cls']" test-results.xml \
+              | sed 's/></>\n</g' \
+              | grep "<test-case" \
+              | while read -r line; do
+                  name=$(echo $line | sed -n 's/.*name=\"\([^\"]*\)\".*/\1/p')
+                  result=$(echo $line | sed -n 's/.*result=\"\([^\"]*\)\".*/\1/p')
+                  time=$(echo $line | sed -n 's/.*duration=\"\([^\"]*\)\".*/\1/p')
+                  ms=$(awk "BEGIN {print $time * 1000}")
+
+                  # TestContext.Out
+                  output=$(xmllint --xpath "string(//test-case[@classname='$cls' and @name='$name']/output)" test-results.xml 2>/dev/null)
+                  output=$(echo "$output" | sed 's/|/\\|/g')
+
+                  echo "| $name | $result | $ms | $output |" >> results.md
+
+                  # Räkna passed/failed
+                  if [ "$result" = "Passed" ]; then
+                    passed=$((passed+1))
+                  else
+                    failed=$((failed+1))
+                  fi
+                done
+
+            # Emoji-status per klass
+            if [ "$failed" -eq 0 ]; then
+              icon="🟢"
+            else
+              icon="🔴"
+            fi
+
+            echo "" >> results.md
+            echo "**$icon Summary for $cls:** $passed Passed / $failed Failed" >> results.md
+            echo "" >> results.md
+          done
 
   add-label:
     runs-on: ubuntu-latest
