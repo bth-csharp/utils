@@ -293,6 +293,6 @@ jobs:
       - name: Fail job if tests failed
         if: ${{ needs.run-tests.outputs.all_tests_passed == 'false' }}
         run: |
-          echo "Tests failed. Download the tests locally and fix the errors!"
+          echo "Tests failed. Fix the errors and push again!"
           exit 1
 
