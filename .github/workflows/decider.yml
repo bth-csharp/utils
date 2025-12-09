@@ -154,6 +154,7 @@ jobs:
             echo "kmom02 ok" >> "$RESULT_DIR/result.txt"
           else
             echo "FAIL:kmom02" >> "$RESULT_DIR/result.txt"
+            echo "Recommendation: download the tests for kmom02, fix the errors and test locally before handing in again!" >> "$RESULT_DIR/result.txt"
             ALL_OK=false
           fi
           cd $ROOT_DIR
@@ -164,6 +165,7 @@ jobs:
             echo "kmom03 ok" >> "$RESULT_DIR/result.txt"
           else
             echo "FAIL:kmom03" >> "$RESULT_DIR/result.txt"
+            echo "Recommendation: download the tests for kmom03, fix the errors and test locally before handing in again!" >> "$RESULT_DIR/result.txt"
             ALL_OK=false
           fi
           cd $ROOT_DIR
@@ -227,7 +229,7 @@ jobs:
             echo "Everything is ok. Wait for a teacher to do a code review and correct the task!" >> "$RESULT_DIR/result.txt"
           else
             echo "all_tests_passed=false" >> $GITHUB_OUTPUT
-            echo "Recommendation: download the tests for the failing kmom locally, fix the errors and test the kmom locally before handing in again!" >> "$RESULT_DIR/result.txt"
+            echo "Recommendation: fix the errors locally before handing in again!" >> "$RESULT_DIR/result.txt"
           fi
 
       - name: Create comment on PR
