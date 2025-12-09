@@ -264,24 +264,24 @@ jobs:
         if: ${{ inputs.student_branch == 'bth/submit/kmom06' }}
         id: parse
         run: |
-          echo "# Test Results" > results.md
-          echo "" >> results.md
+          echo "# Test Results" > $RESULT_DIR/results.md
+          echo "" >> $RESULT_DIR/results.md
 
           # Hitta unika testklasser
-          classes=$(xmllint --xpath "//test-case/@classname" test-results.xml | sed 's/classname=\"//g' | sed 's/\"//g' | sort | uniq)
+          classes=$(xmllint --xpath "//test-case/@classname" kmom05-test-results.xml | sed 's/classname=\"//g' | sed 's/\"//g' | sort | uniq)
 
           for cls in $classes; do
-            echo "## $cls" >> results.md
-            echo "" >> results.md
+            echo "## $cls" >> $RESULT_DIR/results.md
+            echo "" >> $RESULT_DIR/results.md
 
             passed=0
             failed=0
 
-            echo "| Test | Result | Time (ms) | Output |" >> results.md
-            echo "|------|--------|-----------|--------|" >> results.md
+            echo "| Test | Result | Time (ms) | Output |" >> $RESULT_DIR/results.md
+            echo "|------|--------|-----------|--------|" >> $RESULT_DIR/results.md
 
             # Hämta alla testcases för denna klass
-            xmllint --xpath "//test-case[@classname='$cls']" test-results.xml \
+            xmllint --xpath "//test-case[@classname='$cls']" kmom05-test-results.xml \
               | sed 's/></>\n</g' \
               | grep "<test-case" \
               | while read -r line; do
@@ -291,10 +291,10 @@ jobs:
                   ms=$(awk "BEGIN {print $time * 1000}")
 
                   # TestContext.Out
-                  output=$(xmllint --xpath "string(//test-case[@classname='$cls' and @name='$name']/output)" test-results.xml 2>/dev/null)
+                  output=$(xmllint --xpath "string(//test-case[@classname='$cls' and @name='$name']/output)" kmom05-test-results.xml 2>/dev/null)
                   output=$(echo "$output" | sed 's/|/\\|/g')
 
-                  echo "| $name | $result | $ms | $output |" >> results.md
+                  echo "| $name | $result | $ms | $output |" >> $RESULT_DIR/results.md
 
                   # Räkna passed/failed
                   if [ "$result" = "Passed" ]; then
@@ -311,9 +311,9 @@ jobs:
               icon="🔴"
             fi
 
-            echo "" >> results.md
-            echo "**$icon Summary for $cls:** $passed Passed / $failed Failed" >> results.md
-            echo "" >> results.md
+            echo "" >> $RESULT_DIR/results.md
+            echo "**$icon Summary for $cls:** $passed Passed / $failed Failed" >> $RESULT_DIR/results.md
+            echo "" >> $RESULT_DIR/results.md
           done
 
   add-label:
