@@ -289,6 +289,13 @@ jobs:
               Add-Content $mdPath "**${icon} Summary for ${className}:** ${passed} Passed / ${failed} Failed`n"
           }
 
+      - name: Read kmom05-results.md
+        id: read_kmom05_results
+        shell: pwsh
+        run: |
+          $content-kmom05 = Get-Content "$env:RESULT_DIR/kmom05-results.md" -Raw
+          Write-Output "::set-output name=body::$content-kmom05"
+
       - name: Kommentera testresultat i PR
         if: ${{ inputs.student_branch == 'bth/submit/kmom03' || inputs.student_branch == 'bth/submit/kmom06' }} 
         uses: peter-evans/create-or-update-comment@v4
@@ -300,7 +307,7 @@ jobs:
             ${{ env.BODY_CONTENT }}
 
             Test results kmom05:
-            $(Get-Content "$RESULT_DIR/kmom05-results.md" -Raw)
+            ${{ steps.read_kmom05_results.outputs.body }}
 
   add-label:
     runs-on: ubuntu-latest
