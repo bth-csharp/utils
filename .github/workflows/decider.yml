@@ -276,6 +276,7 @@ jobs:
               $summaryPerClass = @{}
               foreach ($test in $suite.Group) {
                   $className = $test.TestClassName
+                  if (-not $className) { $className = "UnknownClass" }
                   $testName = $test.testName
                   $result = $test.outcome
                   $duration = [math]::Round($test.Duration.TotalMilliseconds)
