@@ -290,11 +290,12 @@ jobs:
           }
 
       - name: Read kmom05-results.md
+        if: ${{ inputs.student_branch == 'bth/submit/kmom06' }}
         id: read_kmom05_results
         shell: pwsh
         run: |
-          $content-kmom05 = Get-Content "$env:RESULT_DIR/kmom05-results.md" -Raw
-          Write-Output "::set-output name=body::$content-kmom05"
+          $content = Get-Content "$env:RESULT_DIR/kmom05-results.md" -Raw
+          Write-Output "::set-output name=body::$content"
 
       - name: Kommentera testresultat i PR
         if: ${{ inputs.student_branch == 'bth/submit/kmom03' || inputs.student_branch == 'bth/submit/kmom06' }} 
