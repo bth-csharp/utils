@@ -251,15 +251,6 @@ jobs:
           echo "$BODY_CONTENT" >> $GITHUB_ENV
           echo "EOF" >> $GITHUB_ENV
 
-      - name: Kommentera testresultat i PR
-        if: ${{ inputs.student_branch == 'bth/submit/kmom03' || inputs.student_branch == 'bth/submit/kmom06' }} 
-        uses: peter-evans/create-or-update-comment@v4
-        with:
-          token: ${{ secrets.READ_ORG_TOKEN }}
-          repository: ${{ inputs.student_repo }}
-          issue-number: ${{ inputs.pr_number }}
-          body: ${{ env.BODY_CONTENT }}
-
       - name: Parse NUnit XML in Powershell -> Markdown tables per class (inkl output)
         if: ${{ inputs.student_branch == 'bth/submit/kmom06' }}
         shell: pwsh
@@ -297,6 +288,25 @@ jobs:
               Add-Content $mdPath ""
               Add-Content $mdPath "**${icon} Summary for ${className}:** ${passed} Passed / ${failed} Failed`n"
           }
+
+      - name: Upload test results
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results
+          path: $RESULT_DIR
+
+      - name: Kommentera testresultat i PR
+        if: ${{ inputs.student_branch == 'bth/submit/kmom03' || inputs.student_branch == 'bth/submit/kmom06' }} 
+        uses: peter-evans/create-or-update-comment@v4
+        with:
+          token: ${{ secrets.READ_ORG_TOKEN }}
+          repository: ${{ inputs.student_repo }}
+          issue-number: ${{ inputs.pr_number }}
+          body: | 
+            ${{ env.BODY_CONTENT }}
+
+            Test results kmom05:
+            $(Get-Content "$RESULT_DIR/kmom05-results.md" -Raw)
 
   add-label:
     runs-on: ubuntu-latest
