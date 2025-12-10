@@ -259,23 +259,20 @@ jobs:
           $mdPath = "$env:RESULT_DIR/results.md"
           "" | Out-File $mdPath
 
-          # Initiera summary per klass
-          $summaryPerClass = @{}
+          # Initiera counters
+          $passed = 0
+          $failed = 0
+
+          # Skriv header
+          Add-Content $mdPath "| Test | Result | Duration (ms) | Output |"
+          Add-Content $mdPath "|------|--------|---------------|--------|"
 
           # Loopa över alla TRX-filer
           Get-ChildItem "$env:RESULT_DIR" -Filter *.trx | ForEach-Object {
               $trxPath = $_.FullName
               [xml]$trx = Get-Content $trxPath
-
               $allTests = $trx.TestRun.Results.UnitTestResult
               if (-not $allTests) { return }
-
-              # Skriv header första gången
-              if (-not $headerWritten) {
-                  Add-Content $mdPath "| Test | Result | Duration (ms) | Output |"
-                  Add-Content $mdPath "|------|--------|---------------|--------|"
-                  $headerWritten = $true
-              }
 
               foreach ($test in $allTests) {
                   $testName = $test.testName
@@ -285,18 +282,14 @@ jobs:
 
                   Add-Content $mdPath "| $testName | $result | $duration | $output |"
 
-                  # Initiera summary per klass om det inte finns
-                  if (-not $summaryPerClass.ContainsKey($className)) {
-                      $summaryPerClass[$className] = @{ Passed = 0; Failed = 0 }
-                  }
-
-                  if ($result -eq "Passed") { $summaryPerClass[$className].Passed++ } else { $summaryPerClass[$className].Failed++ }
+                  if ($result -eq "Passed") { $passed++ } else { $failed++ }
               }
           }
 
+          # Skriv total summering
           $icon = if ($failed -eq 0) { "🟢" } else { "🔴" }
-              Add-Content $mdPath ""
-              Add-Content $mdPath "**${icon} Summary for ${className}:** ${passed} Passed / ${failed} Failed`n"
+          Add-Content $mdPath ""
+          Add-Content $mdPath "**$icon Total Summary:** $passed Passed / $failed Failed`n"
 
       - name: Read kmom05-results.md
         if: ${{ inputs.student_branch == 'bth/submit/kmom06' }}
@@ -309,9 +302,29 @@ jobs:
           Add-Content -Path $env:GITHUB_OUTPUT -Value "$content"
           Add-Content -Path $env:GITHUB_OUTPUT -Value "EOF"
 
+      - name: Read kmom06-results.md
+        if: ${{ inputs.student_branch == 'bth/submit/kmom06' }}
+        id: read_kmom06_results
+        shell: pwsh
+        run: |
+          $content = Get-Content "$env:RESULT_DIR/kmom06-results.md" -Raw
+          # Escapa multiline med EOF
+          Add-Content -Path $env:GITHUB_OUTPUT -Value "body<<EOF"
+          Add-Content -Path $env:GITHUB_OUTPUT -Value "$content"
+          Add-Content -Path $env:GITHUB_OUTPUT -Value "EOF"
 
       - name: Kommentera testresultat i PR
-        if: ${{ inputs.student_branch == 'bth/submit/kmom03' || inputs.student_branch == 'bth/submit/kmom06' }} 
+        if: ${{ inputs.student_branch == 'bth/submit/kmom03' }} 
+        uses: peter-evans/create-or-update-comment@v4
+        with:
+          token: ${{ secrets.READ_ORG_TOKEN }}
+          repository: ${{ inputs.student_repo }}
+          issue-number: ${{ inputs.pr_number }}
+          body: | 
+            ${{ env.BODY_CONTENT }}
+
+      - name: Kommentera testresultat i PR
+        if: ${{ inputs.student_branch == 'bth/submit/kmom06' }} 
         uses: peter-evans/create-or-update-comment@v4
         with:
           token: ${{ secrets.READ_ORG_TOKEN }}
@@ -322,6 +335,9 @@ jobs:
 
             Test results kmom05:
             ${{ steps.read_kmom05_results.outputs.body }}
+
+            Test results kmom06:
+            ${{ steps.read_kmom06_results.outputs.body }}
 
   add-label:
     runs-on: ubuntu-latest
