@@ -256,50 +256,47 @@ jobs:
         shell: pwsh
         id: parse
         run: |
-          $trxPath = "$env:RESULT_DIR/kmom05-test-result.trx"
-          $mdPath = "$env:RESULT_DIR/kmom05-results.md"
-
-          [xml]$trx = Get-Content $trxPath
+          $mdPath = "$env:RESULT_DIR/results.md"
           "" | Out-File $mdPath
 
-          $testSuites = $trx.TestRun.Results.UnitTestResult | Group-Object -Property TestClassName
+          # Initiera summary per klass
+          $summaryPerClass = @{}
 
-          foreach ($suite in $testSuites) {
-              $className = $suite.Name
-              Add-Content $mdPath "## ${className}`n"
-              Add-Content $mdPath "| Class | Test | Result | Duration (ms) | Output |"
-              Add-Content $mdPath "|-------|------|--------|---------------|--------|"
+          # Loopa över alla TRX-filer
+          Get-ChildItem "$env:RESULT_DIR" -Filter *.trx | ForEach-Object {
+              $trxPath = $_.FullName
+              [xml]$trx = Get-Content $trxPath
 
-              $passed = 0
-              $failed = 0
+              $allTests = $trx.TestRun.Results.UnitTestResult
+              if (-not $allTests) { return }
 
-              $summaryPerClass = @{}
-              foreach ($test in $suite.Group) {
-                  $className = $test.TestClassName
-                  if (-not $className) { $className = "UnknownClass" }
+              # Skriv header första gången
+              if (-not $headerWritten) {
+                  Add-Content $mdPath "| Test | Result | Duration (ms) | Output |"
+                  Add-Content $mdPath "|------|--------|---------------|--------|"
+                  $headerWritten = $true
+              }
+
+              foreach ($test in $allTests) {
                   $testName = $test.testName
                   $result = $test.outcome
                   $duration = [math]::Round($test.Duration.TotalMilliseconds)
                   $output = ($test.Output.StdOut) -replace "\|","\\|"
 
-                  Add-Content $mdPath "| $className | ${testName} | ${result} | ${duration} | ${output} |"
+                  Add-Content $mdPath "| $testName | $result | $duration | $output |"
 
-                  # Samla summary per klass
+                  # Initiera summary per klass om det inte finns
                   if (-not $summaryPerClass.ContainsKey($className)) {
                       $summaryPerClass[$className] = @{ Passed = 0; Failed = 0 }
                   }
+
                   if ($result -eq "Passed") { $summaryPerClass[$className].Passed++ } else { $summaryPerClass[$className].Failed++ }
               }
-
-              # Skriv summering per klass
-              Add-Content $mdPath ""
-              foreach ($class in $summaryPerClass.Keys) {
-                  $passed = $summaryPerClass[$class].Passed
-                  $failed = $summaryPerClass[$class].Failed
-                  $icon = if ($failed -eq 0) { "🟢" } else { "🔴" }
-                  Add-Content $mdPath "**${icon} Summary for ${class}:** ${passed} Passed / ${failed} Failed`n"
-              }
           }
+
+          $icon = if ($failed -eq 0) { "🟢" } else { "🔴" }
+              Add-Content $mdPath ""
+              Add-Content $mdPath "**${icon} Summary for ${className}:** ${passed} Passed / ${failed} Failed`n"
 
       - name: Read kmom05-results.md
         if: ${{ inputs.student_branch == 'bth/submit/kmom06' }}
