@@ -96,9 +96,6 @@ jobs:
           token: ${{ env.STUDENT_READ_TOKEN }}
           path: secretTests
 
-      - name: Restore packages
-        run: dotnet restore
-
       - name: Debug student repo files
         run: |
           pwd
@@ -199,6 +196,7 @@ jobs:
           echo "Test result" > "$RESULT_DIR/result.txt"
           cd $TEST_KMOM05
           dotnet add reference "$STUDENT_KMOM05"
+          dotnet restore
           if dotnet test --configuration Debug --logger:"nunit;LogFilePath=$RESULT_DIR/kmom05-test-result.xml"
           then
             echo "kmom05 ok" >> "$RESULT_DIR/result.txt"
@@ -209,6 +207,7 @@ jobs:
           cd $ROOT_DIR
           cd $TEST_KMOM06
           dotnet add reference "$STUDENT_KMOM06"
+          dotnet restore
           if dotnet test  --configuration Debug --logger:"nunit;LogFilePath=$RESULT_DIR/kmom06-test-result.xml"
           then
             echo "kmom06 ok" >> "$RESULT_DIR/result.txt"
