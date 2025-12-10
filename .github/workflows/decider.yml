@@ -289,12 +289,6 @@ jobs:
               Add-Content $mdPath "**${icon} Summary for ${className}:** ${passed} Passed / ${failed} Failed`n"
           }
 
-      - name: Upload test results
-        uses: actions/upload-artifact@v4
-        with:
-          name: test-results
-          path: $RESULT_DIR
-
       - name: Kommentera testresultat i PR
         if: ${{ inputs.student_branch == 'bth/submit/kmom03' || inputs.student_branch == 'bth/submit/kmom06' }} 
         uses: peter-evans/create-or-update-comment@v4
