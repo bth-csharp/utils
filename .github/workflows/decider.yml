@@ -297,7 +297,7 @@ jobs:
 
               $icon = if ($failed -eq 0) { "🟢" } else { "🔴" }
               Add-Content $mdPath ""
-              Add-Content $mdPath "**${icon} Summary for $className:** $passed Passed / $failed Failed`n"
+              Add-Content $mdPath "**${icon} Summary for ${className}:** ${passed} Passed / ${failed} Failed`n"
           }
 
   add-label:
