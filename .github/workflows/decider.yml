@@ -273,6 +273,7 @@ jobs:
               $passed = 0
               $failed = 0
 
+              $summaryPerClass = @{}
               foreach ($test in $suite.Group) {
                   $className = $test.TestClassName
                   $testName = $test.testName
