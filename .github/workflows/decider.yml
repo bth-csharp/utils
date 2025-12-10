@@ -196,7 +196,6 @@ jobs:
           echo "Test result" > "$RESULT_DIR/result.txt"
           cd $TEST_KMOM05
           dotnet add reference "$STUDENT_KMOM05"
-          dotnet restore
           if dotnet test --configuration Debug --logger:"trx;LogFileName=$RESULT_DIR/kmom05-test-result.trx"
           then
             echo "kmom05 ok" >> "$RESULT_DIR/result.txt"
@@ -207,7 +206,6 @@ jobs:
           cd $ROOT_DIR
           cd $TEST_KMOM06
           dotnet add reference "$STUDENT_KMOM06"
-          dotnet restore
           if dotnet test  --configuration Debug --logger:"trx;LogFileName=$RESULT_DIR/kmom06-test-result.trx"
           then
             echo "kmom06 ok" >> "$RESULT_DIR/result.txt"
