@@ -373,7 +373,7 @@ jobs:
     needs: run-tests
     steps:
       - name: Remove Tests-passed ans Submitted if tests failed 
-        if: ${{ needs.run-tests.outputs.all_tests_passed == 'true' }}
+        if: ${{ needs.run-tests.outputs.all_tests_passed == 'false' }}
         uses: actions-ecosystem/action-remove-labels@v1
         with:
           github_token: ${{ secrets.READ_ORG_TOKEN }}
