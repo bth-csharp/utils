@@ -279,11 +279,15 @@ jobs:
               foreach ($test in $allTests) {
                   $testName = $test.testName
                   $result = $test.outcome
-                  $output = ($test.Output.StdOut) -replace "\|","\\|"
+                  $output = ($test.Output.StdOut) `
+                      -replace "\|","\\|" `
+                      -replace "`r?`n","<br>"
                   $errorMsg = ""
                   if ($result -eq "Failed" -and $test.Output.Message) {
-                      $errorMsg = ($test.Output.Message) -replace "\|","\\|"
-                      $output += "`n> **Error:** $errorMsg"
+                      $errorMsg = ($test.Output.Message `
+                          -replace "\|","\\|" `
+                          -replace "`r?`n","<br>")
+                      $output += "<br>**Error:** $errorMsg"
                   }
 
                   Add-Content $mdPath "| $testName | $result | $output |"
