@@ -197,7 +197,7 @@ jobs:
           cd $TEST_KMOM05
           dotnet add reference "$STUDENT_KMOM05"
           dotnet restore
-          if dotnet test --configuration Debug --logger:"nunit;LogFilePath=$RESULT_DIR/kmom05-test-result.xml"
+          if dotnet test --configuration Debug --logger:"trx;LogFileName=$RESULT_DIR/kmom05-test-result.trx"
           then
             echo "kmom05 ok" >> "$RESULT_DIR/result.txt"
           else
@@ -208,7 +208,7 @@ jobs:
           cd $TEST_KMOM06
           dotnet add reference "$STUDENT_KMOM06"
           dotnet restore
-          if dotnet test  --configuration Debug --logger:"nunit;LogFilePath=$RESULT_DIR/kmom06-test-result.xml"
+          if dotnet test  --configuration Debug --logger:"trx;LogFileName=$RESULT_DIR/kmom06-test-result.trx"
           then
             echo "kmom06 ok" >> "$RESULT_DIR/result.txt"
           else
@@ -216,7 +216,7 @@ jobs:
             ALL_OK=false
           fi
           cd $ROOT_DIR
-          echo "Debug resultfile"
+          echo "Debug result file"
           ls "$RESULT_DIR"
           cat "$RESULT_DIR/result.txt"
           # Sätt environment-variabel för senare steg
@@ -262,64 +262,43 @@ jobs:
           issue-number: ${{ inputs.pr_number }}
           body: ${{ env.BODY_CONTENT }}
 
-      - name: Install xmllint
-        run: sudo apt-get update && sudo apt-get install -y libxml2-utils
-
-      - name: Parse NUnit XML -> Markdown tables per class (inkl output)
+      - name: Parse NUnit XML in Powershell -> Markdown tables per class (inkl output)
         if: ${{ inputs.student_branch == 'bth/submit/kmom06' }}
+        shell: pwsh
         id: parse
         run: |
-          echo "# Test Results" > $RESULT_DIR/results.md
-          echo "" >> $RESULT_DIR/results.md
+          $trxPath = "$env:RESULT_DIR/kmom05-test-results.trx"
+          $mdPath = "$env:RESULT_DIR/kmom05-results.md"
 
-          # Hitta unika testklasser
-          classes=$(xmllint --xpath "//test-case/@classname" $RESULT_DIR/kmom05-test-results.xml | sed 's/classname=\"//g' | sed 's/\"//g' | sort | uniq)
+          [xml]$trx = Get-Content $trxPath
+          "" | Out-File $mdPath
 
-          for cls in $classes; do
-            echo "## $cls" >> $RESULT_DIR/results.md
-            echo "" >> $RESULT_DIR/results.md
+          $testSuites = $trx.TestRun.Results.UnitTestResult | Group-Object -Property TestClassName
 
-            passed=0
-            failed=0
+          foreach ($suite in $testSuites) {
+              $className = $suite.Name
+              Add-Content $mdPath "## $className`n"
+              Add-Content $mdPath "| Test | Result | Duration (ms) | Output |"
+              Add-Content $mdPath "|------|--------|---------------|--------|"
 
-            echo "| Test | Result | Time (ms) | Output |" >> $RESULT_DIR/results.md
-            echo "|------|--------|-----------|--------|" >> $RESULT_DIR/results.md
+              $passed = 0
+              $failed = 0
 
-            # Hämta alla testcases för denna klass
-            xmllint --xpath "//test-case[@classname='$cls']" $RESULT_DIR/kmom05-test-results.xml \
-              | sed 's/></>\n</g' \
-              | grep "<test-case" \
-              | while read -r line; do
-                  name=$(echo $line | sed -n 's/.*name=\"\([^\"]*\)\".*/\1/p')
-                  result=$(echo $line | sed -n 's/.*result=\"\([^\"]*\)\".*/\1/p')
-                  time=$(echo $line | sed -n 's/.*duration=\"\([^\"]*\)\".*/\1/p')
-                  ms=$(awk "BEGIN {print $time * 1000}")
+              foreach ($test in $suite.Group) {
+                  $testName = $test.testName
+                  $result = $test.outcome
+                  $duration = [math]::Round($test.Duration.TotalMilliseconds)
+                  $output = ($test.Output.StdOut) -replace "\|","\\|"
 
-                  # TestContext.Out
-                  output=$(xmllint --xpath "string(//test-case[@classname='$cls' and @name='$name']/output)" $RESULT_DIR/kmom05-test-results.xml 2>/dev/null)
-                  output=$(echo "$output" | sed 's/|/\\|/g')
+                  Add-Content $mdPath "| $testName | $result | $duration | $output |"
 
-                  echo "| $name | $result | $ms | $output |" >> $RESULT_DIR/results.md
+                  if ($result -eq "Passed") { $passed++ } else { $failed++ }
+              }
 
-                  # Räkna passed/failed
-                  if [ "$result" = "Passed" ]; then
-                    passed=$((passed+1))
-                  else
-                    failed=$((failed+1))
-                  fi
-                done
-
-            # Emoji-status per klass
-            if [ "$failed" -eq 0 ]; then
-              icon="🟢"
-            else
-              icon="🔴"
-            fi
-
-            echo "" >> $RESULT_DIR/results.md
-            echo "**$icon Summary for $cls:** $passed Passed / $failed Failed" >> $RESULT_DIR/results.md
-            echo "" >> $RESULT_DIR/results.md
-          done
+              $icon = if ($failed -eq 0) { "🟢" } else { "🔴" }
+              Add-Content $mdPath ""
+              Add-Content $mdPath "**$icon Summary for $className:** $passed Passed / $failed Failed`n"
+          }
 
   add-label:
     runs-on: ubuntu-latest
