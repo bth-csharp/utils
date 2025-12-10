@@ -295,7 +295,11 @@ jobs:
         shell: pwsh
         run: |
           $content = Get-Content "$env:RESULT_DIR/kmom05-results.md" -Raw
-          Add-Content -Path $env:GITHUB_OUTPUT -Value "body=$content"
+          # Escapa multiline med EOF
+          Add-Content -Path $env:GITHUB_OUTPUT -Value "body<<EOF"
+          Add-Content -Path $env:GITHUB_OUTPUT -Value "$content"
+          Add-Content -Path $env:GITHUB_OUTPUT -Value "EOF"
+
 
       - name: Kommentera testresultat i PR
         if: ${{ inputs.student_branch == 'bth/submit/kmom03' || inputs.student_branch == 'bth/submit/kmom06' }} 
