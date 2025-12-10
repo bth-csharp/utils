@@ -196,7 +196,7 @@ jobs:
           echo "Test result" > "$RESULT_DIR/result.txt"
           cd $TEST_KMOM05
           dotnet add reference "$STUDENT_KMOM05"
-          if dotnet test --configuration Debug --logger:"trx;LogFileName=$RESULT_DIR/kmom05-test-result.trx"
+          if dotnet test --configuration Debug --logger:"trx;LogFileName=$RESULT_DIR/kmom05-results.trx"
           then
             echo "kmom05 ok" >> "$RESULT_DIR/result.txt"
           else
@@ -206,7 +206,7 @@ jobs:
           cd $ROOT_DIR
           cd $TEST_KMOM06
           dotnet add reference "$STUDENT_KMOM06"
-          if dotnet test  --configuration Debug --logger:"trx;LogFileName=$RESULT_DIR/kmom06-test-result.trx"
+          if dotnet test  --configuration Debug --logger:"trx;LogFileName=$RESULT_DIR/kmom06-results.trx"
           then
             echo "kmom06 ok" >> "$RESULT_DIR/result.txt"
           else
@@ -256,23 +256,25 @@ jobs:
         shell: pwsh
         id: parse
         run: |
-          $mdPath = "$env:RESULT_DIR/results.md"
-          "" | Out-File $mdPath
-
-          # Initiera counters
-          $passed = 0
-          $failed = 0
-
-          # Skriv header
-          Add-Content $mdPath "| Test | Result | Duration (ms) | Output |"
-          Add-Content $mdPath "|------|--------|---------------|--------|"
-
           # Loopa över alla TRX-filer
           Get-ChildItem "$env:RESULT_DIR" -Filter *.trx | ForEach-Object {
               $trxPath = $_.FullName
+              $fileName = [System.IO.Path]::GetFileNameWithoutExtension($trxPath)
+              $mdPath = "$env:RESULT_DIR/$fileName.md"
+
               [xml]$trx = Get-Content $trxPath
               $allTests = $trx.TestRun.Results.UnitTestResult
               if (-not $allTests) { return }
+
+              "" | Out-File $mdPath
+
+              # Initiera counters
+              $passed = 0
+              $failed = 0
+
+              # Skriv header
+              Add-Content $mdPath "| Test | Result | Duration (ms) | Output |"
+              Add-Content $mdPath "|------|--------|---------------|--------|"
 
               foreach ($test in $allTests) {
                   $testName = $test.testName
