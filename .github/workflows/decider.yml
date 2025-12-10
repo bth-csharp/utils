@@ -273,7 +273,7 @@ jobs:
               $failed = 0
 
               # Skriv header
-              Add-Content $mdPath "| Test | Result | Output |"
+              Add-Content $mdPath "| Test | Result | Output/Error message |"
               Add-Content $mdPath "|------|--------|--------|"
 
               foreach ($test in $allTests) {
@@ -283,8 +283,20 @@ jobs:
                       -replace "\|","\\|" `
                       -replace "`r?`n","<br>"
                   $errorMsg = ""
-                  if ($result -eq "Failed" -and $test.Output.Message) {
-                      $errorMsg = ($test.Output.Message `
+                  if ($test.Output.ErrorInfo.Message) {
+                      $errorMsg = $test.Output.ErrorInfo.Message
+                  }
+                  elseif ($test.Output.ErrorInfo) {
+                      $errorMsg = $test.Output.ErrorInfo
+                  }
+                  elseif ($test.Output.Message) {
+                      $errorMsg = $test.Output.Message
+                  }
+                  elseif ($test.InnerResults.ErrorInfo.Message) {
+                      $errorMsg = $test.InnerResults.ErrorInfo.Message
+                  }
+                  if ($result -eq "Failed" -and $errorMsg) {
+                      $errorMsg = ($errorMsg `
                           -replace "\|","\\|" `
                           -replace "`r?`n","<br>")
                       $output += "<br>**Error:** $errorMsg"
