@@ -273,18 +273,24 @@ jobs:
               $failed = 0
 
               # Skriv header
-              Add-Content $mdPath "| Test | Result | Duration (ms) | Output |"
-              Add-Content $mdPath "|------|--------|---------------|--------|"
+              Add-Content $mdPath "| Test | Result | Output |"
+              Add-Content $mdPath "|------|--------|--------|"
 
               foreach ($test in $allTests) {
                   $testName = $test.testName
                   $result = $test.outcome
-                  $duration = [math]::Round($test.Duration.TotalMilliseconds)
                   $output = ($test.Output.StdOut) -replace "\|","\\|"
 
-                  Add-Content $mdPath "| $testName | $result | $duration | $output |"
+                  Add-Content $mdPath "| $testName | $result | $output |"
 
-                  if ($result -eq "Passed") { $passed++ } else { $failed++ }
+                  switch ($result) {
+                      "Passed" { $passed++ }
+                      "Failed" { $failed++ }
+                      default { 
+                          # Ignored/NotExecuted/SKIPPED räknas inte som fail
+                          $skipped++ 
+                      }
+                  }
               }
           }
 
@@ -299,7 +305,6 @@ jobs:
         shell: pwsh
         run: |
           $content = Get-Content "$env:RESULT_DIR/kmom05-results.md" -Raw
-          # Escapa multiline med EOF
           Add-Content -Path $env:GITHUB_OUTPUT -Value "body<<EOF"
           Add-Content -Path $env:GITHUB_OUTPUT -Value "$content"
           Add-Content -Path $env:GITHUB_OUTPUT -Value "EOF"
