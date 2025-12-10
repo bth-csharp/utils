@@ -267,7 +267,7 @@ jobs:
         shell: pwsh
         id: parse
         run: |
-          $trxPath = "$env:RESULT_DIR/kmom05-test-results.trx"
+          $trxPath = "$env:RESULT_DIR/kmom05-test-result.trx"
           $mdPath = "$env:RESULT_DIR/kmom05-results.md"
 
           [xml]$trx = Get-Content $trxPath
@@ -277,7 +277,7 @@ jobs:
 
           foreach ($suite in $testSuites) {
               $className = $suite.Name
-              Add-Content $mdPath "## $className`n"
+              Add-Content $mdPath "## ${className}`n"
               Add-Content $mdPath "| Test | Result | Duration (ms) | Output |"
               Add-Content $mdPath "|------|--------|---------------|--------|"
 
@@ -290,7 +290,7 @@ jobs:
                   $duration = [math]::Round($test.Duration.TotalMilliseconds)
                   $output = ($test.Output.StdOut) -replace "\|","\\|"
 
-                  Add-Content $mdPath "| $testName | $result | $duration | $output |"
+                  Add-Content $mdPath "| ${testName} | ${result} | ${duration} | ${output} |"
 
                   if ($result -eq "Passed") { $passed++ } else { $failed++ }
               }
