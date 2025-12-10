@@ -96,6 +96,9 @@ jobs:
           token: ${{ env.STUDENT_READ_TOKEN }}
           path: secretTests
 
+      - name: Restore packages
+        run: dotnet restore
+
       - name: Debug student repo files
         run: |
           pwd
