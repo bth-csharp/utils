@@ -280,6 +280,30 @@ jobs:
                   $testName = $test.testName
                   $result = $test.outcome
                   $output = ($test.Output.StdOut) -replace "\|","\\|"
+                  $errorMsg = ""
+
+                  if ($test.Output.ErrorInfo.Message) {
+                      $errorMsg = $test.Output.ErrorInfo.Message
+                  }
+                  elseif ($test.Output.ErrorInfo) {
+                      $errorMsg = $test.Output.ErrorInfo
+                  }
+                  elseif ($test.Output.Message) {
+                      $errorMsg = $test.Output.Message
+                  }
+                  elseif ($test.InnerResults.ErrorInfo.Message) {
+                      $errorMsg = $test.InnerResults.ErrorInfo.Message
+                  }
+
+                  # Sanera | i markdown
+                  $errorMsg = $errorMsg -replace "\|","\\|"
+
+                  # Lägg till i output
+                  $output = ($test.Output.StdOut) -replace "\|","\\|"
+
+                  if ($result -eq "Failed" -and $errorMsg) {
+                      $output += "`n> **Error:** $errorMsg"
+                  }
 
                   Add-Content $mdPath "| $testName | $result | $output |"
 
