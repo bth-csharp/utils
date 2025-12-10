@@ -295,8 +295,6 @@ jobs:
         shell: pwsh
         run: |
           $content = Get-Content "$env:RESULT_DIR/kmom05-results.md" -Raw
-          # Skriv till environment file
-          $env:GITHUB_OUTPUT | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
           Add-Content -Path $env:GITHUB_OUTPUT -Value "body=$content"
 
       - name: Kommentera testresultat i PR
