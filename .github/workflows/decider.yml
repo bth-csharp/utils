@@ -195,6 +195,7 @@ jobs:
             echo "FAIL:kmom05 student tests " >> "$RESULT_DIR/student_result.txt"
             STUDENT_TEST_OK=false
           fi
+          echo "---------------------" > "$RESULT_DIR/student_result.txt"
           cd $ROOT_DIR
           echo "Debug student_result file"
           ls "$RESULT_DIR"
@@ -220,7 +221,7 @@ jobs:
           echo "Test project: $TEST_KMOM05"
           echo "Test project: $TEST_KMOM06"
           ALL_OK=true
-          echo "\n\nTest result" > "$RESULT_DIR/result.txt"
+          echo -e "\n\nTest result" > "$RESULT_DIR/result.txt"
           cd $TEST_KMOM05
           dotnet add reference "$STUDENT_KMOM05"
           if dotnet test --configuration Debug --logger:"trx;LogFileName=$RESULT_DIR/kmom05-results.trx"
@@ -240,6 +241,7 @@ jobs:
             echo "FAIL:kmom06" >> "$RESULT_DIR/result.txt"
             ALL_OK=false
           fi
+          echo "---------------------" > "$RESULT_DIR/result.txt"
           cd $ROOT_DIR
           echo "Debug result file"
           ls "$RESULT_DIR"
