@@ -252,11 +252,10 @@ jobs:
         id: set-result
         run: |
           if [ "$STUDENT_TEST_OK"  = "true" ]; then
-            echo "Your student test for kmom05 PASSED" >> $GITHUB_OUTPUT
+            echo "Your student tests for kmom05 PASSED" >> $GITHUB_OUTPUT
           else
-            echo "Your student test for kmom05 FAILED" >> $GITHUB_OUTPUT
+            echo "Your student tests for kmom05 FAILED" >> $GITHUB_OUTPUT
           fi
-          echo "------------------------" >> $GITHUB_OUTPUT
           if [ "$ALL_OK" = "true" ]; then
             echo "all_tests_passed=true" >> $GITHUB_OUTPUT
             echo "Everything is ok. Wait for a teacher to do a code review and correct the task!" >> "$RESULT_DIR/result.txt"
