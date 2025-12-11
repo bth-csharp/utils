@@ -182,7 +182,7 @@ jobs:
           ROOT_DIR=$(pwd)
           echo "Workspace root: $ROOT_DIR"
           echo "Adding ProjectReference to tests"
-          STUDENT_KMOM05="../kmom05/MyPlanner/MyPlanner.csproj"
+          STUDENT_KMOM05="../MyPlanner/MyPlanner.csproj"
           TEST_KMOM05="student/kmom05/MyPlanner.Tests"
           STUDENT_TEST_OK=true
           echo "Test result" > "$RESULT_DIR/student_result.txt"
