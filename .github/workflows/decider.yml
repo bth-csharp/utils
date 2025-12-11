@@ -185,7 +185,7 @@ jobs:
           STUDENT_KMOM05="../MyPlanner/MyPlanner.csproj"
           TEST_KMOM05="student/kmom05/MyPlanner.Tests"
           STUDENT_TEST_OK=true
-          echo "Test result" > "$RESULT_DIR/student_result.txt"
+          echo "Student test result" > "$RESULT_DIR/student_result.txt"
           cd $TEST_KMOM05
           dotnet add reference "$STUDENT_KMOM05"
           if dotnet test --configuration Debug --logger:"trx;LogFileName=$RESULT_DIR/student-kmom05-results.trx"
@@ -271,8 +271,6 @@ jobs:
           echo "📄 Debug: visar var vi står"
           pwd
           ls .
-          echo "Innehåll i student_result.txt"
-          cat "$RESULT_DIR/student_result.txt"
           if [ -f $RESULT_DIR/student_result.txt ]; then
             BODY_CONTENT=$(cat $RESULT_DIR/student_result.txt)
           else
@@ -281,9 +279,9 @@ jobs:
           echo "Innehåll i result.txt"
           cat "$RESULT_DIR/result.txt"
           if [ -f $RESULT_DIR/result.txt ]; then
-            BODY_CONTENT=$(cat $RESULT_DIR/result.txt)
+            BODY_CONTENT+=$(cat $RESULT_DIR/result.txt)
           else
-            BODY_CONTENT="Hittade ingen result.txt!"
+            BODY_CONTENT+="Hittade ingen result.txt!"
           fi
           echo "Innehåll i BODY_CONTENT"
           echo "$BODY_CONTENT" 
@@ -381,7 +379,7 @@ jobs:
           Add-Content -Path $env:GITHUB_OUTPUT -Value "$content"
           Add-Content -Path $env:GITHUB_OUTPUT -Value "EOF"
 
-      - name: Kommentera testresultat i PR
+      - name: Comment test result in PR kmom03
         if: ${{ inputs.student_branch == 'bth/submit/kmom03' }} 
         uses: peter-evans/create-or-update-comment@v4
         with:
@@ -391,7 +389,7 @@ jobs:
           body: | 
             ${{ env.BODY_CONTENT }}
 
-      - name: Kommentera testresultat i PR
+      - name: Comment test result in PR kmom06
         if: ${{ inputs.student_branch == 'bth/submit/kmom06' }} 
         uses: peter-evans/create-or-update-comment@v4
         with:
