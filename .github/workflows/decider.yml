@@ -175,7 +175,34 @@ jobs:
           # Sätt environment-variabel för senare steg
           echo "ALL_OK=$ALL_OK" >> $GITHUB_ENV
 
-      - name: Run tests for bth/submit/kmom06
+      - name: Run STUDENT tests for bth/submit/kmom06
+        if: ${{ inputs.student_branch == 'bth/submit/kmom06' }}
+        id: student_tests_kmom06
+        run: |
+          ROOT_DIR=$(pwd)
+          echo "Workspace root: $ROOT_DIR"
+          echo "Adding ProjectReference to tests"
+          STUDENT_KMOM05="student/kmom05/MyPlanner/MyPlanner.csproj"
+          TEST_KMOM05="student/kmom05/MyPlanner.Tests"
+          STUDENT_TEST_OK=true
+          echo "Test result" > "$RESULT_DIR/student_result.txt"
+          cd $TEST_KMOM05
+          dotnet add reference "$STUDENT_KMOM05"
+          if dotnet test --configuration Debug --logger:"trx;LogFileName=$RESULT_DIR/student-kmom05-results.trx"
+          then
+            echo "student tests kmom05 ok" >> "$RESULT_DIR/student_result.txt"
+          else
+            echo "FAIL:kmom05 student tests " >> "$RESULT_DIR/student_result.txt"
+            STUDENT_TEST_OK=false
+          fi
+          cd $ROOT_DIR
+          echo "Debug student_result file"
+          ls "$RESULT_DIR"
+          cat "$RESULT_DIR/student_result.txt"
+          # Sätt environment-variabel för senare steg
+          echo "STUDENT_TEST_OK=$ALL_OK" >> $GITHUB_ENV
+
+      - name: Run TEACHER tests for bth/submit/kmom06
         if: ${{ inputs.student_branch == 'bth/submit/kmom06' }}
         id: tests_kmom06
         env:
@@ -224,6 +251,12 @@ jobs:
         if: ${{ inputs.student_branch == 'bth/submit/kmom03' || inputs.student_branch == 'bth/submit/kmom06' }} 
         id: set-result
         run: |
+          if [ "$STUDENT_TEST_OK"  = "true" ]; then
+            echo "Your student test for kmom05 PASSED" >> $GITHUB_OUTPUT
+          else
+            echo "Your student test for kmom05 FAILED" >> $GITHUB_OUTPUT
+          fi
+          echo "------------------------" >> $GITHUB_OUTPUT
           if [ "$ALL_OK" = "true" ]; then
             echo "all_tests_passed=true" >> $GITHUB_OUTPUT
             echo "Everything is ok. Wait for a teacher to do a code review and correct the task!" >> "$RESULT_DIR/result.txt"
