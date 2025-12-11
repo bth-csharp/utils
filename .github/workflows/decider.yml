@@ -271,6 +271,13 @@ jobs:
           echo "📄 Debug: visar var vi står"
           pwd
           ls .
+          echo "Innehåll i student_result.txt"
+          cat "$RESULT_DIR/student_result.txt"
+          if [ -f $RESULT_DIR/student_result.txt ]; then
+            BODY_CONTENT=$(cat $RESULT_DIR/student_result.txt)
+          else
+            BODY_CONTENT="Hittade ingen student_result.txt!"
+          fi
           echo "Innehåll i result.txt"
           cat "$RESULT_DIR/result.txt"
           if [ -f $RESULT_DIR/result.txt ]; then
