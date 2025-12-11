@@ -185,7 +185,7 @@ jobs:
           STUDENT_KMOM05="../MyPlanner/MyPlanner.csproj"
           TEST_KMOM05="student/kmom05/MyPlanner.Tests"
           STUDENT_TEST_OK=true
-          echo "Student test result" >> "$RESULT_DIR/student_result.txt"
+          echo "Student test result" > "$RESULT_DIR/student_result.txt"
           cd $TEST_KMOM05
           dotnet add reference "$STUDENT_KMOM05"
           if dotnet test --configuration Debug --logger:"trx;LogFileName=$RESULT_DIR/student-kmom05-results.trx"
@@ -220,7 +220,7 @@ jobs:
           echo "Test project: $TEST_KMOM05"
           echo "Test project: $TEST_KMOM06"
           ALL_OK=true
-          echo "Test result" >> "$RESULT_DIR/result.txt"
+          printf "\n\nTest result" > "$RESULT_DIR/result.txt"
           cd $TEST_KMOM05
           dotnet add reference "$STUDENT_KMOM05"
           if dotnet test --configuration Debug --logger:"trx;LogFileName=$RESULT_DIR/kmom05-results.trx"
