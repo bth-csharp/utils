@@ -370,6 +370,19 @@ jobs:
             Add-Content -Path $env:GITHUB_OUTPUT -Value "$content"
             Add-Content -Path $env:GITHUB_OUTPUT -Value "EOF"
           }
+          else {
+            $fallback = @"
+            **Kmom05-resultat saknas**
+
+            Detta beror troligen på att testerna inte kunde köras eller inte kompilerade.
+            "@
+
+            Add-Content -Path $env:GITHUB_OUTPUT -Value "body<<EOF"
+            Add-Content -Path $env:GITHUB_OUTPUT -Value "$fallback"
+            Add-Content -Path $env:GITHUB_OUTPUT -Value "EOF"
+
+            Write-Host "kmom05-results.md saknas – troligen kompilationsfel."
+          }
 
       - name: Read kmom06-results.md
         if: ${{ inputs.student_branch == 'bth/submit/kmom06' }}
@@ -383,7 +396,19 @@ jobs:
             Add-Content -Path $env:GITHUB_OUTPUT -Value "$content"
             Add-Content -Path $env:GITHUB_OUTPUT -Value "EOF"
           }
+          else {
+            $fallback = @"
+            **Kmom06-resultat saknas**
 
+            Detta beror troligen på att testerna inte kunde köras eller inte kompilerade.
+            "@
+
+            Add-Content -Path $env:GITHUB_OUTPUT -Value "body<<EOF"
+            Add-Content -Path $env:GITHUB_OUTPUT -Value "$fallback"
+            Add-Content -Path $env:GITHUB_OUTPUT -Value "EOF"
+
+            Write-Host "kmom06-results.md saknas – troligen kompilationsfel."
+          }
       - name: Comment test result in PR kmom03
         if: ${{ inputs.student_branch == 'bth/submit/kmom03' }} 
         uses: peter-evans/create-or-update-comment@v4
