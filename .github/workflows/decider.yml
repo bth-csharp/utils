@@ -405,6 +405,9 @@ jobs:
             Test results kmom06:
             ${{ steps.read_kmom06_results.outputs.body }}
 
+            Sammanfattning:
+            ${{ env.BODY_CONTENT }}
+
   add-label:
     runs-on: ubuntu-latest
     needs: run-tests
