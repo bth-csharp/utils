@@ -192,7 +192,7 @@ jobs:
           then
             echo "student tests kmom05 ok" >> "$RESULT_DIR/student_result.txt"
           else
-            echo "FAIL:kmom05 student tests " >> "$RESULT_DIR/student_result.txt"
+            echo "FAIL: kmom05 student tests, fix them locally and push again " >> "$RESULT_DIR/student_result.txt"
             STUDENT_TEST_OK=false
           fi
           cd $ROOT_DIR
