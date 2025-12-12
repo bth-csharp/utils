@@ -363,21 +363,26 @@ jobs:
         id: read_kmom05_results
         shell: pwsh
         run: |
-          $content = Get-Content "$env:RESULT_DIR/kmom05-results.md" -Raw
-          Add-Content -Path $env:GITHUB_OUTPUT -Value "body<<EOF"
-          Add-Content -Path $env:GITHUB_OUTPUT -Value "$content"
-          Add-Content -Path $env:GITHUB_OUTPUT -Value "EOF"
+          $file = "$env:RESULT_DIR/kmom05-results.md"
+          if (Test-Path $file) {
+            $content = Get-Content $file -Raw
+            Add-Content -Path $env:GITHUB_OUTPUT -Value "body<<EOF"
+            Add-Content -Path $env:GITHUB_OUTPUT -Value "$content"
+            Add-Content -Path $env:GITHUB_OUTPUT -Value "EOF"
+          }
 
       - name: Read kmom06-results.md
         if: ${{ inputs.student_branch == 'bth/submit/kmom06' }}
         id: read_kmom06_results
         shell: pwsh
         run: |
-          $content = Get-Content "$env:RESULT_DIR/kmom06-results.md" -Raw
-          # Escapa multiline med EOF
-          Add-Content -Path $env:GITHUB_OUTPUT -Value "body<<EOF"
-          Add-Content -Path $env:GITHUB_OUTPUT -Value "$content"
-          Add-Content -Path $env:GITHUB_OUTPUT -Value "EOF"
+          $file = "$env:RESULT_DIR/kmom06-results.md"
+          if (Test-Path $file) {
+            $content = Get-Content $file -Raw
+            Add-Content -Path $env:GITHUB_OUTPUT -Value "body<<EOF"
+            Add-Content -Path $env:GITHUB_OUTPUT -Value "$content"
+            Add-Content -Path $env:GITHUB_OUTPUT -Value "EOF"
+          }
 
       - name: Comment test result in PR kmom03
         if: ${{ inputs.student_branch == 'bth/submit/kmom03' }} 
