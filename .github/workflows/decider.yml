@@ -371,11 +371,7 @@ jobs:
             Add-Content -Path $env:GITHUB_OUTPUT -Value "EOF"
           }
           else {
-            $fallback = @"
-            **Kmom05-resultat saknas**
-
-            Detta beror troligen på att testerna inte kunde köras eller inte kompilerade.
-            "@
+            $fallback = "Testerna kunde köras, troligen kompilationsfel.""
 
             Add-Content -Path $env:GITHUB_OUTPUT -Value "body<<EOF"
             Add-Content -Path $env:GITHUB_OUTPUT -Value "$fallback"
@@ -397,11 +393,7 @@ jobs:
             Add-Content -Path $env:GITHUB_OUTPUT -Value "EOF"
           }
           else {
-            $fallback = @"
-            **Kmom06-resultat saknas**
-
-            Detta beror troligen på att testerna inte kunde köras eller inte kompilerade.
-            "@
+            $fallback = "Testerna kunde köras, troligen kompilationsfel.""
 
             Add-Content -Path $env:GITHUB_OUTPUT -Value "body<<EOF"
             Add-Content -Path $env:GITHUB_OUTPUT -Value "$fallback"
