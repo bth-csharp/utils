@@ -371,7 +371,7 @@ jobs:
             Add-Content -Path $env:GITHUB_OUTPUT -Value "EOF"
           }
           else {
-            $fallback = "Testerna kunde köras, troligen kompilationsfel.""
+            $fallback = "Testerna kunde köras, troligen kompilationsfel."
 
             Add-Content -Path $env:GITHUB_OUTPUT -Value "body<<EOF"
             Add-Content -Path $env:GITHUB_OUTPUT -Value "$fallback"
@@ -393,7 +393,7 @@ jobs:
             Add-Content -Path $env:GITHUB_OUTPUT -Value "EOF"
           }
           else {
-            $fallback = "Testerna kunde köras, troligen kompilationsfel.""
+            $fallback = "Testerna kunde köras, troligen kompilationsfel."
 
             Add-Content -Path $env:GITHUB_OUTPUT -Value "body<<EOF"
             Add-Content -Path $env:GITHUB_OUTPUT -Value "$fallback"
