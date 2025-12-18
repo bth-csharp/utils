@@ -266,7 +266,7 @@ jobs:
           fi
 
       - name: Create comment on PR kmom03
-        if: ${{ inputs.student_branch == 'bth/submit/kmom03'} 
+        if: ${{ inputs.student_branch == 'bth/submit/kmom03' }} 
         run: |
           echo "📄 Debug: visar var vi står"
           pwd
