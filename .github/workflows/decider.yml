@@ -271,10 +271,12 @@ jobs:
           echo "📄 Debug: visar var vi står"
           pwd
           ls .
-          if [ -f $RESULT_DIR/student_result.txt ]; then
-            BODY_CONTENT=$(cat $RESULT_DIR/student_result.txt)
-          else
-            BODY_CONTENT="Hittade ingen student_result.txt!"
+          if [ inputs.student_branch == 'bth/submit/kmom06' ]
+            if [ -f $RESULT_DIR/student_result.txt ]; then
+              BODY_CONTENT=$(cat $RESULT_DIR/student_result.txt)
+            else
+              BODY_CONTENT="Hittade ingen student_result.txt!"
+            fi
           fi
           echo "Innehåll i result.txt"
           cat "$RESULT_DIR/result.txt"
