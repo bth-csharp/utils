@@ -265,19 +265,12 @@ jobs:
             echo "Fix the errors locally before handing in again!" >> "$RESULT_DIR/result.txt"
           fi
 
-      - name: Create comment on PR
-        if: ${{ inputs.student_branch == 'bth/submit/kmom03' || inputs.student_branch == 'bth/submit/kmom06' }} 
+      - name: Create comment on PR kmom03
+        if: ${{ inputs.student_branch == 'bth/submit/kmom03'} 
         run: |
           echo "📄 Debug: visar var vi står"
           pwd
           ls .
-          if [ inputs.student_branch == 'bth/submit/kmom06' ]
-            if [ -f $RESULT_DIR/student_result.txt ]; then
-              BODY_CONTENT=$(cat $RESULT_DIR/student_result.txt)
-            else
-              BODY_CONTENT="Hittade ingen student_result.txt!"
-            fi
-          fi
           echo "Innehåll i result.txt"
           cat "$RESULT_DIR/result.txt"
           if [ -f $RESULT_DIR/result.txt ]; then
@@ -291,6 +284,30 @@ jobs:
           echo "$BODY_CONTENT" >> $GITHUB_ENV
           echo "EOF" >> $GITHUB_ENV
 
+      - name: Create comment on PR kmom06
+        if: ${{ inputs.student_branch == 'bth/submit/kmom06' }} 
+        run: |
+          echo "📄 Debug: visar var vi står"
+          pwd
+          ls .
+          if [ -f $RESULT_DIR/student_result.txt ]; then
+            BODY_CONTENT=$(cat $RESULT_DIR/student_result.txt)
+          else
+            BODY_CONTENT="Hittade ingen student_result.txt!"
+          fi
+          echo "Innehåll i result.txt"
+          cat "$RESULT_DIR/result.txt"
+          if [ -f $RESULT_DIR/result.txt ]; then
+            BODY_CONTENT+=$(cat $RESULT_DIR/result.txt)
+          else
+            BODY_CONTENT+="Hittade ingen result.txt!"
+          fi
+          echo "Innehåll i BODY_CONTENT"
+          echo "$BODY_CONTENT" 
+          echo "BODY_CONTENT<<EOF" >> $GITHUB_ENV
+          echo "$BODY_CONTENT" >> $GITHUB_ENV
+          echo "EOF" >> $GITHUB_ENV
+      
       - name: Parse NUnit XML in Powershell -> Markdown tables per class (inkl output)
         if: ${{ inputs.student_branch == 'bth/submit/kmom06' }}
         shell: pwsh
