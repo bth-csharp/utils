@@ -136,7 +136,7 @@ namespace Menu.Tests
             }
             Assert.That(resultObject.GetType(), Is.EqualTo(typeof(string)), "CreateAcronym should return the type string.");
             consoleResult = resultObject.ToString() ?? "";
-            Assert.That(consoleResult, Is.EqualTo("Summan=6 och medelvärdet=2"), "Input: 1, input: 2, input: 3; input klar => output: Summan=6 och medelvärdet=2");
+            Assert.That(consoleResult, Is.EqualTo("Summan=6 och medelvärdet=2,00").Or.EqualTo("Summan=6 och medelvärdet=2.00"), "Input: 1, input: 2, input: 3; input klar => output: Summan=6 och medelvärdet=2.00");
         }
 
         [Test]
