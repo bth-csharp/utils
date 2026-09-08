@@ -5,7 +5,7 @@ runs:
   steps:
     - uses: actions/checkout@v4
       with:
-        repository: bth-csharp/csharp-abcd25
+        repository: bth-csharp/template
 
     - uses: actions/checkout@v4
       with:
@@ -19,4 +19,4 @@ runs:
     - name: Setup .NET
       uses: actions/setup-dotnet@v4
       with:
-        dotnet-version: '9.x'
+        dotnet-version: '10.x'
