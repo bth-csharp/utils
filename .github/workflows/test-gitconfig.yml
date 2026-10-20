@@ -1,0 +1,63 @@
+on:
+  workflow_call:
+    inputs:
+      course_id:
+        required: true
+        type: string
+      available_assignments:
+        required: true
+        type: string
+
+jobs:
+  report-closed-pr-to-canvas:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Task
+        uses: arduino/setup-task@v2
+        with:
+          version: 3.x
+
+      - name: Run check repo
+        id: check_repo
+        run: task check-repo-setup
+
+      - name: Create comment
+        id: created_comment
+        run: |
+          cat << EOF >> $GITHUB_OUTPUT
+          myoutput<<EOM
+          Pull Request Action: ${{ github.event.action }}
+          Status: ${{ steps.check_repo.outcome == 'success' && '🎉 Repo setup looks correct' || '❌' }}
+
+          ✅ Connection between GitHub and Canvas is working properly
+
+          PR URL: ${{ github.event.pull_request.html_url }}
+          EOM
+          EOF
+
+      - name: Get Student Canvas ID
+        id: get-canvas-student-id
+        uses: bth-python/utils/.github/actions/get-student-canvas-id@main
+        with:
+          course_id: ${{ inputs.course_id }}
+          canvas_api_token: ${{ secrets.CANVAS_API_TOKEN }}
+          read_org_token: ${{ secrets.READ_ORG_TOKEN }}
+          github_login: ${{ github.event.pull_request.user.login }}
+
+      - uses: bth-python/utils/.github/actions/get-assignment-id@main
+        id: resolve
+        with:
+          available_assignments: ${{ inputs.available_assignments }}
+
+      - name: Update Canvas with closed PR
+        uses: bth-python/utils/.github/actions/update-canvas@main
+        with:
+          subcommand: "grade_submission"
+          grade: ${{ steps.check_repo.outcome == 'success' && 'G' || 'Ux' }}
+          comment: "${{ steps.created_comment.outputs.myoutput }}"
+          canvas_api_token: ${{ secrets.CANVAS_API_TOKEN }}
+          course_id: ${{inputs.course_id}}
+          assignment_id: ${{ steps.resolve.outputs.assignment }}
+          student_id: ${{ steps.get-canvas-student-id.outputs.canvas_student_id }}
