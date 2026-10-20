@@ -64,7 +64,7 @@ jobs:
           for proj in "${{ matrix.folder }}"; do
             task_name=$(basename "$proj" | sed -E 's/\.Tests\.csproj$//')
             echo "task_name: $task_name"
-            console_proj=="${task_name%.Tests}"
+            console_proj=="${proj%.Tests}"
             echo "Testing: $task_name with ./student-submission/$console_proj"
 
             [[ -n "$console_proj" ]] || continue
