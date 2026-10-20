@@ -69,6 +69,8 @@ runs:
     - name: Fetch all Canvas students and match
       id: match-student
       shell: bash
+      env:
+        CANVAS_API_TOKEN: ${{ inputs.canvas_api_token }}
       run: |
         next_url="https://bth.instructure.com/api/v1/courses/${{ inputs.course_id }}/users?enrollment_type[]=student&per_page=100&page=1"
         all_users="[]"
