@@ -46,7 +46,7 @@ runs:
       run: |
         curl --location "https://bth.instructure.com/api/v1/courses/${{ inputs.course_id }}/assignments/${{ inputs.assignment_id }}/submissions" \
         --header "Content-Type: application/x-www-form-urlencoded" \
-        --header "Authorization: Bearer ${{ inputs.canvas_api_token}}" \
+        --header "Authorization: Bearer ${{ inputs.canvas_api_token }}" \
         --data-urlencode "submission%5Bsubmission_type%5D=online_text_entry" \
         --data-urlencode "submission%5Bbody%5D=${{ inputs.comment }}" \
         --data-urlencode "submission%5Buser_id%5D=${{ inputs.student_id }}" \
