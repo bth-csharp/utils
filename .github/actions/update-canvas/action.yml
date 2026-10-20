@@ -1,5 +1,5 @@
-name: "Update Canvas. If using 'null' as grade, only comment will be updated."
-description: "Update Canvas with grade and comment"
+name: "Update Canvas."
+description: "Update Canvas with grade and comment. If using 'null' as grade, only comment will be updated."
 inputs:
   subcommand:
     description: "Select subcommand: submit_assignment or grade_submission"
