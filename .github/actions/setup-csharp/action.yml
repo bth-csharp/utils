@@ -1,5 +1,5 @@
 name: "Setup CSharp"
-description: "Install C# and .NET"
+description: "Install C#, get student code and test code."
 runs:
   using: "composite"
   steps:
@@ -14,9 +14,18 @@ runs:
     - name: Copy student code
       shell: bash
       run: |
-        rsync -av --delete ./student-submission/kmom* ./student/.
+        rsync -av --delete ./student-submission/kmom* .
 
     - name: Setup .NET
       uses: actions/setup-dotnet@v4
       with:
         dotnet-version: '10.x'
+    
+    - name: Debug context
+      shell: bash
+      run: |
+        echo "github.ref: ${{ github.ref }}"
+        echo "github.head_ref: ${{ github.head_ref }}"
+        echo "github.base_ref: ${{ github.base_ref }}"
+        echo "github.event_name: ${{ github.event_name }}"
+        echo "github.event.repository.name: ${{ github.event.repository.name }}"
