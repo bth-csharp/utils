@@ -102,4 +102,26 @@ public class GeneralTest
 
         TestContext.Out.WriteLine($"✅ Använd this för att referera till {attribut} i klassen Player ok");
     }
+
+    [TestCase("Die")]
+    [TestCase("List<Die>")]
+    [TestCase("Menu")]
+    [TestCase("Player")]
+    [TestCase("using Dice100.src")]
+    [TestCase("die.Roll")]
+    [TestCase("menu.PrintMenu")]
+    [TestCase("menu.PrintRules")]
+    public void MainProgramContaining(string name)
+    {
+        var filePath = Path.Combine(this._targetDir, "Program.cs");
+
+        Assert.That(File.Exists(filePath), Is.True, $"Filen saknas: {filePath}");
+
+        var content = File.ReadAllText(filePath) ?? "";
+
+        Assert.That(content, Does.Contain(name),
+        $"{name} ska endast användas i huvudprogrammet 'Program.cs'.");
+
+        TestContext.Out.WriteLine($"✅ Program.cs innehåller klasserna ok");
+    }
 }

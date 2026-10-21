@@ -15,6 +15,20 @@ public class DieTest
         this._numbers = new List<int> { 1, 2, 3, 4, 5, 6 };
     }
 
+
+    [OneTimeTearDown]
+    public void OneTimeTearDown()
+    {
+        if (TestContext.CurrentContext.Result.FailCount == 0)
+        {
+            TestContext.Progress.WriteLine("✅ Alla testfall i Die gick igenom.\n");
+        }
+        else
+        {
+            TestContext.Progress.WriteLine("❌ Något testfall gick fel i Die.\n");
+        }
+    }
+
     [Test]
     public void TestCreateDie()
     {
@@ -71,5 +85,15 @@ public class DieTest
         Die die = new Die(sides);
         Assert.That(die.GetValue(), Is.LessThanOrEqualTo(MAX_NUMBER_OF_SIDES), $"The value of the Die should be 1 <= value <= {sides}.");
         Assert.That(die.GetValue(), Is.GreaterThanOrEqualTo(MIN_VALUE), $"The value of the Die should be 1 <= value <= {sides}.");
+    }
+
+    public void TestGetValueAsStrings()
+    {
+        Die die = new Die();
+        for (int i = 0; i < 10; i++)
+        {
+            die.Roll();
+            Assert.That(die.GetValueAsString(), Does.Contain("123456"), "GetValueAsString should return a substring in '123456'");
+        }
     }
 }

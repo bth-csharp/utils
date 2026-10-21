@@ -12,8 +12,22 @@ public class MenuTest
         this._menu = new Menu();
     }
 
+
+    [OneTimeTearDown]
+    public void OneTimeTearDown()
+    {
+        if (TestContext.CurrentContext.Result.FailCount == 0)
+        {
+            TestContext.Progress.WriteLine("✅ Alla testfall i Menu gick igenom.\n");
+        }
+        else
+        {
+            TestContext.Progress.WriteLine("❌ Något testfall gick fel i Menu.\n");
+        }
+    }
+
     [Test]
-    public void ShowRules_WritesToConsole()
+    public void TestShowRulesWritesToConsole()
     {
         StringWriter writer = new StringWriter();
         Console.SetOut(writer);
@@ -27,7 +41,7 @@ public class MenuTest
     }
 
     [Test]
-    public void ShowMenu_WritesToConsole()
+    public void TestShowMenuWritesToConsole()
     {
         StringWriter writer = new StringWriter();
         Console.SetOut(writer);
@@ -43,7 +57,7 @@ public class MenuTest
     }
 
     [Test]
-    public void GetMenuChoice_ValidInput_ReturnsChoice()
+    public void TestGetMenuChoiceValidInputReturnsChoice()
     {
         StringReader reader = new StringReader("2");
         Console.SetIn(reader);
@@ -56,7 +70,7 @@ public class MenuTest
     }
 
     [Test]
-    public void GetMenuChoice_InvalidInput_ReturnsMinusOne()
+    public void TestGetMenuChoiceInvalidInputReturnsMinusOne()
     {
         StringReader reader = new StringReader("abc");
         Console.SetIn(reader);
