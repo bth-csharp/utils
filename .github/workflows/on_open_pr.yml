@@ -18,7 +18,7 @@ on:
 
 jobs:
   validate-tag:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     outputs:
       workflow_passed: ${{ steps.check.outputs.workflow_passed }}
       error_message: ${{ steps.check.outputs.error_message }}
