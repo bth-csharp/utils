@@ -18,7 +18,7 @@ on:
 
 jobs:
   validate-tag:
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-latest
     outputs:
       workflow_passed: ${{ steps.check.outputs.workflow_passed }}
       error_message: ${{ steps.check.outputs.error_message }}
@@ -167,7 +167,7 @@ jobs:
   submit-canvas:
     needs: [validate-tag, run-tester]
     if: needs.validate-tag.outputs.workflow_passed == 'true' && needs.run-tester.outputs.tests_passed == 'true'
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-latest
     steps:
       - name: Add "Tests passed" label
         uses: actions-ecosystem/action-add-labels@v1
@@ -252,7 +252,7 @@ jobs:
   handle-canvas-failure:
     needs: [submit-canvas]
     if: always() && needs.submit-canvas.result == 'failure'
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-latest
     steps:
       - name: Comment on PR about Canvas submission failure
         uses: actions/github-script@v7
@@ -282,7 +282,7 @@ jobs:
   close-pr:
     needs: [validate-tag, run-tester]
     if: always() && (needs.validate-tag.outputs.workflow_passed != 'true' || needs.run-tester.outputs.tests_passed != 'true')
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-latest
     steps:
       - name: Comment on PR with error message
         uses: actions/github-script@v7
