@@ -1,26 +1,17 @@
-﻿namespace Dice100.Tests;
+﻿using System.Text.RegularExpressions;
+
+namespace Dice100.Tests;
 
 public class GeneralTest
 {
-    private string _targetDir = "";
+    private string _targetDir;
 
     [SetUp]
     public void Setup()
     {
-        var workflowDir = Environment.GetEnvironmentVariable("PROJECT_ROOT");
-
-        if (!string.IsNullOrEmpty(workflowDir))
-        {
-            // Körs i GitHub Actions
-            _targetDir = Path.Combine(workflowDir, "kmom03", "Dice100");
-        }
-        else
-        
-        {
-            var testDir = TestContext.CurrentContext.TestDirectory;
-            var rootDir = Path.GetFullPath(Path.Combine(testDir, "..", "..", "..", ".."));
-            this._targetDir = Path.Combine(rootDir, "Dice100") ?? "";
-        }
+        var testDir = TestContext.CurrentContext.TestDirectory;
+        var rootDir = Path.GetFullPath(Path.Combine(testDir, "..", "..", "..", ".."));
+        this._targetDir = Path.Combine(rootDir, "Dice100") ?? "";
     }
 
     [Test]
@@ -32,13 +23,13 @@ public class GeneralTest
         {
             "Program.cs",
             "toplist.txt",
-            "src/AsciiArt.cs",
             "src/Die.cs",
             "src/FileHandler.cs",
             "src/Game.cs",
             "src/Menu.cs",
-            "src/NumberOfDieException.cs",
-            "src/Round.cs",
+            "src/NumberOfPlayersException.cs",
+            "src/DiceHand.cs",
+            "src/Player.cs"
         };
 
         foreach (var file in requiredFiles)
@@ -66,9 +57,9 @@ public class GeneralTest
 
 
     [Test]
-    public void FileContainingNumberOfDieException()
+    public void FileContainingNumberOfPlayersException()
     {
-        var filePath = Path.Combine(this._targetDir, "src/NumberOfDieException.cs");
+        var filePath = Path.Combine(this._targetDir, "src/NumberOfPlayersException.cs");
 
         Assert.That(File.Exists(filePath), Is.True, $"Filen saknas: {filePath}");
 
@@ -76,13 +67,32 @@ public class GeneralTest
 
         Assert.Multiple(() =>
         {
-            Assert.That(content, Does.Contain("public class NumberOfDieException : Exception"),
-                    $"Filen måste innehålla klassen 'NumberOfDieException'.");
-            Assert.That(content, Does.Contain("public NumberOfDieException("),
-                $"Filen måste innehålla metoden 'NumberOfDieException'.");
+            Assert.That(content, Does.Contain("public class NumberOfPlayersException : Exception"),
+                    $"Filen måste innehålla klassen 'NumberOfPlayersException'.");
+            Assert.That(content, Does.Contain("public NumberOfPlayersException("),
+                $"Filen måste innehålla metoden 'NumberOfPlayersException'.");
         });
 
-        TestContext.Out.WriteLine("✅ NumberOfDieException är deklarerad ok");
+        TestContext.Out.WriteLine("✅ NumberOfPlayersException är deklarerad ok");
+    }
+
+    [Test]
+    public void RequiredClassDiagram()
+    {
+        Assert.That(Directory.Exists(_targetDir), Is.True, $"Katalogen saknas: {_targetDir}");
+
+        var fullPath1 = Path.Combine(_targetDir, "..", "classdiagram.pdf");
+        var fullPath2 = Path.Combine(_targetDir, "..", "classdiagram.png");
+
+        bool exists = File.Exists(fullPath1) || File.Exists(fullPath2);
+
+        Assert.That(exists, Is.True, "Klassdiagram saknas! Har du rätt filnamn?");
+        Assert.That(
+            (File.Exists(fullPath1) && !string.IsNullOrWhiteSpace(File.ReadAllText(fullPath1))) ||
+            (File.Exists(fullPath2) && !string.IsNullOrWhiteSpace(File.ReadAllText(fullPath2))),
+            Is.True, "Aj då, tom fil.");
+
+        TestContext.Out.WriteLine("✅ Klassdiagram finns");
     }
 
     [Test]
@@ -93,9 +103,11 @@ public class GeneralTest
         var requiredFiles = new[]
         {
             "src/Die.cs",
+            "src/NumberOfPlayersException.cs",
+            "src/DiceHand.cs",
+            "src/AsciiArt.cs",
             "src/Game.cs",
-            "src/NumberOfDieException.cs",
-            "src/Round.cs",
+            "src/Player.cs"
         };
 
         foreach (var file in requiredFiles)
@@ -111,28 +123,6 @@ public class GeneralTest
     }
 
     [Test]
-    public void FilesContainingIO()
-    {
-        Assert.That(Directory.Exists(_targetDir), Is.True, $"Katalogen saknas: {_targetDir}");
-
-        var requiredFiles = new[]
-        {
-            "src/AsciiArt.cs",
-            "src/Menu.cs"
-        };
-
-        foreach (var file in requiredFiles)
-        {
-            var filePath = Path.Combine(_targetDir, file);
-            Assert.That(File.Exists(filePath), Is.True, $"Filen saknas: {file}");
-            var content = File.ReadAllText(filePath) ?? "";
-            Assert.That(content, Does.Contain("Console.Write"),
-            $"Filen {file} får innehålla in- och utmatning.");
-        }
-        TestContext.Out.WriteLine("✅ Menu och AsciArt innehåller I/O");
-    }
-
-    [Test]
     public void CheckIfProgramIsOk()
     {
         var filePath = Path.Combine(this._targetDir, "Program.cs");
@@ -140,38 +130,109 @@ public class GeneralTest
         Assert.That(File.Exists(filePath), Is.True, $"Filen saknas: {filePath}");
 
         var content = File.ReadAllText(filePath) ?? "";
-
+        
         var nonEmptyLines = content
             .Split(Environment.NewLine)
             .Where(l => !string.IsNullOrWhiteSpace(l))
             .ToList();
 
 
-        Assert.That(content, Does.Contain("Menu menu = "), $"Ett meny objekt ska skapas");
         Assert.Multiple(() =>
         {
-            Assert.That(content, Does.Contain("menu."), $"Menyn ska köras igång");
-            Assert.That(nonEmptyLines, Has.Count.GreaterThanOrEqualTo(2),
-                $"Filen måste innehålla minst 2 strängar, hittade {nonEmptyLines.Count}.");
-            Assert.That(nonEmptyLines, Has.Count.LessThanOrEqualTo(4),
-                $"Filen måste innehålla max 4 strängar, hittade {nonEmptyLines.Count}.");
+            Assert.That(content, Does.Contain("Player"), $"Ett meny objekt ska skapas");
+            Assert.That(content, Does.Contain("Game game = "), $"Ett meny objekt ska skapas");
+            Assert.That(content, Does.Contain("game.Run()"), $"Spelet ska startas");
+            Assert.That(nonEmptyLines, Has.Count.GreaterThanOrEqualTo(4),
+                $"Filen måste innehålla minst 4 strängar, hittade {nonEmptyLines.Count}.");
+            Assert.That(nonEmptyLines, Has.Count.LessThanOrEqualTo(8),
+                $"Filen måste innehålla max 8 strängar, hittade {nonEmptyLines.Count}.");
         });
 
         TestContext.Out.WriteLine("✅ Ett objekt av klassen Menu skapas och menyn körs igång");
     }
-    
+
     [Test]
-    public void RequiredClassDiagram()
+    public void DieContainingThis()
     {
-        Assert.That(Directory.Exists(_targetDir), Is.True, $"Katalogen saknas: {_targetDir}");
+        var filePath = Path.Combine(this._targetDir, "src/Die.cs");
 
-        var fullPath1 = Path.Combine(_targetDir, "..", "classdiagram.pdf");
-        var fullPath2 = Path.Combine(_targetDir, "..", "classdiagram.png");
+        Assert.That(File.Exists(filePath), Is.True, $"Filen saknas: {filePath}");
 
-        bool exists = File.Exists(fullPath1) || File.Exists(fullPath2);
+        var content = File.ReadAllText(filePath) ?? "";
 
-        Assert.That(exists, Is.True, "Klassdiagram saknas! Har du rätt filnamn?");
+        var totalValueCount = Regex.Matches(content, "_value").Count;
+        var thisValueCount = Regex.Matches(content, "this\\._value").Count;
 
-        TestContext.Out.WriteLine("✅ Klassdiagram finns");
+        Assert.That(totalValueCount, Is.EqualTo(thisValueCount + 1),
+        "_value ska endast användas direkt vid deklarationen — alla andra användningar ska vara this._value.");
+
+        TestContext.Out.WriteLine("✅ Använd this för att referera till attribut i klassen Die ok");
+    }
+
+    [Test]
+    public void DiceHandContainingThis()
+    {
+        var filePath = Path.Combine(this._targetDir, "src/DiceHand.cs");
+
+        Assert.That(File.Exists(filePath), Is.True, $"Filen saknas: {filePath}");
+
+        var content = File.ReadAllText(filePath) ?? "";
+
+        var totalHandCount = Regex.Matches(content, "_hand").Count;
+        var thisHandCount = Regex.Matches(content, "this\\._hand").Count;
+
+        Assert.That(totalHandCount, Is.EqualTo(thisHandCount + 1),
+        "_hand ska endast användas direkt vid deklarationen — alla andra användningar ska vara this._hand.");
+
+        TestContext.Out.WriteLine("✅ Använd this för att referera till attribut i klassen DiceHand ok");
+    }
+
+    [Test]
+    public void GameContainingOk()
+    {
+        var filePath = Path.Combine(this._targetDir, "src/Game.cs");
+
+        Assert.That(File.Exists(filePath), Is.True, $"Filen saknas: {filePath}");
+
+        var content = File.ReadAllText(filePath) ?? "";
+
+        Assert.That(content, Does.Contain("Game()"), $"Ska ha en defaultkonstruktor utan inparametrar");
+        Assert.That(content, Does.Contain("Run()"), $"Ska ha en metod som heter Play utan inparametrar");
+
+        TestContext.Out.WriteLine("✅ Game innehåller defaultkonstruktor och Play-metod ok");
+    }
+
+    [Test]
+    public void MenuContainingOk()
+    {
+        var filePath = Path.Combine(this._targetDir, "src/Menu.cs");
+
+        Assert.That(File.Exists(filePath), Is.True, $"Filen saknas: {filePath}");
+
+        var content = File.ReadAllText(filePath) ?? "";
+
+        Assert.Multiple(() =>
+        {
+            Assert.That(content, Does.Contain("PrintRules()"), $"Metoden PrintRules ska finnas i Menu-klassen.");
+            Assert.That(content, Does.Contain("PrintMenu()"), $"Metoden PrintMenu ska finnas i Menu-klassen.");
+            Assert.That(content, Does.Not.Contain("new Game("), $"Menu-klassen ska inte ha ett Game-objekt.");
+        });
+        TestContext.Out.WriteLine("✅ Menu innehåller ett game objekt ok");
+    }
+
+    [Test]
+    public void DiceHandContainingOk()
+    {
+        var filePath = Path.Combine(this._targetDir, "src/DiceHand.cs");
+
+        Assert.That(File.Exists(filePath), Is.True, $"Filen saknas: {filePath}");
+
+        var content = File.ReadAllText(filePath) ?? "";
+
+        Assert.That(content, Does.Contain("GetHandAsString("), $"Ska innehålla GetHandAsString");
+        Assert.That(content, Does.Contain("RollAll()"), $"Ska innehålla RollAll");
+        Assert.That(content, Does.Contain("GetTotal()"), $"Ska innehålla GetTotal");
+
+        TestContext.Out.WriteLine("✅ DiceHand innehåller defaultkonstruktor och GetAsciiHand iställer för PrintHand ok");
     }
 }

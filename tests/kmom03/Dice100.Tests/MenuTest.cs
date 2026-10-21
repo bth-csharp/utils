@@ -1,146 +1,76 @@
-namespace Dice100.Tests;
 using Dice100.src;
 
+namespace Dice100.Tests;
+[TestFixture]
 public class MenuTest
 {
-    private string _targetDir = "";
-
-    [SetUp]
-    public void SetUp()
+    [OneTimeTearDown]
+    public void OneTimeTearDown()
     {
-        var workflowDir = Environment.GetEnvironmentVariable("PROJECT_ROOT");
-
-        if (!string.IsNullOrEmpty(workflowDir))
+        if (TestContext.CurrentContext.Result.FailCount == 0)
         {
-            // Körs i GitHub Actions
-            _targetDir = Path.Combine(workflowDir, "kmom03", "Dice100");
+            TestContext.Progress.WriteLine("✅ Alla testfall i Menu gick igenom.\n");
         }
         else
-        
         {
-            var testDir = TestContext.CurrentContext.TestDirectory;
-            var rootDir = Path.GetFullPath(Path.Combine(testDir, "..", "..", "..", ".."));
-            this._targetDir = Path.Combine(rootDir, "Dice100") ?? "";
+            TestContext.Progress.WriteLine("❌ Något testfall gick fel i Menu.\n");
         }
     }
 
     [Test]
-    [Ignore("Menu kan implementeras på olika sätt, test funkar inte med alla lösningar")]
-    public void TestInputValues()
+    public void TestShowRulesWritesToConsole()
     {
-        string name = "Marie";
-        string noOfDice = "4";
-        string title = "Dice100";
-        Menu menu = new Menu();
+        StringWriter writer = new StringWriter();
+        Console.SetOut(writer);
 
-        var input = new StringReader(name + "\n" + noOfDice +"\n");
-        Console.SetIn(input);
-        var output = new StringWriter();
-        Console.SetOut(output);
+        Menu.PrintRules();
 
-        menu.InitGame();
-        var content = output.ToString() ?? "";
+        string output = writer.ToString();
+        Assert.That(output.Length, Is.GreaterThan(100), "The rules text is too short min 100 characters required.");
 
-        Assert.That(content, Does.Contain(title), $"Välkomstmeddelandet ska innehålla titeln: {title}.");
-        Assert.That(content, Does.Contain(name), $"Välkomstmeddelandet ska innehålla namnet: {name}.");
-        Assert.That(content, Does.Contain(noOfDice), $"Välkomstmeddelandet ska innehålla antalet tärningar {noOfDice}.");
-        TestContext.Out.WriteLine("✅ Menu: Godkänt valkomstmeddelande med rubrik, namn och antal tärningar");
+        Console.SetOut(new StreamWriter(Console.OpenStandardOutput()) { AutoFlush = true });
     }
 
     [Test]
-    [Ignore("Menu kan implementeras på olika sätt, test funkar inte med alla lösningar")]
-    public void TestInputNoOfDiesTooHigh()
+    public void TestShowMenuWritesToConsole()
     {
-        string name = "Marie";
-        string noOfDice = "4";
-        string noOfDiceTooHigh = "14";
-        string errorMessage = "vara 10 eller färre";
-        Menu menu = new Menu();
+        StringWriter writer = new StringWriter();
+        Console.SetOut(writer);
 
-        var input = new StringReader(name + "\n" + noOfDiceTooHigh +"\n" + noOfDice + "\n");
-        Console.SetIn(input);
-        var output = new StringWriter();
-        Console.SetOut(output);
-        menu.InitGame();
+        Menu.PrintMenu();
 
-        var content = output.ToString() ?? "";
+        string output = writer.ToString();
+        Assert.That(output, Does.Contain("1."));
+        Assert.That(output, Does.Contain("2."));
+        Assert.That(output, Does.Contain("3."));
+        Assert.That(output, Does.Contain("4."));
 
-        Assert.That(content, Does.Contain(errorMessage), $"Felmeddelandet ska innehålla delsträngen: {errorMessage}.");
-        Assert.That(content, Does.Contain(noOfDice), $"Antalet tärningar {noOfDice}.");
-        TestContext.Out.WriteLine("✅ Menu: Inmatning av antalet tärningar över 10 kastar NumberOfDieException");
+        Console.SetOut(new StreamWriter(Console.OpenStandardOutput()) { AutoFlush = true });
     }
 
     [Test]
-    [Ignore("Menu kan implementeras på olika sätt, test funkar inte med alla lösningar")]
-    public void TestInputNoOfDiesTooLow()
+    public void TestGetMenuChoiceValidInputReturnsChoice()
     {
-        string name = "Marie";
-        string noOfDice = "5";
-        string noOfDiceTooLow = "1";
-        string errorMessage = "vara 2 eller fler";
-        Menu menu = new Menu();
+        StringReader reader = new StringReader("2");
+        Console.SetIn(reader);
 
-        var input = new StringReader(name + "\n" + noOfDiceTooLow + "\n" + noOfDice + "\n");
-        Console.SetIn(input);
-        var output = new StringWriter();
-        Console.SetOut(output);
-        menu.InitGame();
+        string choice = Menu.GetMenuChoice();
 
-        var content = output.ToString() ?? "";
+        Assert.That(choice, Is.EqualTo("2"));
 
-        Assert.That(content, Does.Contain(errorMessage), $"Felmeddelandet ska innehålla delsträngen: {errorMessage}.");
-        Assert.That(content, Does.Contain(noOfDice), $"Antalet tärningar {noOfDice}.");
-        TestContext.Out.WriteLine("✅ Menu: Inmatning av antalet tärningar mindre än 2 kastar NumberOfDieException");
+        Console.SetIn(new StreamReader(Console.OpenStandardInput()));
     }
 
     [Test]
-    public void MenuContainingWelcome()
+    public void TestGetMenuChoiceInvalidInputReturnsMinusOne()
     {
-        var filePath = Path.Combine(this._targetDir, "src/Menu.cs");
+        StringReader reader = new StringReader("abc");
+        Console.SetIn(reader);
 
-        Assert.That(File.Exists(filePath), Is.True, $"Filen saknas: {filePath}");
+        string choice = Menu.GetMenuChoice();
 
-        var content = File.ReadAllText(filePath) ?? "";
+        Assert.That(choice, Is.EqualTo("abc"));
 
-        Assert.Multiple(() =>
-        {
-            Assert.That(content, Does.Match("Välkom|Welcom"),
-                    $"Välkomsthälsning saknas");
-            Assert.That(content, Does.Match("tärning|Tärning|Di|di"),
-                    $"Information om antal tärningar saknas");
-        });
-
-        TestContext.Out.WriteLine("✅ Menu: Välkomsthälsning ok");
-    }
-
-    [Test]
-    public void MenuContainingGame()
-    {
-        var filePath = Path.Combine(this._targetDir, "src/Menu.cs");
-
-        Assert.That(File.Exists(filePath), Is.True, $"Filen saknas: {filePath}");
-
-        var content = File.ReadAllText(filePath) ?? "";
-
-        Assert.That(content, Does.Match(@"\bGame\b"), $"Game objektet saknas");
-
-
-        TestContext.Out.WriteLine("✅ Menu: innehåller Game ok");
-    }
-
-    [Test]
-    public void MenuNotContainingRoundNorDie()
-    {
-        var filePath = Path.Combine(this._targetDir, "src/Menu.cs");
-
-        Assert.That(File.Exists(filePath), Is.True, $"Filen saknas: {filePath}");
-
-        var content = File.ReadAllText(filePath) ?? "";
-
-        Assert.That(content, Does.Not.Match(@"\bRound\b"), "Menu får inte referera till klassen Round.");
-        Assert.That(content, Does.Not.Match(@"\bDie\b"), "Menu får inte referera till klassen Die.");
-
-
-        TestContext.Out.WriteLine("✅ Menu: innehåller inte Round och Die ok");
+        Console.SetIn(new StreamReader(Console.OpenStandardInput()));
     }
 }

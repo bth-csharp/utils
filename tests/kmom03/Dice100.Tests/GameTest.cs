@@ -4,42 +4,62 @@ using Dice100.src;
 public class GameTest
 {
     Game _game;
+    private TextWriter _originalOut;
+    private TextReader _originalIn;
 
     [SetUp]
     public void SetUp()
     {
+        this._originalOut = Console.Out;
+        this._originalIn = Console.In;
+        Console.SetOut(new StringWriter());
         this._game = new Game();
     }
 
-    [Test]
-    public void TestInputValues()
+    [TearDown]
+    public void TearDown()
     {
-        string name = "Marie";
-        int noOfDice = 4;
-
-        _game.SetGameValues(noOfDice, name);
-
-        Assert.That(_game.SetGameValues(noOfDice, name), Is.True, $"SetGameValue ska vara en sträng och ett 2<= tal <=10.");
-        TestContext.Out.WriteLine("✅ Game: SetGameValue, inputs är ok");
+        Console.SetOut(this._originalOut);
+        Console.SetIn(this._originalIn);
     }
 
     [Test]
+    public void TestGame()
+    {
+        StringWriter writer = new StringWriter();
+        Console.SetOut(writer);
+
+        List<Player> players = [];
+        players.Add(new Player("Test name 1"));
+
+        Game game = new Game(players);
+        Console.SetIn(new StringReader("1\n\nh\nh\nh\nh\nh\nh\nh\nh\nh\nh\nh\nh\nh\n4\n"));
+        game.Run();
+
+        string result = writer.ToString();
+
+        Assert.That(result, Does.Contain("Test name 1"));
+        //Assert.That(result.GetWinner().GetTotalScore(), Is.GreaterThanOrEqualTo(100));
+
+        Console.SetOut(new StreamWriter(Console.OpenStandardOutput()) { AutoFlush = true });
+        TestContext.Out.WriteLine("✅ Game  play ok");
+    }
+
+/*     [Test]
     public void TestInputNoOfDiesTooHigh()
     {
         int noOfDiceTooHigh = 14;
-        string name = "Marie";
-
-        Assert.Throws<NumberOfDieException>(() => _game.SetGameValues(noOfDiceTooHigh, name));
-        TestContext.Out.WriteLine("✅ Game: SetGameValue, NumberOfDieException kastas när antalet tärningar är större än 10");
+        
+        Assert.Throws<NumberOfDieException>(() => _game.SetNumberOfDice(noOfDiceTooHigh));
+        TestContext.Out.WriteLine("✅ SetNumberOfDice, NumberOfDieException kastas när antalet tärningar är större än 10");
     }
 
     [Test]
     public void TestInputNoOfDiesTooLow()
     {
-        string name = "Marie";
         int noOfDiceTooLow = 1;
 
-        Assert.Throws<NumberOfDieException>(() => _game.SetGameValues(noOfDiceTooLow, name));
-        TestContext.Out.WriteLine("✅ Game: SetGameValue, NumberOfDieException kastas när antalet tärningar är mindre än 2");
-    }
+        Assert.Throws<NumberOfDieException>(() => _game.SetNumberOfDice(noOfDiceTooLow));
+        TestContext.Out.WriteLine("✅ SetNumberOfDice, NumberOfDieException kastas när antalet tärningar är mindre än 2");
+    } */
 }
