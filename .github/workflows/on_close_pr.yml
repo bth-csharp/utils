@@ -10,7 +10,7 @@ on:
 
 jobs:
   check-team:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     outputs:
       is_teacher: ${{ steps.check-team.outputs.is_teacher }}
     steps:
@@ -36,7 +36,7 @@ jobs:
   teacher-closed:
     needs: check-team
     if: needs.check-team.outputs.is_teacher == 'true'
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - name: Create comment
         id: created_comment
@@ -77,7 +77,7 @@ jobs:
   student-closed:
     needs: check-team
     if: needs.check-team.outputs.is_teacher != 'true'
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - name: Create comment
         id: created_comment

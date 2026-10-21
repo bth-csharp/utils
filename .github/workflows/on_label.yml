@@ -15,7 +15,7 @@ on:
 
 jobs:
   check-label-and-auth:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     outputs:
       is_allowed_label: ${{ steps.check-label.outputs.is_allowed }}
       is_teacher: ${{ steps.check-team.outputs.is_teacher }}
@@ -76,7 +76,7 @@ jobs:
   update-tests-labels:
     needs: [check-label-and-auth, run-tester]
     if: always() && needs.check-label-and-auth.outputs.is_allowed_label == 'true'
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - name: Set label and remove opposite label based on test result
         uses: actions/github-script@v7
@@ -119,7 +119,7 @@ jobs:
 
 
   if-not-passed:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     needs: check-label-and-auth
     if: "(needs.check-label-and-auth.outputs.label_name == 'Grade: U' || needs.check-label-and-auth.outputs.label_name == 'Grade: Ux' || needs.check-label-and-auth.outputs.label_name == 'Grade: F') && needs.check-label-and-auth.outputs.is_teacher == 'true'"
     steps:
@@ -135,7 +135,7 @@ jobs:
   submit-grade:
     needs: check-label-and-auth
     if: "(contains(needs.check-label-and-auth.outputs.label_name, 'Grade: ') || contains(needs.check-label-and-auth.outputs.label_name, 'Tests passed (TP)')) && needs.check-label-and-auth.outputs.is_teacher == 'true'"
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - name: Get grade from label
         id: find-grade
@@ -223,7 +223,7 @@ jobs:
   remove-unauthorized-label:
     needs: check-label-and-auth
     if: needs.check-label-and-auth.outputs.is_allowed_label == 'false' && needs.check-label-and-auth.outputs.is_teacher != 'true'
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - name: Remove unauthorized label
         uses: actions-ecosystem/action-remove-labels@v1

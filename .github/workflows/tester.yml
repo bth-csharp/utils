@@ -16,7 +16,7 @@ on:
 
 jobs:
   generate-matrix:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     outputs:
       kmoms: ${{ steps.set-matrix.outputs.kmoms }}
 
@@ -46,7 +46,7 @@ jobs:
   run-kmoms:
     needs: [generate-matrix]
     if: needs.generate-matrix.outputs.kmoms != '{"folder":[]}'
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
 
     strategy:
       fail-fast: false
@@ -78,7 +78,7 @@ jobs:
   check-results:
     needs: [run-kmoms]
     if: always()
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     outputs:
       tests_passed: ${{ steps.set-output.outputs.tests_passed }}
       test_summary: ${{ steps.set-output.outputs.test_summary }}
