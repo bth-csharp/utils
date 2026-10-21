@@ -3,11 +3,11 @@ description: "Install C#, get student code and test code."
 runs:
   using: "composite"
   steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v5
       with:
         repository: bth-csharp/template
 
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v5
       with:
         path: ./student-submission
     
@@ -17,7 +17,7 @@ runs:
         rsync -av --delete ./student-submission/kmom* .
 
     - name: Setup .NET
-      uses: actions/setup-dotnet@v4
+      uses: actions/setup-dotnet@v5
       with:
         dotnet-version: '10.x'
     
