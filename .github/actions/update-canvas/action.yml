@@ -87,12 +87,9 @@ runs:
     - name: Debug token
       shell: bash
       run: |
-        if [ -n "${{ inputs.read_org_token }}" ]; then
-          echo "Token exists"
-        else
-          echo "Token missing"
-          exit 1
-        fi
+        echo "Length: ${#TOKEN}"
+      env:
+        TOKEN: ${{ inputs.read_org_token }}
 
     - name: Remove Integration fail label 123
       uses: actions/github-script@v8
