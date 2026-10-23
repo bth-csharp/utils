@@ -87,7 +87,7 @@ runs:
     - name: Remove Integration fail label
       uses: actions/github-script@v8
       with:
-        github-token: ${{ inputs.read_org_token }}
+        github-token: ${{ secrets.read_org_token }}
         script: |
           try {
             await github.rest.issues.removeLabel({
@@ -107,7 +107,7 @@ runs:
       if: failure()
       uses: actions/github-script@v8
       with:
-        github-token: ${{ inputs.read_org_token }}
+        github-token: ${{ secrets.read_org_token }}
         script: |
           await github.rest.issues.addLabels({
             owner: context.repo.owner,
