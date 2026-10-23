@@ -172,7 +172,7 @@ jobs:
       - name: Add "Tests passed" label
         uses: actions/github-script@v8
         with:
-          github_token: ${{ secrets.read_org_token }}
+          github-token: ${{ secrets.read_org_token }}
           script: |
             await github.rest.issues.addLabels({
               owner: context.repo.owner,
@@ -184,11 +184,11 @@ jobs:
       - name: Remove "Tests failed" label
         uses: actions/github-script@v8
         with:
-          github_token: ${{ secrets.read_org_token }}
+          github-token: ${{ secrets.read_org_token }}
           script: |
             const labels = context.payload.pull_request.labels.map(l => l.name);
       
-            if (labels.includes('Integration fail')) {
+            if (labels.includes('Tests failed')) {
               await github.rest.issues.removeLabel({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
