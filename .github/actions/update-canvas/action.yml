@@ -84,17 +84,38 @@ runs:
           "${grade_arg[@]}" \
           -d "submission[late_policy_status]=none"
 
-    - name: Remove "failing" label. Det gör inget om denna får error, ignorera
-      if: success()
-      uses: actions-ecosystem/action-remove-labels@v1
+    - name: Remove Integration fail label
+      uses: actions/github-script@v8
       with:
-        github_token: ${{ inputs.read_org_token }}
-        labels: "Integration fail"
-      continue-on-error: true
+        github-token: ${{ inputs.read_org_token }}
+        script: |
+          try {
+            await github.rest.issues.removeLabel({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              name: 'Integration fail'
+            });
+          } catch (error) {
+            if (error.status !== 404) {
+              throw error;
+            }
+          }
 
-    - name: Add "failing" label
+    - name: Add "Integration fail" label
       if: failure()
-      uses: actions-ecosystem/action-add-labels@v1
+      uses: actions/github-script@v8
       with:
-        github_token: ${{ inputs.read_org_token }}
-        labels: "Integration fail"
+        github-token: ${{ inputs.read_org_token }}
+        script: |
+          try {
+            await github.rest.issues.addLabels({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              labels: ['Integration fail']
+            });
+          } catch (error) {
+            console.error(error);
+            throw error;
+          }
