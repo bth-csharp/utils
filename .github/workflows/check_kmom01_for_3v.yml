@@ -20,7 +20,7 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.READ_ORG_TOKEN }}
         run: |
-          echo "Repo;Menu finns;Menu.Tests finns" > resultat.csv
+          echo "Repo;Menu finns;Menu.Tests finns;Menu tagg finns" > resultat.csv
           while read -r repo; do
             echo "Kontrollerar $repo..."
 
@@ -47,9 +47,21 @@ jobs:
               else
                 hasContent="❌"
               fi
+
+              #
+              # 3. Kolla om studenten är klar och har taggat kmom01
+              #
+              if gh api repos/bth-csharp/$repo/tags \
+                   --jq '.[].name' 2>/dev/null |
+                   grep -Eq '^v01\.[0-9]$'
+              then
+                hasTag="✅"
+              else
+                hasTag="❌"
+              fi
             fi
 
-            echo "$repo;$hasMenu;$hasContent" >> resultat.csv
+            echo "$repo;$hasMenu;$hasContent;$hasTag" >> resultat.csv
 
           done < repos.txt
 
