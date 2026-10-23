@@ -91,6 +91,18 @@ runs:
       env:
         TOKEN: ${{ inputs.read_org_token }}
 
+    - name: Debug inputs
+      shell: bash
+      run: |
+        echo "subcommand='${{ inputs.subcommand }}'"
+        echo "student_id='${{ inputs.student_id }}'"
+    
+        if [ -n "${{ inputs.read_org_token }}" ]; then
+          echo "read_org_token OK"
+        else
+          echo "read_org_token EMPTY"
+        fi
+    
     - name: Remove Integration fail label 123
       uses: actions/github-script@v8
       with:
