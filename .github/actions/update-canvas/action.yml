@@ -97,7 +97,7 @@ runs:
         echo "subcommand='${{ inputs.subcommand }}'"
         echo "student_id='${{ inputs.student_id }}'"
     
-        if [ -n "${{ inputs.read_org_token }}" ]; then
+        if [ -n '${{ inputs.read_org_token }}' ]; then
           echo "read_org_token OK"
         else
           echo "read_org_token EMPTY"
