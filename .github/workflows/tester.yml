@@ -85,7 +85,7 @@ jobs:
     steps:
       - name: Check if tests passed and build summary
         id: set-output
-        uses: actions/github-script@v7
+        uses: actions/github-script@v8
         env:
           RUN_KMOMS_RESULT: ${{ needs.run-kmoms.result }}
         with:
