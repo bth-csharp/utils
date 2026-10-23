@@ -219,7 +219,7 @@ jobs:
           student_id: ${{ steps.get-canvas-id.outputs.canvas_student_id }}
           course_id: ${{inputs.course_id}}
           assignment_id: ${{ steps.resolve.outputs.assignment }}
-          read_org_token: "${{ secrets.READ_ORG_TOKEN }}"
+          read_org_token: ${{ secrets.READ_ORG_TOKEN }}
 
       - name: Set grade to TP in Canvas
         uses: bth-csharp/utils/.github/actions/update-canvas@main
