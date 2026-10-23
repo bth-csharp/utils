@@ -103,7 +103,7 @@ runs:
           echo "read_org_token EMPTY"
         fi
     
-    - name: Remove Integration fail label 123
+    - name: Remove Integration fail label
       uses: actions/github-script@v8
       with:
         github_token: ${{ inputs.read_org_token }}
