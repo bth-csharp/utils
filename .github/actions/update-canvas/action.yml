@@ -97,8 +97,9 @@ runs:
               name: 'Integration fail'
             });
           } catch (error) {
-            if (error.status !== 404) {
-              throw error;
+            if (error.status === 404) {
+              // Label does not exist, ignore
+              return;
             }
           }
 
@@ -108,14 +109,9 @@ runs:
       with:
         github-token: ${{ inputs.read_org_token }}
         script: |
-          try {
-            await github.rest.issues.addLabels({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              issue_number: context.issue.number,
-              labels: ['Integration fail']
-            });
-          } catch (error) {
-            console.error(error);
-            throw error;
-          }
+          await github.rest.issues.addLabels({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            issue_number: context.issue.number,
+            labels: ['Integration fail']
+          });
