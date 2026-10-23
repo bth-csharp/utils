@@ -84,7 +84,17 @@ runs:
           "${grade_arg[@]}" \
           -d "submission[late_policy_status]=none"
 
-    - name: Remove Integration fail label
+    - name: Debug token
+      shell: bash
+      run: |
+        if [ -n "${{ inputs.read_org_token }}" ]; then
+          echo "Token exists"
+        else
+          echo "Token missing"
+          exit 1
+        fi
+
+    - name: Remove Integration fail label 123
       uses: actions/github-script@v8
       with:
         github-token: ${{ inputs.read_org_token }}
