@@ -89,18 +89,15 @@ runs:
       with:
         github-token: ${{ inputs.read_org_token }}
         script: |
-          try {
+          const labels = context.payload.pull_request.labels.map(l => l.name);
+    
+          if (labels.includes('Integration fail')) {
             await github.rest.issues.removeLabel({
               owner: context.repo.owner,
               repo: context.repo.repo,
               issue_number: context.issue.number,
               name: 'Integration fail'
             });
-          } catch (error) {
-            if (error.status === 404) {
-              // Label does not exist, ignore
-              return;
-            }
           }
 
     - name: Add "Integration fail" label
