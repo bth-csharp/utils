@@ -170,18 +170,33 @@ jobs:
     runs-on: ubuntu-22.04
     steps:
       - name: Add "Tests passed" label
-        uses: actions-ecosystem/action-add-labels@v1
+        uses: actions/github-script@v8
         with:
           github_token: ${{ secrets.read_org_token }}
-          labels: "Tests passed (TP)"
+          script: |
+            await github.rest.issues.addLabels({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              labels: ['Tests passed (TP)']
+            });
 
-      - name: Remove "Tests passed" label
-        uses: actions-ecosystem/action-remove-labels@v1
-        continue-on-error: true
+      - name: Remove "Tests failed" label
+        uses: actions/github-script@v8
         with:
           github_token: ${{ secrets.read_org_token }}
-          labels: "Tests failed"
-
+          script: |
+            const labels = context.payload.pull_request.labels.map(l => l.name);
+      
+            if (labels.includes('Integration fail')) {
+              await github.rest.issues.removeLabel({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number,
+                name: 'Tests failed'
+              });
+            }
+          
       - id: created_body
         run: |
           cat << EOF >> $GITHUB_OUTPUT
