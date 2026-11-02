@@ -65,7 +65,7 @@ jobs:
             #
             hasDice100="❌"
             hasContentDice100="❌"
-            if gh api repos/bth-csharp/$repo/contents/kmom02/Dice100 >/dev/null 2>&1; then; then
+            if gh api repos/bth-csharp/$repo/contents/kmom02/Dice100 >/dev/null 2>&1; then
               hasDice100="✅"
 
               #
