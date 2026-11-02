@@ -20,7 +20,7 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.READ_ORG_TOKEN }}
         run: |
-          echo "Repo;Menu finns;Menu.Tests finns;Menu tagg finns" > resultat.csv
+          echo "Repo;Menu finns;Menu har innehåll;Menu tagg finns;Dice100 finns;Dice100 har innehåll" > resultat.csv
           while read -r repo; do
             # Hoppa över utils och repos som slutar på ht25
             if [[ "$repo" == "bth-csharp.github.io" || "$repo" == "ht26" || "$repo" == "owner" || "$repo" == "code" || "$repo" == "utils" || "$repo" =~ ht25$ ]]; then
@@ -29,7 +29,7 @@ jobs:
             echo "Kontrollerar $repo..."
 
             #
-            # 1. Kolla om katalogen FINNS
+            # 1. Kolla om Menu katalogen FINNS
             #
             menu_exists=$(gh api repos/bth-csharp/$repo/contents/kmom01/Menu \
                 --jq '.[0].name' 2>/dev/null || echo "saknas")
@@ -65,7 +65,32 @@ jobs:
               fi
             fi
 
-            echo "$repo;$hasMenu;$hasContent;$hasTag" >> resultat.csv
+            #
+            # 1. Kolla om Dice100 katalogen FINNS
+            #
+            menu_exists=$(gh api repos/bth-csharp/$repo/contents/kmom02/Dice100 \
+                --jq '.[0].name' 2>/dev/null || echo "saknas")
+
+            if [ "$dice100_exists" = "saknas" ]; then
+              hasDice100="❌"
+              hasContentDice100="❌"
+            else
+              hasDice100="✅"
+
+              #
+              # 2. Kolla om den INTE är tom (dvs API returnerar entries)
+              #
+              file_count=$(gh api repos/bth-csharp/$repo/contents/kmom02/Dice100 \
+                  --jq 'length' 2>/dev/null || echo 0)
+
+              if [ "$file_count" -gt 0 ]; then
+                hasContentDice100="✅"
+              else
+                hasContentDice100="❌"
+              fi
+            fi
+
+            echo "$repo;$hasMenu;$hasContent;$hasTag;$hasDice100;$hasContentDice100" >> resultat.csv
 
           done < repos.txt
 
