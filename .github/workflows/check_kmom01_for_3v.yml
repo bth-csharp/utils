@@ -1,4 +1,4 @@
-name: Kontrollera Menu-kataloger
+name: 3-veckorskontroll
 
 on:
   workflow_dispatch:  # du kör den manuellt
