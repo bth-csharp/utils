@@ -33,11 +33,10 @@ jobs:
             #
             menu_exists=$(gh api repos/bth-csharp/$repo/contents/kmom01/Menu \
                 --jq '.[0].name' 2>/dev/null || echo "saknas")
-
-            if [ "$menu_exists" = "saknas" ]; then
-              hasMenu="❌"
-              hasContent="❌"
-            else
+            hasMenu="❌"
+            hasContent="❌"
+            hasTag="❌"
+            if [ "$menu_exists" != "saknas" ]; then
               hasMenu="✅"
 
               #
@@ -48,8 +47,6 @@ jobs:
 
               if [ "$file_count" -gt 0 ]; then
                 hasContent="✅"
-              else
-                hasContent="❌"
               fi
 
               #
@@ -60,21 +57,17 @@ jobs:
                    grep -Eq '^v01\.[0-9]$'
               then
                 hasTag="✅"
-              else
-                hasTag="❌"
               fi
             fi
 
             #
             # 1. Kolla om Dice100 katalogen FINNS
             #
-            menu_exists=$(gh api repos/bth-csharp/$repo/contents/kmom02/Dice100 \
+            dice100_exists=$(gh api repos/bth-csharp/$repo/contents/kmom02/Dice100 \
                 --jq '.[0].name' 2>/dev/null || echo "saknas")
-
-            if [ "$dice100_exists" = "saknas" ]; then
-              hasDice100="❌"
-              hasContentDice100="❌"
-            else
+            hasDice100="❌"
+            hasContentDice100="❌"
+            if [ "$dice100_exists" != "saknas" ]; then
               hasDice100="✅"
 
               #
@@ -85,8 +78,6 @@ jobs:
 
               if [ "$file_count" -gt 0 ]; then
                 hasContentDice100="✅"
-              else
-                hasContentDice100="❌"
               fi
             fi
 
