@@ -36,7 +36,7 @@ jobs:
             hasMenu="❌"
             hasContent="❌"
             hasTag="❌"
-            if [ "$menu_exists" != "saknas" ]; then
+            if gh api repos/bth-csharp/$repo/contents/kmom01/Menu >/dev/null 2>&1;; then
               hasMenu="✅"
 
               #
