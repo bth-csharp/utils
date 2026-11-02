@@ -36,7 +36,7 @@ jobs:
             hasMenu="❌"
             hasContent="❌"
             hasTag="❌"
-            if gh api repos/bth-csharp/$repo/contents/kmom01/Menu >/dev/null 2>&1;; then
+            if gh api repos/bth-csharp/$repo/contents/kmom01/Menu >/dev/null 2>&1; then
               hasMenu="✅"
 
               #
@@ -63,11 +63,9 @@ jobs:
             #
             # 1. Kolla om Dice100 katalogen FINNS
             #
-            dice100_exists=$(gh api repos/bth-csharp/$repo/contents/kmom02/Dice100 \
-                --jq '.[0].name' 2>/dev/null || echo "saknas")
             hasDice100="❌"
             hasContentDice100="❌"
-            if [ "$dice100_exists" != "saknas" ]; then
+            if gh api repos/bth-csharp/$repo/contents/kmom02/Dice100 >/dev/null 2>&1; then; then
               hasDice100="✅"
 
               #
