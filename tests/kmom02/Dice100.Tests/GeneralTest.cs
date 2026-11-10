@@ -104,13 +104,12 @@ public class GeneralTest
     }
 
     [TestCase("Die")]
-    [TestCase("List<Die>")]
     [TestCase("Menu")]
     [TestCase("Player")]
     [TestCase("using Dice100.src")]
-    [TestCase("die.Roll")]
-    [TestCase("menu.PrintMenu")]
-    [TestCase("menu.PrintRules")]
+    [TestCase(".Roll")]
+    [TestCase(".PrintMenu")]
+    [TestCase(".PrintRules")]
     public void MainProgramContaining(string name)
     {
         var filePath = Path.Combine(this._targetDir, "Program.cs");

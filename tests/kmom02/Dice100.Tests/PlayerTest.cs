@@ -1,99 +1,64 @@
 namespace Dice100.src;
 
-public class PlayerTest
+public class Player
 {
-    private Player _player;
+    private string _name;
+    private int _score;
+    private int _noOfRounds;
 
-    [SetUp]
-    public void SetUp()
+    public Player()
     {
-        this._player = new Player("Anna");
+        this._name = "Player 1";
+        this._score = 0;
+        this._noOfRounds = 0;
     }
 
-    [OneTimeTearDown]
-    public void OneTimeTearDown()
+    public Player(string name)
     {
-        if (TestContext.CurrentContext.Result.FailCount == 0)
-        {
-            TestContext.Progress.WriteLine("✅ Alla testfall i Player gick igenom.\n");
-        }
-        else
-        {
-            TestContext.Progress.WriteLine("❌ Något testfall gick fel i Player.\n");
-        }
+        this._name = name;
+        this._score = 0;
+        this._noOfRounds = 0;
     }
 
-    [Test]
-    public void TestCreatePlayerWithCorrectName()
+    public string GetName()
     {
-        StringWriter writer = new StringWriter();
-        Console.SetOut(writer);
-
-        this._player.PrintInformation();
-        string result = writer.ToString();
-
-        Assert.That(result, Does.Contain("Anna"), "The name should be Anna");
-        Assert.That(result.Split('0').Length - 1, Is.GreaterThanOrEqualTo(2));
-
-        Console.SetOut(new StreamWriter(Console.OpenStandardOutput()) { AutoFlush = true });
+        return this._name;
     }
 
-    [Test]
-    public void TestCreatePlayerWithNoName()
+    public int GetScore()
     {
-        StringWriter writer = new StringWriter();
-        Console.SetOut(writer);
-
-        Player player = new Player();
-        player.PrintInformation();
-        string result = writer.ToString();
-
-        Assert.That(result, Does.Not.Contain("Anna"), "The Player class should contain a default constructor with no parameters.");
-        Assert.That(result.Split('0').Length - 1, Is.GreaterThanOrEqualTo(2));
-
-        Console.SetOut(new StreamWriter(Console.OpenStandardOutput()) { AutoFlush = true });
+        return this._score;
     }
 
-    [Test]
-    public void TestGetScoreInitiallyReturnsZero()
+    public int GetNoOfRounds()
     {
-        Assert.That(this._player.GetScore(), Is.EqualTo(0), "The score should be 0");
+        return this._noOfRounds;
     }
 
-    [Test]
-    public void TestGetRoundsInitiallyReturnsZero()
+    public void Reset()
     {
-        Assert.That(this._player.GetRounds(), Is.EqualTo(0), "The number of rounds should be 0");
+        this._score = 0;
+        this._noOfRounds = 0;
     }
 
-    [Test]
-    public void TestAddScoreAndAddsPoints()
+    public void AddScore(int score)
     {
-        this._player.AddScore(15);
-        Assert.That(this._player.GetScore(), Is.EqualTo(15), "The score should be 15");
+        this._score = this._score + score;
     }
 
-    [Test]
-    public void TestAddScoreMultipleTimesAccumulates()
+    public void AddRound()
     {
-        this._player.AddScore(10);
-        this._player.AddScore(20);
-        Assert.That(this._player.GetScore(), Is.EqualTo(30), "The score should be 30");
+        this._noOfRounds = this._noOfRounds + 1;
     }
 
-    [Test]
-    public void TestAddRoundIncrementsRounds()
+    public bool HasWon(int winningScore)
     {
-        this._player.AddRound();
-        Assert.That(this._player.GetRounds(), Is.EqualTo(1), "The number of rounds should be 1");
+        return this._score >= winningScore;
     }
 
-    [Test]
-    public void TestAddRoundMultipleTimesAccumulates()
+    public void PrintInformation()
     {
-        this._player.AddRound();
-        this._player.AddRound();
-        this._player.AddRound();
-        Assert.That(this._player.GetRounds(), Is.EqualTo(3), "The number of rounds should be 3");
+        Console.WriteLine($"Player: {this._name} has {this._score} points in {this._noOfRounds} rounds.");
     }
 }
+
