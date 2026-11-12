@@ -4,7 +4,7 @@ namespace Dice100.Tests;
 
 public class GeneralTest
 {
-    private string _targetDir;
+    private string _targetDir = "";
 
     [SetUp]
     public void Setup()
@@ -14,7 +14,7 @@ public class GeneralTest
         if (!string.IsNullOrEmpty(workflowDir))
         {
             // Körs i GitHub Actions
-            _targetDir = Path.Combine(workflowDir, "kmom03", "Dice100");
+            this._targetDir = Path.Combine(workflowDir, "kmom03", "Dice100");
         }
         else
         
