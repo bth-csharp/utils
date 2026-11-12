@@ -1,64 +1,103 @@
 namespace Dice100.src;
 
-public class Player
+public class PlayerTest
 {
-    private string _name;
-    private int _score;
-    private int _noOfRounds;
+    private Player _player;
 
-    public Player()
+    [SetUp]
+    public void SetUp()
     {
-        this._name = "Player 1";
-        this._score = 0;
-        this._noOfRounds = 0;
+        this._player = new Player("Anna");
     }
 
-    public Player(string name)
+    [OneTimeTearDown]
+    public void OneTimeTearDown()
     {
-        this._name = name;
-        this._score = 0;
-        this._noOfRounds = 0;
+        if (TestContext.CurrentContext.Result.FailCount == 0)
+        {
+            TestContext.Progress.WriteLine("✅ Alla testfall i Player gick igenom.\n");
+        }
+        else
+        {
+            TestContext.Progress.WriteLine("❌ Något testfall gick fel i Player.\n");
+        }
     }
 
-    public string GetName()
+    [Test]
+    public void TestCreatePlayerWithName()
     {
-        return this._name;
+        StringWriter writer = new StringWriter();
+        Console.SetOut(writer);
+
+        this._player.PrintInformation();
+        string result = writer.ToString();
+
+        Assert.That(result, Does.Contain("Anna"), "The name should be Anna");
+        Assert.That(result.Split('0').Length - 1, Is.GreaterThanOrEqualTo(2));
+
+        Console.SetOut(new StreamWriter(Console.OpenStandardOutput()) { AutoFlush = true });
     }
 
-    public int GetScore()
+    [Test]
+    public void TestCreatePlayerWithNoName()
     {
-        return this._score;
+        StringWriter writer = new StringWriter();
+        Console.SetOut(writer);
+
+        Player player = new Player();
+        player.PrintInformation();
+        string result = writer.ToString();
+
+        Assert.That(result, Does.Not.Contain("Anna"), "The Player class should contain a default constructor with no parameters.");
+        Assert.That(result.Split('0').Length - 1, Is.GreaterThanOrEqualTo(2));
+
+        Console.SetOut(new StreamWriter(Console.OpenStandardOutput()) { AutoFlush = true });
     }
 
-    public int GetNoOfRounds()
+    [Test]
+    public void TestAddScoreMultipleTimesAccumulates()
     {
-        return this._noOfRounds;
+        StringWriter writer = new StringWriter();
+        Console.SetOut(writer);
+
+        this._player.PrintInformation();
+        string result = writer.ToString();
+
+        Assert.That(result, Does.Contain("Anna"), "The name should be Anna");
+        Assert.That(result.Split('0').Length - 1, Is.GreaterThanOrEqualTo(2));
+
+        this._player.AddScore(10);
+        this._player.PrintInformation();
+        result = writer.ToString();
+        Assert.That(result, Does.Contain("10"), "The player should have score 10.");
+
+        this._player.AddScore(15);
+        this._player.AddScore(20);
+        this._player.PrintInformation();
+        result = writer.ToString();
+        Assert.That(result, Does.Contain("45"), "The player should have score 45.");
+
+        Console.SetOut(new StreamWriter(Console.OpenStandardOutput()) { AutoFlush = true });
     }
 
-    public void Reset()
+    [Test]
+    public void TestAddRoundMultipleTimesAccumulates()
     {
-        this._score = 0;
-        this._noOfRounds = 0;
-    }
+        StringWriter writer = new StringWriter();
+        Console.SetOut(writer);
 
-    public void AddScore(int score)
-    {
-        this._score = this._score + score;
-    }
+        this._player.PrintInformation();
+        string result = writer.ToString();
 
-    public void AddRound()
-    {
-        this._noOfRounds = this._noOfRounds + 1;
-    }
+        Assert.That(result, Does.Contain("Anna"), "The name should be Anna");
+        Assert.That(result.Split('0').Length - 1, Is.GreaterThanOrEqualTo(2));
 
-    public bool HasWon(int winningScore)
-    {
-        return this._score >= winningScore;
-    }
+        this._player.AddRound();
+        this._player.AddRound();
+        this._player.PrintInformation();
+        result = writer.ToString();
+        Assert.That(result, Does.Contain("2"), "The player should have 2 rounds.");
 
-    public void PrintInformation()
-    {
-        Console.WriteLine($"Player: {this._name} has {this._score} points in {this._noOfRounds} rounds.");
+        Console.SetOut(new StreamWriter(Console.OpenStandardOutput()) { AutoFlush = true });
     }
 }
-
