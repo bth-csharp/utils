@@ -65,27 +65,6 @@ public class GeneralTest
         TestContext.Out.WriteLine("✅ Filen toplist.txt innehåller minst 3 rader");
     }
 
-
-/*     [Test]
-    public void FileContainingNumberOfPlayersException()
-    {
-        var filePath = Path.Combine(this._targetDir, "src/NumberOfPlayersException.cs");
-
-        Assert.That(File.Exists(filePath), Is.True, $"Filen saknas: {filePath}");
-
-        var content = File.ReadAllText(filePath) ?? "";
-
-        Assert.Multiple(() =>
-        {
-            Assert.That(content, Does.Contain("public class NumberOfPlayersException : Exception"),
-                    $"Filen måste innehålla klassen 'NumberOfPlayersException'.");
-            Assert.That(content, Does.Contain("public NumberOfPlayersException("),
-                $"Filen måste innehålla metoden 'NumberOfPlayersException'.");
-        });
-
-        TestContext.Out.WriteLine("✅ NumberOfPlayersException är deklarerad ok");
-    } */
-
     [Test]
     public void RequiredClassDiagram()
     {
@@ -131,33 +110,42 @@ public class GeneralTest
         TestContext.Out.WriteLine("✅ Bara Menu innehåller I/O");
     }
 
-    [Test]
-    public void CheckIfProgramIsOk()
+    [TestCase("Player")]
+    [TestCase("Game game = ")]
+    [TestCase("game.Run()")]
+    [TestCase("using Dice100.src")]
+    public void MainProgramContaining(string name)
     {
         var filePath = Path.Combine(this._targetDir, "Program.cs");
 
         Assert.That(File.Exists(filePath), Is.True, $"Filen saknas: {filePath}");
 
         var content = File.ReadAllText(filePath) ?? "";
-        
-        var nonEmptyLines = content
-            .Split(Environment.NewLine)
-            .Where(l => !string.IsNullOrWhiteSpace(l))
-            .ToList();
 
+        Assert.That(content, Does.Contain(name),
+        $"{name} ska endast användas i huvudprogrammet 'Program.cs'.");
 
-        Assert.Multiple(() =>
-        {
-            Assert.That(content, Does.Contain("Player"), $"Ett meny objekt ska skapas");
-            Assert.That(content, Does.Contain("Game game = "), $"Ett meny objekt ska skapas");
-            Assert.That(content, Does.Contain("game.Run()"), $"Spelet ska startas");
-            Assert.That(nonEmptyLines, Has.Count.GreaterThanOrEqualTo(4),
-                $"Filen måste innehålla minst 4 strängar, hittade {nonEmptyLines.Count}.");
-            Assert.That(nonEmptyLines, Has.Count.LessThanOrEqualTo(8),
-                $"Filen måste innehålla max 8 strängar, hittade {nonEmptyLines.Count}.");
-        });
+        TestContext.Out.WriteLine($"✅ Program.cs innehåller klasserna Player och Game ok");
+    }
 
-        TestContext.Out.WriteLine("✅ Ett objekt av klassen Player och Game skapas samt spelet startas med Run()");
+    [TestCase("Die")]
+    [TestCase("DiceHand")]
+    [TestCase("FileHandler")]
+    [TestCase("static")]
+    [TestCase("void")]
+    [TestCase("main")]
+    public void MainProgramNotContaining(string name)
+    {
+        var filePath = Path.Combine(this._targetDir, "Program.cs");
+
+        Assert.That(File.Exists(filePath), Is.True, $"Filen saknas: {filePath}");
+
+        var content = File.ReadAllText(filePath) ?? "";
+
+        Assert.That(content, Does.Not.Contain(name),
+        $"{name} ska INTE användas i huvudprogrammet 'Program.cs'.");
+
+        TestContext.Out.WriteLine($"✅ Program.cs har ok innehåll");
     }
 
     [Test]
