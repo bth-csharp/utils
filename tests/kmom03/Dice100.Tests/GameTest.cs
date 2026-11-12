@@ -44,22 +44,4 @@ public class GameTest
         Console.SetOut(new StreamWriter(Console.OpenStandardOutput()) { AutoFlush = true });
         TestContext.Out.WriteLine("✅ Game  play ok");
     }
-
-/*     [Test]
-    public void TestInputNoOfDiesTooHigh()
-    {
-        int noOfDiceTooHigh = 14;
-        
-        Assert.Throws<NumberOfDieException>(() => _game.SetNumberOfDice(noOfDiceTooHigh));
-        TestContext.Out.WriteLine("✅ SetNumberOfDice, NumberOfDieException kastas när antalet tärningar är större än 10");
-    }
-
-    [Test]
-    public void TestInputNoOfDiesTooLow()
-    {
-        int noOfDiceTooLow = 1;
-
-        Assert.Throws<NumberOfDieException>(() => _game.SetNumberOfDice(noOfDiceTooLow));
-        TestContext.Out.WriteLine("✅ SetNumberOfDice, NumberOfDieException kastas när antalet tärningar är mindre än 2");
-    } */
 }

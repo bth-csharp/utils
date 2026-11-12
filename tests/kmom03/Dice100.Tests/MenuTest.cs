@@ -47,30 +47,4 @@ public class MenuTest
 
         Console.SetOut(new StreamWriter(Console.OpenStandardOutput()) { AutoFlush = true });
     }
-
-    [Test]
-    public void TestGetMenuChoiceValidInputReturnsChoice()
-    {
-        StringReader reader = new StringReader("2");
-        Console.SetIn(reader);
-
-        string choice = Menu.GetMenuChoice();
-
-        Assert.That(choice, Is.EqualTo("2"));
-
-        Console.SetIn(new StreamReader(Console.OpenStandardInput()));
-    }
-
-    [Test]
-    public void TestGetMenuChoiceInvalidInputReturnsMinusOne()
-    {
-        StringReader reader = new StringReader("abc");
-        Console.SetIn(reader);
-
-        string choice = Menu.GetMenuChoice();
-
-        Assert.That(choice, Is.EqualTo("abc"));
-
-        Console.SetIn(new StreamReader(Console.OpenStandardInput()));
-    }
 }

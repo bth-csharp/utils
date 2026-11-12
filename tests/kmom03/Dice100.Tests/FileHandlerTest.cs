@@ -62,6 +62,21 @@ public class FileHandlerTest
     }
 
     [Test]
+    public void TestIfTryCatchExists()
+    {
+        var filePath = Path.Combine(this._targetDir, "src", "FileHandler.cs");
+
+        Assert.That(File.Exists(filePath), Is.True, $"Filen saknas: {filePath}");
+
+        var content = File.ReadAllText(filePath) ?? "";
+
+        Assert.That(content, Does.Contain("try").And.Contain("catch"), $"FileHandler ska innehålla felhantering.");
+        Assert.That(content.Split("try").Length - 1, Is.EqualTo(2), "FileHandler ska innehålla exakt två try-block.");
+        Assert.That(content.Split("catch").Length - 1, Is.GreaterThanOrEqualTo(2), "FileHandler ska innehålla minst två catch-block.");
+        TestContext.Out.WriteLine("✅ FileHandler innehåller felhantering");
+    }
+
+    [Test]
     public void TestReadLineCorrect()
     {
         string filePath = Path.Combine(_testDirectory, READ_FILE1);

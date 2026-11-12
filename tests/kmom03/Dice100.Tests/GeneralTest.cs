@@ -9,9 +9,20 @@ public class GeneralTest
     [SetUp]
     public void Setup()
     {
-        var testDir = TestContext.CurrentContext.TestDirectory;
-        var rootDir = Path.GetFullPath(Path.Combine(testDir, "..", "..", "..", ".."));
-        this._targetDir = Path.Combine(rootDir, "Dice100") ?? "";
+        var workflowDir = Environment.GetEnvironmentVariable("PROJECT_ROOT");
+
+        if (!string.IsNullOrEmpty(workflowDir))
+        {
+            // Körs i GitHub Actions
+            _targetDir = Path.Combine(workflowDir, "kmom03", "Dice100");
+        }
+        else
+        
+        {
+            var testDir = TestContext.CurrentContext.TestDirectory;
+            var rootDir = Path.GetFullPath(Path.Combine(testDir, "..", "..", "..", ".."));
+            this._targetDir = Path.Combine(rootDir, "Dice100") ?? "";
+        }
     }
 
     [Test]
@@ -27,7 +38,6 @@ public class GeneralTest
             "src/FileHandler.cs",
             "src/Game.cs",
             "src/Menu.cs",
-            "src/NumberOfPlayersException.cs",
             "src/DiceHand.cs",
             "src/Player.cs"
         };
@@ -56,7 +66,7 @@ public class GeneralTest
     }
 
 
-    [Test]
+/*     [Test]
     public void FileContainingNumberOfPlayersException()
     {
         var filePath = Path.Combine(this._targetDir, "src/NumberOfPlayersException.cs");
@@ -74,7 +84,7 @@ public class GeneralTest
         });
 
         TestContext.Out.WriteLine("✅ NumberOfPlayersException är deklarerad ok");
-    }
+    } */
 
     [Test]
     public void RequiredClassDiagram()
@@ -103,7 +113,6 @@ public class GeneralTest
         var requiredFiles = new[]
         {
             "src/Die.cs",
-            "src/NumberOfPlayersException.cs",
             "src/DiceHand.cs",
             "src/AsciiArt.cs",
             "src/Game.cs",
@@ -119,7 +128,7 @@ public class GeneralTest
             Assert.That(hasForbiddenWords, Is.False,
             $"Filen {file} får INTE innehålla in- och utmatning.");
         }
-        TestContext.Out.WriteLine("✅ Bara Menu och AsciArt innehåller I/O");
+        TestContext.Out.WriteLine("✅ Bara Menu innehåller I/O");
     }
 
     [Test]
@@ -148,7 +157,7 @@ public class GeneralTest
                 $"Filen måste innehålla max 8 strängar, hittade {nonEmptyLines.Count}.");
         });
 
-        TestContext.Out.WriteLine("✅ Ett objekt av klassen Menu skapas och menyn körs igång");
+        TestContext.Out.WriteLine("✅ Ett objekt av klassen Player och Game skapas samt spelet startas med Run()");
     }
 
     [Test]
@@ -213,11 +222,12 @@ public class GeneralTest
 
         Assert.Multiple(() =>
         {
-            Assert.That(content, Does.Contain("PrintRules()"), $"Metoden PrintRules ska finnas i Menu-klassen.");
-            Assert.That(content, Does.Contain("PrintMenu()"), $"Metoden PrintMenu ska finnas i Menu-klassen.");
+            Assert.That(content, Does.Contain("public static void PrintRules()"), $"Metoden PrintRules ska finnas i Menu-klassen.");
+            Assert.That(content, Does.Contain("public static void PrintMenu()"), $"Metoden PrintMenu ska finnas i Menu-klassen.");
             Assert.That(content, Does.Not.Contain("new Game("), $"Menu-klassen ska inte ha ett Game-objekt.");
+            Assert.That(content, Does.Contain("public static class Menu"), $"Menu-klassen ska inte ha ett Game-objekt.");
         });
-        TestContext.Out.WriteLine("✅ Menu innehåller ett game objekt ok");
+        TestContext.Out.WriteLine("✅ Menu verkar ok");
     }
 
     [Test]
