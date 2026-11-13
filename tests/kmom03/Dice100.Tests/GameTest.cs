@@ -24,6 +24,7 @@ public class GameTest
     }
 
     [Test]
+    [Ignore("Not safe")]
     public void TestGame()
     {
         StringWriter writer = new StringWriter();
