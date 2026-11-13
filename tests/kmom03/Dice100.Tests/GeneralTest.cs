@@ -5,6 +5,13 @@ namespace Dice100.Tests;
 public class GeneralTest
 {
     private string _targetDir = "";
+    private static readonly string[] _linqMethods =
+    [
+        "Where", "Select", "Any", "All", "First", "FirstOrDefault",
+        "Last", "LastOrDefault", "OrderBy", "OrderByDescending",
+        "ThenBy", "ThenByDescending", "GroupBy", "Distinct",
+        "Sum", "Average", "Count", "Max", "Min"
+    ];
 
     [SetUp]
     public void Setup()
@@ -232,5 +239,71 @@ public class GeneralTest
         Assert.That(content, Does.Contain("GetTotal()"), $"Ska innehålla GetTotal");
 
         TestContext.Out.WriteLine("✅ DiceHand innehåller defaultkonstruktor och GetAsciiHand iställer för PrintHand ok");
+    }
+
+    [TestCase("Die")]
+    [TestCase("DiceHand")]
+    [TestCase("FileHandler")]
+    [TestCase("Game")]
+    [TestCase("Player")]
+    [TestCase("Menu")]
+    public void ClassNotContainingLambda(string className)
+    {
+        var filePath = Path.Combine(this._targetDir, $"src/{className}.cs");
+
+        Assert.That(File.Exists(filePath), Is.True, $"Filen saknas: {filePath}");
+        var content = File.ReadAllText(filePath) ?? "";
+
+        // --- Ta bort kommentarer och strängar ---
+        // Tar bort enkla kommentarer, multiline-kommentarer och strängar
+        content = Regex.Replace(content, @"//.*?$|/\*.*?\*/|@?""(?:[^""]|"""")*""", "", RegexOptions.Singleline | RegexOptions.Multiline);
+
+        // --- Regex som förhindrar lambdas men tillåter expression-bodied members ---
+        // Tillåtna: public/private/protected + typ + namn => ...
+        // Förbjud: andra => som typiskt är lambdas
+        var regex = new Regex(
+            @"(?<!public\s+\w+\s+\w+\s)(?<!private\s+\w+\s+\w+\s)(?<!protected\s+\w+\s+\w+\s)\b[\w\)\(]+\s*=>",
+            RegexOptions.Multiline
+        );
+
+        bool harLambda = regex.IsMatch(content);
+
+        Assert.That(harLambda, Is.False,
+            "Lambdauttryck (t.ex. x => x + 1, (a,b)=>a+b, ()=>...) är inte tillåtna.\n" +
+            "Expression-bodied getters/metoder (t.ex. public int X => _x;) är tillåtna.\n" +
+            "Kommentarer och strängar ignoreras.");
+        TestContext.Out.WriteLine($"✅ {className} innehåller inte lambdafunktioner ok");
+    }
+
+    [TestCase("Die")]
+    [TestCase("DiceHand")]
+    [TestCase("FileHandler")]
+    [TestCase("Game")]
+    [TestCase("Player")]
+    [TestCase("Menu")]
+    public void ClassesMayNotContainLinq(string className)
+    {
+        var filePath = Path.Combine(this._targetDir, $"src/{className}.cs");
+
+        Assert.That(File.Exists(filePath), Is.True, $"Filen saknas: {filePath}");
+
+        var content = File.ReadAllText(filePath) ?? "";
+
+        Assert.That(content, Does.Not.Contain("Linq"),
+            $"Klassen {className} får inte innehålla Linq");
+
+        // Ta bort kommentarer och strängar
+        content = Regex.Replace(content, @"//.*?$|/\*.*?\*/|@?""(?:[^""]|"""")*""", "",
+            RegexOptions.Singleline | RegexOptions.Multiline);
+
+        foreach (var method in _linqMethods)
+        {
+            // Sök efter metodanrop, t.ex. .Where(
+            if (Regex.IsMatch(content, $@"\.\s*{method}\s*\("))
+            {
+                Assert.Fail($"LINQ-metoden '{method}' får inte användas i klassen {className}.");
+            }
+        }
+        TestContext.Out.WriteLine($"✅ {className} innehåller inte Linq ok");
     }
 }
