@@ -61,6 +61,7 @@ jobs:
         continue-on-error: true
         run: |
           echo "🔬 Running kmom: ${{ matrix.folder }}"
+          rsync -av --delete ./utils/tests/${{ matrix.folder }} ./student-mission/${{ matrix.folder }}
           for proj in "${{ matrix.folder }}"; do
             task_name=$(basename "$proj" | sed -E 's/\.Tests\.csproj$//')
             echo "task_name: $task_name"

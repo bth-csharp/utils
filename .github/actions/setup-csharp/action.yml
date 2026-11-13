@@ -16,6 +16,12 @@ runs:
       run: |
         rsync -av --delete ./student-submission/kmom* .
 
+    - name: Checkout test projects
+      uses: actions/checkout@v5
+      with:
+        repository: bth-csharp/utils
+        path: ./utils
+
     - name: Setup .NET
       uses: actions/setup-dotnet@v5
       with:
