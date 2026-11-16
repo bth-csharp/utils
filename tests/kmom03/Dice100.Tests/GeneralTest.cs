@@ -100,7 +100,6 @@ public class GeneralTest
         {
             "src/Die.cs",
             "src/DiceHand.cs",
-            "src/AsciiArt.cs",
             "src/Game.cs",
             "src/Player.cs"
         };
@@ -238,7 +237,7 @@ public class GeneralTest
         Assert.That(content, Does.Contain("RollAll()"), $"Ska innehålla RollAll");
         Assert.That(content, Does.Contain("GetTotal()"), $"Ska innehålla GetTotal");
 
-        TestContext.Out.WriteLine("✅ DiceHand innehåller defaultkonstruktor och GetAsciiHand iställer för PrintHand ok");
+        TestContext.Out.WriteLine("✅ DiceHand innehåller defaultkonstruktor, GetHandAsString, RollAll och GetTotal ok");
     }
 
     [TestCase("Die")]
