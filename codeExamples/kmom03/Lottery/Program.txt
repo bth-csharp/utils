@@ -1,0 +1,29 @@
+using Lottery;
+
+Console.WriteLine("------------- TESTAR LOTTERYLINE ------------");
+LotteryLine lottLine = new LotteryLine();
+Console.WriteLine(lottLine.GetNrOfMarkedNumbers());
+Console.WriteLine(lottLine.MarkedNrsAsString());
+
+/*lottLine.MarkNr(14);
+Console.WriteLine(lottLine.GetNrOfMarkedNumbers());
+Console.WriteLine(lottLine.MarkedNrsAsString());*/
+
+
+Console.WriteLine($"Mata in {LotteryLine.NR_TO_MARK} tal inom [{LotteryLine.MIN_NUMBER}, {LotteryLine.MAX_NUMBER}]: ");
+while (!lottLine.IsFullyMarked())
+{
+    
+    string input = Console.ReadLine() ?? "-1";
+    if (!int.TryParse(input, out int nr))
+    {
+        Console.WriteLine("Du måste mata in ett heltal");
+    }
+    lottLine.MarkNr(nr);
+    Console.WriteLine($"Antalet kryssade: {lottLine.GetNrOfMarkedNumbers()}");
+}
+Console.WriteLine();
+
+Console.WriteLine(lottLine.MarkedNrsAsString());
+
+Console.WriteLine("-------------------------------------");
