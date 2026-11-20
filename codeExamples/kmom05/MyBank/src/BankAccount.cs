@@ -4,7 +4,7 @@ public class BankAccount
 {
     private static int _nextAccountNumber = 100000;
     protected string _owner;
-    protected decimal _balance;
+    private decimal _balance;
     private string _accountNumber;
 
     public BankAccount(string name, decimal initialBalance)
